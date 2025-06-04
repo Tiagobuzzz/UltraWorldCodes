@@ -17,3 +17,4 @@ personality, emotions and more.
 - **SelfNarrativeSystem** maintains core personal narratives and assists the narrative engine with psychological defenses.
 - **NarrativeEngine** generates reflections and applies psychological defense
   mechanisms when contradictions arise.
+- **SemanticMemory** stores durable conceptual knowledge that decays slowly over time.
