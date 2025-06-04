@@ -1,10 +1,10 @@
 # UltraWorldCodes
-This repository contains the game code and the AI module. The AI logic is a
-single file with several interlinked systems that model memory, beliefs,
-personality, emotions and more.
+This repository contains the game code and the AI module. The AI logic is
+split across several files under `src/UltraWorldAI/`, each implementing
+interlinked systems that model memory, beliefs, personality, emotions and more.
 
 ## Structure
-- `src/UltraWorldAI/IA.cs` contains the main AI implementation. It defines all
+- The `src/UltraWorldAI/` directory contains the implementation of all
   subsystems such as memory, beliefs, metacognition and the narrative engine.
 - `AIConfig.json` can override some runtime parameters (like `MaxMemories`).
 
