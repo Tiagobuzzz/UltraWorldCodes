@@ -91,13 +91,18 @@ namespace UltraWorldAI
     public static class AISettings
     {
         public static int MaxMemories = AIConfig.MaxMemories;
+        private static bool _loaded = false;
+        public static bool IsLoaded => _loaded;
+
         public static void Load(string path)
         {
+            if (_loaded) return;
             if (!File.Exists(path)) return;
             var json = File.ReadAllText(path);
             var data = JsonSerializer.Deserialize<Dictionary<string, float>>(json);
             if (data == null) return;
             if (data.TryGetValue("MaxMemories", out var mm)) MaxMemories = (int)mm;
+            _loaded = true;
         }
     }
 
@@ -784,6 +789,10 @@ namespace UltraWorldAI
         public Mind Mind { get; private set; }
 
         public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adult; // Default
+        static Person()
+        {
+            AISettings.Load("AIConfig.json");
+        }
 
 
 
