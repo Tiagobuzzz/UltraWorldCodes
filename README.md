@@ -18,3 +18,13 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **NarrativeEngine** generates reflections and applies psychological defense
   mechanisms when contradictions arise.
 - **SemanticMemory** stores durable conceptual knowledge that decays slowly over time.
+
+## Building
+
+Use the .NET 6 SDK to build the library. Run:
+
+```bash
+dotnet build src/UltraWorldAI/UltraWorldAI.csproj
+```
+
+Before instantiating any `Person` objects, call `IA.Initialize()` so that runtime settings are loaded from `AIConfig.json`.
