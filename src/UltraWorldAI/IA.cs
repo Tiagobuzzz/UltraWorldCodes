@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using System.IO; // Para Serialização/Desserialização, se você for implementar isso mais tarde
+using System.Text.Json;
 
 
 
@@ -66,7 +67,6 @@ namespace UltraWorldAI
 
         public const float EmotionMin = 0f;
 
-        public const float EmotionMax = 1f;
 
         public const float AffinityMin = 0f;
 
@@ -87,6 +87,24 @@ namespace UltraWorldAI
         public const float MinStress = 0.0f;
 
     }
+
+    public static class AISettings
+    {
+        public static int MaxMemories = AIConfig.MaxMemories;
+        public static void Load(string path)
+        {
+            if (!File.Exists(path)) return;
+            var json = File.ReadAllText(path);
+            var data = JsonSerializer.Deserialize<Dictionary<string, float>>(json);
+            if (data == null) return;
+            if (data.TryGetValue("MaxMemories", out var mm)) MaxMemories = (int)mm;
+        }
+    }
+
+    public static class Logger
+    {
+        public static void Log(string message) => Console.WriteLine(message);
+    }
 
 
 
@@ -136,7 +154,7 @@ namespace UltraWorldAI
 
         {
 
-            if (Memories.Count >= AIConfig.MaxMemories)
+            if (Memories.Count >= AISettings.MaxMemories)
 
             {
 
@@ -180,7 +198,7 @@ namespace UltraWorldAI
 
             Memories.RemoveAll(m => m.Intensity < AIConfig.ForgottenMemoryThreshold || (DateTime.Now - m.Date).TotalDays > 365); // Exemplo: esquece depois de 1 ano
 
-            if (Memories.Count >= AIConfig.MaxMemories)
+            if (Memories.Count >= AISettings.MaxMemories)
 
             {
 
@@ -217,6 +235,20 @@ namespace UltraWorldAI
             Memories.RemoveAll(m => m.Intensity <= AIConfig.ForgottenMemoryThreshold);
 
         }
+
+        public void SaveMemories(string path)
+        {
+            var json = JsonSerializer.Serialize(Memories);
+            File.WriteAllText(path, json);
+        }
+
+        public void LoadMemories(string path)
+        {
+            if (!File.Exists(path)) return;
+            var json = File.ReadAllText(path);
+            var mems = JsonSerializer.Deserialize<List<Memory>>(json);
+            if (mems != null) Memories = mems;
+        }
 
 
 
@@ -290,6 +322,83 @@ namespace UltraWorldAI
 
     }
 
+// ---------------------------------------------------------------------
+// Semantic memory stores durable knowledge and abstracted facts
+// ---------------------------------------------------------------------
+public class SemanticMemory
+{
+    public Dictionary<string, SemanticFact> Facts { get; private set; }
+
+    public SemanticMemory()
+    {
+        Facts = new Dictionary<string, SemanticFact>();
+    }
+
+    public void LearnFact(string key, string content, float confidence)
+    {
+        if (Facts.ContainsKey(key))
+        {
+            Facts[key].Reinforce(content, confidence);
+        }
+        else
+        {
+            Facts[key] = new SemanticFact(key, content, confidence);
+        }
+    }
+
+    public void DecayFacts()
+    {
+        foreach (var fact in Facts.Values)
+        {
+            fact.Decay();
+        }
+
+        var forgotten = Facts.Where(f => f.Value.Confidence < 0.1f).Select(f => f.Key).ToList();
+        foreach (var key in forgotten) Facts.Remove(key);
+    }
+
+    public string Recall(string key)
+    {
+        return Facts.ContainsKey(key) ? Facts[key].Content : null;
+    }
+
+    public List<SemanticFact> GetStrongBeliefs(float minConfidence = 0.6f)
+    {
+        return Facts.Values.Where(f => f.Confidence >= minConfidence).ToList();
+    }
+}
+
+public class SemanticFact
+{
+    public string Key { get; private set; }
+    public string Content { get; private set; }
+    public float Confidence { get; private set; }
+
+    public SemanticFact(string key, string content, float confidence)
+    {
+        Key = key;
+        Content = content;
+        Confidence = confidence;
+    }
+
+    public void Reinforce(string content, float confidence)
+    {
+        if (Content != content)
+            Content = Merge(Content, content);
+
+        Confidence = Math.Min(1f, Confidence + confidence * 0.5f);
+    }
+
+    public void Decay()
+    {
+        Confidence *= 0.995f;
+    }
+
+    private string Merge(string a, string b)
+    {
+        return a == b ? a : $"{a} / {b}";
+    }
+}
 
 
     public class PersonalitySystem
@@ -480,7 +589,7 @@ namespace UltraWorldAI
 
                 SelfImage.Add(aspect);
 
-                Console.WriteLine($"[Metacognition] {_person.Name}'s self-image now includes: {aspect}");
+                Logger.Log($"[Metacognition] {_person.Name}'s self-image now includes: {aspect}");
 
             }
 
@@ -496,7 +605,7 @@ namespace UltraWorldAI
 
             {
 
-                Console.WriteLine($"[Metacognition] {_person.Name}'s self-image no longer includes: {aspect}");
+                Logger.Log($"[Metacognition] {_person.Name}'s self-image no longer includes: {aspect}");
 
             }
 
@@ -515,6 +624,8 @@ namespace UltraWorldAI
         public List<string> ActiveContradictions { get; private set; } = new List<string>();
 
 
+        public event Action<string>? ContradictionDetected;
+        public event Action<string>? ContradictionResolved;
 
         public ConflictSystem(Person person)
 
@@ -546,8 +657,9 @@ namespace UltraWorldAI
 
                 ActiveContradictions.Add(contradiction);
 
-                Console.WriteLine($"[Conflict] {_person.Name} is experiencing: {contradiction}");
+                Logger.Log($"[Conflict] {_person.Name} is experiencing: {contradiction}");
 
+                ContradictionDetected?.Invoke(contradiction);
                 _person.Mind.Stress.AddStress(AIConfig.StressIncreasePerContradiction); // Contradição aumenta o estresse
 
             }
@@ -565,10 +677,10 @@ namespace UltraWorldAI
             var resolved = ActiveContradictions.RemoveAll(c => c.Contains(contradictionIdentifier));
 
             if (resolved > 0)
+                ContradictionResolved?.Invoke(contradictionIdentifier);
 
-            {
 
-                Console.WriteLine($"[Conflict] {_person.Name} has resolved/mitigated contradiction.");
+                Logger.Log($"[Conflict] {_person.Name} has resolved/mitigated contradiction.");
 
                 _person.Mind.Stress.ReduceStress(AIConfig.StressReductionPerDefense * resolved); // Reduz o estresse ao resolver
 
@@ -667,6 +779,48 @@ namespace UltraWorldAI
         }
 
     }
+ 
+// Mantém narrativas centrais e tenta preservá-las quando há contradições
+// ou eventos que ameaçam a identidade do agente.
+public class SelfNarrativeSystem
+{
+    private readonly Person _person;
+    public Dictionary<string, float> CoreNarratives { get; private set; } = new Dictionary<string, float>();
+    private Random _rand = new Random();
+
+    public SelfNarrativeSystem(Person person)
+    {
+        _person = person;
+        CoreNarratives["sou justo"] = 0.8f;
+        CoreNarratives["busco paz"] = 0.8f;
+    }
+
+    public void AddOrUpdateNarrative(string text, float strength)
+    {
+        CoreNarratives[text] = Math.Clamp(strength, 0f, 1f);
+    }
+
+    public string DefendNarrative(string narrative)
+    {
+        var options = new List<string>
+        {
+            $"Isso não muda o fato de que {narrative}.",
+            $"A situação foi atípica, mas continuo acreditando que {narrative}.",
+            $"As circunstâncias me forçaram, porém {narrative} permanece verdadeiro."
+        };
+        _person.Mind.Stress.ReduceStress(AIConfig.StressReductionPerDefense);
+        return options[_rand.Next(options.Count)];
+    }
+
+    public void UpdateNarrative()
+    {
+        foreach (var key in CoreNarratives.Keys.ToList())
+        {
+            CoreNarratives[key] = Math.Clamp(CoreNarratives[key] + 0.001f, 0f, 1f);
+        }
+    }
+}
+
 
 
 
@@ -690,9 +844,11 @@ namespace UltraWorldAI
 
         public ConflictSystem Conflict { get; private set; }
 
-        public NarrativeEngine Narrative { get; private set; }
+        public NarrativeEngine Narrative { get; private set; }
 
-        public StressSystem Stress { get; private set; }
+        public StressSystem Stress { get; private set; }
+        public SelfNarrativeSystem SelfNarrative { get; private set; }
+        public SemanticMemory Knowledge { get; private set; }
 
 
 
@@ -715,6 +871,8 @@ namespace UltraWorldAI
             Conflict = new ConflictSystem(person);
 
             Stress = new StressSystem(person);
+            SelfNarrative = new SelfNarrativeSystem(person);
+            Knowledge = new SemanticMemory();
 
             Narrative = new NarrativeEngine(person);
 
@@ -731,6 +889,8 @@ namespace UltraWorldAI
             Emotions.UpdateEmotionsDecay();
 
             Stress.UpdateStressDecay();
+            SelfNarrative.UpdateNarrative();
+            Knowledge.DecayFacts();
 
             // Outras atualizações de sistema aqui, como processos de pensamento, etc.
 
@@ -780,7 +940,7 @@ namespace UltraWorldAI
 
             Mind.Memory.AddMemory(summary, intensity, emotionalCharge, keywords, source);
 
-            Console.WriteLine($"\n[{Name} Experience] '{summary}' (Intensity: {intensity}, Emotion: {emotionalCharge})");
+            Logger.Log($"\n[{Name} Experience] '{summary}' (Intensity: {intensity}, Emotion: {emotionalCharge})");
 
         }
 
@@ -1117,6 +1277,7 @@ namespace UltraWorldAI
             // Uma vez que um mecanismo de defesa é usado, o conflito pode ser "resolvido" ou mitigado
 
             _person.Mind.Conflict.ResolveContradiction($"Contradiction detected: Self-image '{selfAspect}' vs. '{conflictingAction}'");
+            reflection += " " + _person.Mind.SelfNarrative.DefendNarrative($"sou {selfAspect}");
 
 
 
