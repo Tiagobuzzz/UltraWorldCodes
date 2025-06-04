@@ -2,6 +2,27 @@ using System;
 
 using System.Collections.Generic;
 
+namespace UltraWorldAI
+{
+    // This file is kept for compatibility with older revisions where
+    // all classes were defined in a single source file named `IA.cs`.
+    // The AI implementation has been refactored and each subsystem now
+    // resides in its own file inside the `src/UltraWorldAI/` directory.
+    //
+    // Classes such as `Person`, `Mind`, `MemorySystem`, etc. can be found
+    // in their respective files. This wrapper exposes a simple entry
+    // point for initializing runtime settings.
+    public static class IA
+    {
+        public static void Initialize(string configPath = "AIConfig.json")
+        {
+            AISettings.Load(configPath);
+        }
+    }
+=======
+
+using System.Collections.Generic;
+
 using System.Linq;
 
 using System.IO; // Para Serialização/Desserialização, se você for implementar isso mais tarde
@@ -91,13 +112,18 @@ namespace UltraWorldAI
     public static class AISettings
     {
         public static int MaxMemories = AIConfig.MaxMemories;
+        private static bool _loaded = false;
+        public static bool IsLoaded => _loaded;
+
         public static void Load(string path)
         {
+            if (_loaded) return;
             if (!File.Exists(path)) return;
             var json = File.ReadAllText(path);
             var data = JsonSerializer.Deserialize<Dictionary<string, float>>(json);
             if (data == null) return;
             if (data.TryGetValue("MaxMemories", out var mm)) MaxMemories = (int)mm;
+            _loaded = true;
         }
     }
 
@@ -783,7 +809,15 @@ namespace UltraWorldAI
 
         public Mind Mind { get; private set; }
 
+<
         public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adult; // Default
+=======
+        public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adult; // Default
+        static Person()
+        {
+            AISettings.Load("AIConfig.json");
+        }
+
 
 
 
@@ -1410,6 +1444,9 @@ namespace UltraWorldAI
         }
 
     }
+
+=======
+    }
 
 }
 
