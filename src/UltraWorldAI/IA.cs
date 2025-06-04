@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using System.IO; // Para Serialização/Desserialização, se você for implementar isso mais tarde
+using System.Text.Json;
 
 
 
@@ -66,7 +67,6 @@ namespace UltraWorldAI
 
         public const float EmotionMin = 0f;
 
-        public const float EmotionMax = 1f;
 
         public const float AffinityMin = 0f;
 
@@ -87,6 +87,24 @@ namespace UltraWorldAI
         public const float MinStress = 0.0f;
 
     }
+
+    public static class AISettings
+    {
+        public static int MaxMemories = AIConfig.MaxMemories;
+        public static void Load(string path)
+        {
+            if (!File.Exists(path)) return;
+            var json = File.ReadAllText(path);
+            var data = JsonSerializer.Deserialize<Dictionary<string, float>>(json);
+            if (data == null) return;
+            if (data.TryGetValue("MaxMemories", out var mm)) MaxMemories = (int)mm;
+        }
+    }
+
+    public static class Logger
+    {
+        public static void Log(string message) => Console.WriteLine(message);
+    }
 
 
 
@@ -136,7 +154,7 @@ namespace UltraWorldAI
 
         {
 
-            if (Memories.Count >= AIConfig.MaxMemories)
+            if (Memories.Count >= AISettings.MaxMemories)
 
             {
 
@@ -180,7 +198,7 @@ namespace UltraWorldAI
 
             Memories.RemoveAll(m => m.Intensity < AIConfig.ForgottenMemoryThreshold || (DateTime.Now - m.Date).TotalDays > 365); // Exemplo: esquece depois de 1 ano
 
-            if (Memories.Count >= AIConfig.MaxMemories)
+            if (Memories.Count >= AISettings.MaxMemories)
 
             {
 
@@ -217,6 +235,20 @@ namespace UltraWorldAI
             Memories.RemoveAll(m => m.Intensity <= AIConfig.ForgottenMemoryThreshold);
 
         }
+
+        public void SaveMemories(string path)
+        {
+            var json = JsonSerializer.Serialize(Memories);
+            File.WriteAllText(path, json);
+        }
+
+        public void LoadMemories(string path)
+        {
+            if (!File.Exists(path)) return;
+            var json = File.ReadAllText(path);
+            var mems = JsonSerializer.Deserialize<List<Memory>>(json);
+            if (mems != null) Memories = mems;
+        }
 
 
 
@@ -480,7 +512,7 @@ namespace UltraWorldAI
 
                 SelfImage.Add(aspect);
 
-                Console.WriteLine($"[Metacognition] {_person.Name}'s self-image now includes: {aspect}");
+                Logger.Log($"[Metacognition] {_person.Name}'s self-image now includes: {aspect}");
 
             }
 
@@ -496,7 +528,7 @@ namespace UltraWorldAI
 
             {
 
-                Console.WriteLine($"[Metacognition] {_person.Name}'s self-image no longer includes: {aspect}");
+                Logger.Log($"[Metacognition] {_person.Name}'s self-image no longer includes: {aspect}");
 
             }
 
@@ -515,6 +547,8 @@ namespace UltraWorldAI
         public List<string> ActiveContradictions { get; private set; } = new List<string>();
 
 
+        public event Action<string>? ContradictionDetected;
+        public event Action<string>? ContradictionResolved;
 
         public ConflictSystem(Person person)
 
@@ -546,8 +580,9 @@ namespace UltraWorldAI
 
                 ActiveContradictions.Add(contradiction);
 
-                Console.WriteLine($"[Conflict] {_person.Name} is experiencing: {contradiction}");
+                Logger.Log($"[Conflict] {_person.Name} is experiencing: {contradiction}");
 
+                ContradictionDetected?.Invoke(contradiction);
                 _person.Mind.Stress.AddStress(AIConfig.StressIncreasePerContradiction); // Contradição aumenta o estresse
 
             }
@@ -565,10 +600,10 @@ namespace UltraWorldAI
             var resolved = ActiveContradictions.RemoveAll(c => c.Contains(contradictionIdentifier));
 
             if (resolved > 0)
+                ContradictionResolved?.Invoke(contradictionIdentifier);
 
-            {
 
-                Console.WriteLine($"[Conflict] {_person.Name} has resolved/mitigated contradiction.");
+                Logger.Log($"[Conflict] {_person.Name} has resolved/mitigated contradiction.");
 
                 _person.Mind.Stress.ReduceStress(AIConfig.StressReductionPerDefense * resolved); // Reduz o estresse ao resolver
 
@@ -780,7 +815,7 @@ namespace UltraWorldAI
 
             Mind.Memory.AddMemory(summary, intensity, emotionalCharge, keywords, source);
 
-            Console.WriteLine($"\n[{Name} Experience] '{summary}' (Intensity: {intensity}, Emotion: {emotionalCharge})");
+            Logger.Log($"\n[{Name} Experience] '{summary}' (Intensity: {intensity}, Emotion: {emotionalCharge})");
 
         }
 
