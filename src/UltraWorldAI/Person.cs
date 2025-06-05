@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UltraWorldAI.Territory;
 
 namespace UltraWorldAI
 {
@@ -8,11 +9,13 @@ namespace UltraWorldAI
         public string Name { get; set; }
         public Mind Mind { get; private set; }
         public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adulto;
+        public SpatialIdentity Location { get; private set; }
 
         public Person(string name)
         {
             Name = name;
             Mind = new Mind(this);
+            Location = new SpatialIdentity("Origem", 0, 0);
         }
 
         public string ReflectOnSelf()
@@ -29,6 +32,11 @@ namespace UltraWorldAI
         public void Interact(Person other, string information, float influence = 0.1f)
         {
             InteractionSystem.Exchange(this, other, information, influence);
+        }
+
+        public void MoveTo(string region, float x, float y)
+        {
+            Location.MoveTo(region, x, y);
         }
 
         public void Update()
