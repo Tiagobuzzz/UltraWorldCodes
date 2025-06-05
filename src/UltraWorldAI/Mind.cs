@@ -19,6 +19,7 @@ namespace UltraWorldAI
         public IdeaNetwork IdeaNet { get; private set; }
         public ThoughtSystem ThoughtEngine { get; private set; }
         public BrainwireSystem BrainMap { get; private set; }
+        public IntuitionSystem Intuition { get; private set; }
         public GoalSystem Goals { get; private set; }
         public SimulationSystem Simulation { get; private set; }
         public SubpersonalitySystem Subvoices { get; private set; }
@@ -44,6 +45,7 @@ namespace UltraWorldAI
             IdeaNet = new IdeaNetwork();
             ThoughtEngine = new ThoughtSystem();
             BrainMap = new BrainwireSystem();
+            Intuition = new IntuitionSystem();
             Goals = new GoalSystem();
             Simulation = new SimulationSystem();
             Subvoices = new SubpersonalitySystem();
@@ -66,6 +68,7 @@ namespace UltraWorldAI
             ThoughtEngine.GenerateThought(this);
             ThoughtEngine.DecayThoughts();
             BrainMap.Decay();
+            Intuition.GenerateInsight(this);
             InternalNarrative.GenerateReflection(this);
             InternalNarrative.InteractWithSubvoices(Subvoices);
         }
