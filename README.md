@@ -19,6 +19,10 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **NarrativeEngine** generates reflections and applies psychological defense
   mechanisms when contradictions arise.
 - **SemanticMemory** stores durable conceptual knowledge that decays slowly over time.
+- **ExternalSupportSystem** avalia pressões sociais, reputação e rituais que influenciam a mente.
+- **InteractionSystem** permite comunicação simples entre agentes, afetando crenças e emoções.
+- **Logger** suporta níveis de log e gravação em arquivo.
+- **xUnit tests** verificam memórias e resolução de contradições.
 
 ## Building
 

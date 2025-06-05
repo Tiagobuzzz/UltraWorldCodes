@@ -60,23 +60,51 @@ namespace UltraWorldAI
         {
             foreach (var mem in Memories)
             {
-                mem.Intensity = Math.Max(0, mem.Intensity - AIConfig.MemoryDecayRate);
+                mem.Intensity = Math.Max(0, mem.Intensity - AISettings.MemoryDecayRate);
             }
             Memories.RemoveAll(m => m.Intensity <= AIConfig.ForgottenMemoryThreshold);
         }
 
-        public void SaveMemories(string path)
+        public void SaveMemories(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
         {
-            var json = JsonSerializer.Serialize(Memories);
+            var state = new PersistedState
+            {
+                Memories = Memories,
+                Beliefs = beliefs?.Beliefs,
+                Traits = personality?.Traits
+            };
+            var json = JsonSerializer.Serialize(state);
             File.WriteAllText(path, json);
         }
 
-        public void LoadMemories(string path)
+        public void LoadMemories(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
         {
             if (!File.Exists(path)) return;
             var json = File.ReadAllText(path);
-            var mems = JsonSerializer.Deserialize<List<Memory>>(json);
-            if (mems != null) Memories = mems;
+            var state = JsonSerializer.Deserialize<PersistedState>(json);
+            if (state == null) return;
+            if (state.Memories != null) Memories = state.Memories;
+            if (state.Beliefs != null && beliefs != null)
+            {
+                foreach (var kv in state.Beliefs)
+                {
+                    beliefs.UpdateBelief(kv.Key, kv.Value - (beliefs.Beliefs.ContainsKey(kv.Key) ? beliefs.Beliefs[kv.Key] : 0f));
+                }
+            }
+            if (state.Traits != null && personality != null)
+            {
+                foreach (var kv in state.Traits)
+                {
+                    personality.SetTrait(kv.Key, kv.Value);
+                }
+            }
+        }
+
+        private class PersistedState
+        {
+            public List<Memory> Memories { get; set; } = new();
+            public Dictionary<string, float>? Beliefs { get; set; }
+            public Dictionary<string, float>? Traits { get; set; }
         }
 
         public List<Memory> RetrieveMemories(string keyword, int count = 5)

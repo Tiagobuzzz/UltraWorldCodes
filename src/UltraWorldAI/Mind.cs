@@ -18,6 +18,10 @@ namespace UltraWorldAI
         public IdeaNetwork IdeaNet { get; private set; }
         public GoalSystem Goals { get; private set; }
         public SimulationSystem Simulation { get; private set; }
+        public SocialSystem Social { get; private set; }
+        public ReputationSystem Reputation { get; private set; }
+        public RitualSystem Rituals { get; private set; }
+        public ExternalSupportSystem ExternalSupport { get; private set; }
 
         public Mind(Person person)
         {
@@ -35,10 +39,15 @@ namespace UltraWorldAI
             IdeaNet = new IdeaNetwork();
             Goals = new GoalSystem();
             Simulation = new SimulationSystem();
+            Social = new SocialSystem();
+            Reputation = new ReputationSystem();
+            Rituals = new RitualSystem();
+            ExternalSupport = new ExternalSupportSystem();
         }
 
         public void Update()
         {
+            ExternalSupport.EvaluateInfluences(PersonReference);
             Memory.UpdateMemoryDecay();
             Emotions.UpdateEmotionsDecay();
             Knowledge.DecayFacts();

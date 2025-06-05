@@ -1,3 +1,5 @@
 {
-  "MaxMemories": 150
+  "MaxMemories": 150,
+  "MemoryDecayRate": 0.01,
+  "StressDecayRate": 0.01
 }

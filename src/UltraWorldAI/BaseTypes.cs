@@ -47,6 +47,8 @@ namespace UltraWorldAI
     public static class AISettings
     {
         public static int MaxMemories = AIConfig.MaxMemories;
+        public static float MemoryDecayRate = AIConfig.MemoryDecayRate;
+        public static float StressDecayRate = AIConfig.StressDecayRate;
         public static void Load(string path)
         {
             if (!File.Exists(path)) return;
@@ -54,11 +56,24 @@ namespace UltraWorldAI
             var data = JsonSerializer.Deserialize<Dictionary<string, float>>(json);
             if (data == null) return;
             if (data.TryGetValue("MaxMemories", out var mm)) MaxMemories = (int)mm;
+            if (data.TryGetValue("MemoryDecayRate", out var mdr)) MemoryDecayRate = mdr;
+            if (data.TryGetValue("StressDecayRate", out var sdr)) StressDecayRate = sdr;
         }
     }
 
+    public enum LogLevel { Debug = 0, Info = 1, Warning = 2 }
+
     public static class Logger
     {
-        public static void Log(string message) => Console.WriteLine(message);
+        public static LogLevel Level = LogLevel.Info;
+        public static string? FilePath;
+
+        public static void Log(string message, LogLevel level = LogLevel.Info)
+        {
+            if (level < Level) return;
+            Console.WriteLine(message);
+            if (!string.IsNullOrEmpty(FilePath))
+                File.AppendAllText(FilePath!, message + Environment.NewLine);
+        }
     }
 }
