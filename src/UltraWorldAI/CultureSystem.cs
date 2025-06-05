@@ -50,6 +50,10 @@ namespace UltraWorldAI
                 AssociatedIdeas = new List<string> { ideaTitle },
                 CulturalCalendar = CalendarBuilder.CreateBasicCalendar("Lunar")
             };
+
+            var baseTradition = TraditionEngine.CreateBasicTradition(ideaTitle);
+            culture.Traditions.Add(baseTradition);
+
             Cultures.Add(culture);
             return culture;
         }
@@ -89,6 +93,8 @@ namespace UltraWorldAI
                     newCulture.CoreValues.RemoveAt(0);
                     Cultures.Add(newCulture);
                 }
+
+                TraditionEngine.MutateTraditions(culture);
             }
         }
     }
