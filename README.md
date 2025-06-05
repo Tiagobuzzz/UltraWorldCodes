@@ -26,10 +26,16 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 
 ## Building
 
-Use the .NET 6 SDK to build the library. Run:
+Use the .NET SDK (version 6 or later) to build the library. Run:
 
 ```bash
 dotnet build src/UltraWorldAI/UltraWorldAI.csproj
+```
+
+Run the unit tests with:
+
+```bash
+dotnet test
 ```
 
 Before instantiating any `Person` objects, call `IA.Initialize()` so that runtime settings are loaded from `AIConfig.json`.

@@ -7,7 +7,7 @@ namespace UltraWorldAI
     {
         public string Name { get; set; }
         public Mind Mind { get; private set; }
-        public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adult;
+        public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adulto;
 
         public Person(string name)
         {
