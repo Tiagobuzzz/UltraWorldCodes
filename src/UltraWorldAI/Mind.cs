@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using UltraWorldAI.Religion;
 
 namespace UltraWorldAI
 {
@@ -43,6 +44,7 @@ namespace UltraWorldAI
         public IntrospectionSystem Introspection { get; private set; }
         public CognitiveFeedbackSystem CognitiveFeedback { get; private set; }
         public DoctrineSystem Doctrines { get; private set; }
+        public FaithSystem Faith { get; private set; }
         public LegacySystem Legacy { get; private set; }
         public Thoughts.EthicalJudgment Ethics { get; private set; }
         public Thoughts.LifeNarrative LifeNarrative { get; private set; }
@@ -87,6 +89,7 @@ namespace UltraWorldAI
             Introspection = new IntrospectionSystem();
             CognitiveFeedback = new CognitiveFeedbackSystem();
             Doctrines = new DoctrineSystem();
+            Faith = new FaithSystem();
             Legacy = new LegacySystem();
             Ethics = new Thoughts.EthicalJudgment(IdeaEngine);
             LifeNarrative = new Thoughts.LifeNarrative(IdeaEngine);
