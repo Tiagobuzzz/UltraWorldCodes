@@ -36,6 +36,10 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **LivingEconomySystem** cria mercados dinâmicos e registra inflação.
 - **TradeCareerSystem** permite que IAs sigam carreiras econômicas e fundem guildas.
 - **BankingCollapseSystem** gerencia empréstimos e possíveis falências bancárias.
+- **EvolvingRaceEconomy** modela estilos de troca que evoluem por raça.
+- **HeirloomEconomySystem** registra legados e mutações de modelos econômicos.
+- **EconomicLineageVisualizer** exibe genealogias econômicas como árvores.
+- **EconomicModelInteractionSystem** documenta fusões e conflitos entre modelos.
 - **Logger** suporta níveis de log e gravação em arquivo.
 - **xUnit tests** verificam memórias e resolução de contradições.
 
