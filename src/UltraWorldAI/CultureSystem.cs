@@ -11,9 +11,9 @@ namespace UltraWorldAI
         public List<Taboo> Taboos { get; set; } = new();
         public List<Tradition> Traditions { get; set; } = new();
         public string AestheticStyle { get; set; } = string.Empty;
-        public string CalendarType { get; set; } = string.Empty;
+        public CalendarType CalendarType { get; set; } = CalendarType.Lunar;
         public List<string> AssociatedIdeas { get; set; } = new();
-        public Calendar CulturalCalendar { get; set; } = new();
+        public Calendar CulturalCalendar { get; set; } = new(CalendarType.Lunar);
         public List<Festival> Festivals { get; set; } = new();
     }
 
@@ -28,12 +28,6 @@ namespace UltraWorldAI
         public string Description { get; set; } = string.Empty;
     }
 
-    public class Calendar
-    {
-        public string Type { get; set; } = "Lunar";
-        public List<string> Months { get; set; } = new();
-    }
-
     public class CultureSystem
     {
         private readonly Random _random = new();
@@ -46,9 +40,9 @@ namespace UltraWorldAI
                 Name = $"Cultura de {ideaTitle}",
                 CoreValues = keywords.Take(3).ToList(),
                 AestheticStyle = "mutável",
-                CalendarType = "Lunar",
+                CalendarType = CalendarType.Lunar,
                 AssociatedIdeas = new List<string> { ideaTitle },
-                CulturalCalendar = CalendarBuilder.CreateBasicCalendar("Lunar")
+                CulturalCalendar = CalendarBuilder.CreateCalendar(CalendarType.Lunar)
             };
 
             var baseTradition = TraditionEngine.CreateBasicTradition(ideaTitle);
