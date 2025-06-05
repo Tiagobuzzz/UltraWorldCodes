@@ -64,13 +64,19 @@ namespace UltraWorldAI
                 var idea = mind.IdeaEngine.GeneratedIdeas.Last();
                 CreateCultureFromIdea(idea.Title, idea.AssociatedMemories);
             }
-            EvolveCultures();
+            EvolveCultures(mind);
         }
 
-        private void EvolveCultures()
+        private void EvolveCultures(Mind mind)
         {
             foreach (var culture in Cultures.ToList())
             {
+                if (CulturalDivergence.CheckForRupture(mind, culture))
+                {
+                    var fragment = CulturalDivergence.CreateNewCultureFromRupture(mind, culture);
+                    Cultures.Add(fragment);
+                }
+
                 if (_random.NextDouble() < 0.1)
                 {
                     culture.CoreValues.Add($"valor{_random.Next(100)}");
