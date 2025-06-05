@@ -143,9 +143,22 @@ namespace UltraWorldAI
                 reflection = TryRepress(baseContradiction, selfAspect, conflictingAction);
             }
 
+            if (string.IsNullOrWhiteSpace(reflection))
+            {
+                reflection = $"Diante de uma situação inesperada, {_person.Name} buscou compreender melhor seus impulsos.";
+            }
+
+            reflection = GenerateSentence(reflection);
+
             _person.Mind.Conflict.ResolveContradiction($"Contradiction detected: Self-image '{selfAspect}' vs. '{conflictingAction}'");
             reflection += " " + _person.Mind.SelfNarrative.DefendNarrative($"sou {selfAspect}");
             return reflection;
+        }
+
+        private string GenerateSentence(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return string.Empty;
+            return char.ToUpper(text[0]) + text.Substring(1);
         }
 
         private string TryJustify(string baseContradiction, string selfAspect, string conflictingAction, string memorySummary)

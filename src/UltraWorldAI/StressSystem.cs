@@ -25,7 +25,7 @@ namespace UltraWorldAI
 
         public void UpdateStressDecay()
         {
-            ReduceStress(AIConfig.StressDecayRate);
+            ReduceStress(AISettings.StressDecayRate);
         }
 
         public bool IsStressed()

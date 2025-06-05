@@ -26,6 +26,11 @@ namespace UltraWorldAI
             Logger.Log($"\n[{Name} Experience] '{summary}' (Intensity: {intensity}, Emotion: {emotionalCharge})");
         }
 
+        public void Interact(Person other, string information, float influence = 0.1f)
+        {
+            InteractionSystem.Exchange(this, other, information, influence);
+        }
+
         public void Update()
         {
             Mind.Update();
