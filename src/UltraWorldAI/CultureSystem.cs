@@ -8,7 +8,7 @@ namespace UltraWorldAI
     {
         public string Name { get; set; } = string.Empty;
         public List<string> CoreValues { get; set; } = new();
-        public List<Taboo> Taboos { get; set; } = new();
+        public List<string> Taboos { get; set; } = new();
         public List<Tradition> Traditions { get; set; } = new();
         public string AestheticStyle { get; set; } = string.Empty;
         public CalendarType CalendarType { get; set; } = CalendarType.Lunar;
@@ -21,11 +21,6 @@ namespace UltraWorldAI
     {
         public string Name { get; set; } = string.Empty;
         public string Season { get; set; } = string.Empty;
-    }
-
-    public class Taboo
-    {
-        public string Description { get; set; } = string.Empty;
     }
 
     public class CultureSystem
