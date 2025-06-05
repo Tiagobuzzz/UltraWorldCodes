@@ -100,23 +100,24 @@ namespace UltraWorldAI
             Framework = new FrameworkSystem(person);
         }
 
+        /// <summary>
+        /// Advances all mental subsystems by one simulation step.
+        /// </summary>
         public void Update()
         {
             ExternalSupport.EvaluateInfluences(PersonReference);
+            UpdateDecaySystems();
+            HandleIdeas();
+            HandleDefenses();
+            UpdateCultureSystems();
+        }
+
+        private void UpdateDecaySystems()
+        {
             Memory.UpdateMemoryDecay();
             Emotions.UpdateEmotionsDecay();
             Knowledge.DecayFacts();
             Stress.UpdateStressDecay();
-            IdeaNet.GenerateNewIdea("conflito", Emotions, Memory, Beliefs);
-            var lastMem = Memory.Memories.LastOrDefault();
-            if (lastMem != null && _random.NextDouble() < 0.05)
-            {
-                IdeaEngine.GenerateIdea(lastMem.Summary, lastMem.Keywords, Emotions);
-            }
-            if (IdeaEngine.GeneratedIdeas.Any() && _random.NextDouble() < 0.02)
-            {
-                IdeaEngine.ExpressIdea(IdeaEngine.GeneratedIdeas.Last().Title, this);
-            }
             Simulation.Simulate(Emotions, Goals, Memory);
             Subvoices.UpdateInfluences();
             Contradictions.EvaluateContradictions(Goals, Emotions, Subvoices);
@@ -135,12 +136,32 @@ namespace UltraWorldAI
             InternalNarrative.InteractWithSubvoices(Subvoices);
             Introspection.Reflect(this);
             CognitiveFeedback.EvaluateTrajectory(this);
+        }
 
+        private void HandleIdeas()
+        {
+            IdeaNet.GenerateNewIdea("conflito", Emotions, Memory, Beliefs);
+            var lastMem = Memory.Memories.LastOrDefault();
+            if (lastMem != null && _random.NextDouble() < 0.05)
+            {
+                IdeaEngine.GenerateIdea(lastMem.Summary, lastMem.Keywords, Emotions);
+            }
+            if (IdeaEngine.GeneratedIdeas.Any() && _random.NextDouble() < 0.02)
+            {
+                IdeaEngine.ExpressIdea(IdeaEngine.GeneratedIdeas.Last().Title, this);
+            }
             if (_random.NextDouble() < 0.02)
             {
                 Expressions.GenerateSymbolFromExperience(PersonReference);
             }
+            if (_random.NextDouble() < 0.01)
+            {
+                Doctrines.EvolveFromSymbolsAndBeliefs(Expressions, Beliefs);
+            }
+        }
 
+        private void HandleDefenses()
+        {
             Defenses.EvaluateDefenses(Conflict, Emotions, DynamicBeliefs);
             if (Defenses.IsEmotionBlocked("sorrow"))
             {
@@ -148,12 +169,10 @@ namespace UltraWorldAI
                 Emotions.SetEmotion("sorrow", s);
             }
             Defenses.Decay();
+        }
 
-            if (_random.NextDouble() < 0.01)
-            {
-                Doctrines.EvolveFromSymbolsAndBeliefs(Expressions, Beliefs);
-            }
-
+        private void UpdateCultureSystems()
+        {
             if (Beliefs.Beliefs.ContainsKey("memória sagrada") && _random.NextDouble() < 0.01)
             {
                 var memory = Memory.Memories.LastOrDefault();
