@@ -109,12 +109,24 @@ namespace UltraWorldAI
 
         public List<Memory> RetrieveMemories(string keyword, int count = 5)
         {
-            return Memories.Where(m =>
-                                m.Keywords.Any(k => k.Contains(keyword, StringComparison.OrdinalIgnoreCase)) ||
-                                m.Summary.Contains(keyword, StringComparison.OrdinalIgnoreCase))
-                            .OrderByDescending(m => m.Intensity)
-                            .Take(count)
-                            .ToList();
+            var now = DateTime.Now;
+            var results = Memories
+                .Where(m => string.IsNullOrWhiteSpace(keyword) ||
+                             m.Keywords.Any(k => k.Contains(keyword, StringComparison.OrdinalIgnoreCase)) ||
+                             m.Summary.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(m =>
+                    (m.Intensity * 0.6f) +
+                    (Math.Abs(m.EmotionalCharge) * 0.3f) +
+                    (float)(1.0 / (1.0 + (now - m.Date).TotalDays)))
+                .Take(count)
+                .ToList();
+
+            foreach (var mem in results)
+            {
+                mem.Intensity = Math.Min(1f, mem.Intensity + 0.05f);
+            }
+
+            return results;
         }
     }
 }
