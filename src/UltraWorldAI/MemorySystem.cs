@@ -33,6 +33,11 @@ namespace UltraWorldAI
         public float EmotionalCharge { get; set; }
 
         /// <summary>
+        /// Optional label describing the dominant emotion.
+        /// </summary>
+        public string Emotion { get; set; } = string.Empty;
+
+        /// <summary>
         /// Keywords that help relate this memory to other concepts.
         /// </summary>
         public List<string> Keywords { get; set; }
@@ -67,7 +72,7 @@ namespace UltraWorldAI
         /// <param name="emotionalCharge">Associated emotional valence.</param>
         /// <param name="keywords">Optional keywords for retrieval.</param>
         /// <param name="source">Source of the experience.</param>
-        public void AddMemory(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f, List<string>? keywords = null, string source = "self")
+        public void AddMemory(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f, List<string>? keywords = null, string source = "self", string emotion = "")
         {
             if (Memories.Count >= AISettings.MaxMemories)
             {
@@ -80,7 +85,8 @@ namespace UltraWorldAI
                 Intensity = Math.Clamp(intensity, 0f, 1f),
                 EmotionalCharge = Math.Clamp(emotionalCharge, -1f, 1f),
                 Keywords = keywords ?? new List<string>(),
-                Source = source
+                Source = source,
+                Emotion = emotion
             });
             Memories = Memories.OrderByDescending(m => m.Date).ToList();
         }
@@ -229,6 +235,33 @@ namespace UltraWorldAI
             }
 
             return results;
+        }
+
+        /// <summary>
+        /// Retrieves memories tagged with a specific emotion label.
+        /// </summary>
+        public List<Memory> RetrieveMemoriesByEmotion(string emotion, int count = 5)
+        {
+            var results = Memories
+                .Where(m => string.Equals(m.Emotion, emotion, StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(m => m.Intensity)
+                .Take(count)
+                .ToList();
+
+            foreach (var mem in results)
+            {
+                mem.Intensity = Math.Min(1f, mem.Intensity + 0.05f);
+            }
+
+            return results;
+        }
+
+        /// <summary>
+        /// Returns the most intense memory or null if none exist.
+        /// </summary>
+        public Memory? GetMostIntenseMemory()
+        {
+            return Memories.OrderByDescending(m => m.Intensity).FirstOrDefault();
         }
     }
 }
