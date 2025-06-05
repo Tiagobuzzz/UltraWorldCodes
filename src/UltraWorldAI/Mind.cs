@@ -14,10 +14,12 @@ namespace UltraWorldAI
         public NarrativeEngine Narrative { get; private set; }
         public StressSystem Stress { get; private set; }
         public SelfNarrativeSystem SelfNarrative { get; private set; }
+        public InternalNarrativeSystem InternalNarrative { get; private set; }
         public SemanticMemory Knowledge { get; private set; }
         public IdeaNetwork IdeaNet { get; private set; }
         public GoalSystem Goals { get; private set; }
         public SimulationSystem Simulation { get; private set; }
+        public SubpersonalitySystem Subvoices { get; private set; }
         public SocialSystem Social { get; private set; }
         public ReputationSystem Reputation { get; private set; }
         public RitualSystem Rituals { get; private set; }
@@ -34,11 +36,13 @@ namespace UltraWorldAI
             Conflict = new ConflictSystem(person);
             Stress = new StressSystem(person);
             SelfNarrative = new SelfNarrativeSystem(person);
+            InternalNarrative = new InternalNarrativeSystem();
             Knowledge = new SemanticMemory();
             Narrative = new NarrativeEngine(person);
             IdeaNet = new IdeaNetwork();
             Goals = new GoalSystem();
             Simulation = new SimulationSystem();
+            Subvoices = new SubpersonalitySystem();
             Social = new SocialSystem();
             Reputation = new ReputationSystem();
             Rituals = new RitualSystem();
@@ -54,6 +58,9 @@ namespace UltraWorldAI
             Stress.UpdateStressDecay();
             IdeaNet.GenerateNewIdea("conflito", Emotions, Memory, Beliefs);
             Simulation.Simulate(Emotions, Goals, Memory);
+            Subvoices.UpdateInfluences();
+            InternalNarrative.GenerateReflection(this);
+            InternalNarrative.InteractWithSubvoices(Subvoices);
         }
     }
 }
