@@ -19,6 +19,7 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
   mechanisms when contradictions arise.
 - **SemanticMemory** stores durable conceptual knowledge that decays slowly over time.
 - **BehaviorSystem** picks basic actions for a character based on mood and beliefs.
+- **IdeaNetwork** forms new ideas from memories and emotions, linking them through "brainwires".
 
 ## Building
 
