@@ -1,0 +1,80 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+
+namespace UltraWorldAI
+{
+    // ESTRUTURAS E ENUMS
+    public enum LifeStage
+    {
+        Infantil,
+        Crianca,
+        Adolescente,
+        Adulto,
+        Idoso
+    }
+
+    // --- CONFIGURAÇÕES GLOBAIS (PARAMETRIZAÇÃO DE "MAGIC NUMBERS") ---
+    public static class AIConfig
+    {
+        public const int MaxMemories = 100;
+        public const float MemoryDecayRate = 0.01f;
+        public const float ForgottenMemoryThreshold = 0.1f;
+
+        public const float EmotionDecayHappiness = -0.01f;
+        public const float EmotionDecayFear = -0.05f;
+        public const float EmotionDecayAnger = -0.05f;
+        public const float EmotionDecayLove = -0.01f;
+        public const float EmotionDecaySorrow = -0.02f;
+        public const float EmotionDecayCuriosity = -0.01f;
+
+        public const float TraitMin = 0f;
+        public const float TraitMax = 1f;
+        public const float EmotionMin = 0f;
+        public const float EmotionMax = 1f;
+        public const float AffinityMin = 0f;
+        public const float AffinityMax = 1f;
+
+        public const float StressIncreasePerContradiction = 0.1f;
+        public const float StressReductionPerDefense = 0.05f;
+        public const float StressDecayRate = 0.01f;
+
+        public const float MaxStress = 1.0f;
+        public const float MinStress = 0.0f;
+    }
+
+    public static class AISettings
+    {
+        public static int MaxMemories = AIConfig.MaxMemories;
+        public static void Load(string path)
+        {
+            if (!File.Exists(path)) return;
+            var json = File.ReadAllText(path);
+            var data = JsonSerializer.Deserialize<Dictionary<string, float>>(json);
+            if (data == null) return;
+            if (data.TryGetValue("MaxMemories", out var mm)) MaxMemories = (int)mm;
+        }
+    }
+
+    public enum LogLevel
+    {
+        Info,
+        Debug,
+        Warning,
+        Error
+    }
+
+    public static class Logger
+    {
+        public static LogLevel Level { get; set; } = LogLevel.Info;
+
+        public static void Log(string message, LogLevel level = LogLevel.Info)
+        {
+            if (level >= Level)
+            {
+                Console.WriteLine(message);
+            }
+        }
+    }
+}
