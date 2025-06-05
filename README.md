@@ -40,6 +40,8 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **HeirloomEconomySystem** registra legados e mutações de modelos econômicos.
 - **EconomicLineageVisualizer** exibe genealogias econômicas como árvores.
 - **EconomicModelInteractionSystem** documenta fusões e conflitos entre modelos.
+- **EconomicCrisisReactionSystem** faz IAs protestarem ou criarem seitas quando a fé é corrompida ou há injustiça.
+- **TradeDiplomacySystem** coordena tratados comerciais, confiança e traições entre reinos.
 - **Logger** suporta níveis de log e gravação em arquivo.
 - **xUnit tests** verificam memórias e resolução de contradições.
 
