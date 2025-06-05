@@ -44,6 +44,19 @@ namespace UltraWorldAI
             GeneratedIdeas.Add(idea);
         }
 
+        public void GenerateIdea(string title, List<string> memories, float emotionalCharge, float symbolicPower)
+        {
+            var idea = new Idea
+            {
+                Title = title,
+                Description = $"Reflexao sobre {title}",
+                EmotionalCharge = emotionalCharge,
+                SymbolicPower = symbolicPower,
+                AssociatedMemories = memories
+            };
+            GeneratedIdeas.Add(idea);
+        }
+
         public void LinkIdeas(string ideaA, string ideaB)
         {
             var wire = new Brainwire
