@@ -18,4 +18,12 @@ public static class CultureBeliefSystem
     {
         return Beliefs.TryGetValue(race, out var belief) ? belief : "Paz";
     }
+
+    public static void ForceChangeBelief(string race, string newBelief)
+    {
+        if (string.IsNullOrWhiteSpace(race))
+            return;
+
+        Beliefs[race] = newBelief;
+    }
 }
