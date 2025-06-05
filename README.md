@@ -33,6 +33,9 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **DoctrineEngine** cria dogmas e textos sagrados.
 - **ProphecySystem** registra e cumpre profecias.
 - **CultSplit** gera cismas e novos cultos a partir de doutrinas.
+- **LivingEconomySystem** cria mercados dinâmicos e registra inflação.
+- **TradeCareerSystem** permite que IAs sigam carreiras econômicas e fundem guildas.
+- **BankingCollapseSystem** gerencia empréstimos e possíveis falências bancárias.
 - **Logger** suporta níveis de log e gravação em arquivo.
 - **xUnit tests** verificam memórias e resolução de contradições.
 

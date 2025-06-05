@@ -70,6 +70,8 @@ public static class LivingEconomySystem
                 market.InflationFactor += 0.1;
                 SettlementHistoryTracker.Register(market.Settlement, "Inflação", "Preços subiram por instabilidade interna.");
             }
+
+            EconomicCrisisReactionAI.EvaluateCrisis(market.Settlement, market.InflationFactor);
         }
     }
 
