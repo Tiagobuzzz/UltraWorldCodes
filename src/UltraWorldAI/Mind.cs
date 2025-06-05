@@ -15,6 +15,7 @@ namespace UltraWorldAI
         public StressSystem Stress { get; private set; }
         public SelfNarrativeSystem SelfNarrative { get; private set; }
         public SemanticMemory Knowledge { get; private set; }
+        public BehaviorSystem Behavior { get; private set; }
 
         public Mind(Person person)
         {
@@ -28,6 +29,7 @@ namespace UltraWorldAI
             Stress = new StressSystem(person);
             SelfNarrative = new SelfNarrativeSystem(person);
             Knowledge = new SemanticMemory();
+            Behavior = new BehaviorSystem(person);
             Narrative = new NarrativeEngine(person);
         }
 

@@ -57,8 +57,24 @@ namespace UltraWorldAI
         }
     }
 
+    public enum LogLevel
+    {
+        Info,
+        Debug,
+        Warning,
+        Error
+    }
+
     public static class Logger
     {
-        public static void Log(string message) => Console.WriteLine(message);
+        public static LogLevel Level { get; set; } = LogLevel.Info;
+
+        public static void Log(string message, LogLevel level = LogLevel.Info)
+        {
+            if (level >= Level)
+            {
+                Console.WriteLine(message);
+            }
+        }
     }
 }

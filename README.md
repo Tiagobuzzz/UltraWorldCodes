@@ -1,6 +1,15 @@
 # UltraWorldCodes
 
-This repository contains the game code and the AI module. The AI logic is
+ - **Runtime settings** through `AISettings` with a small `Logger` utility (supports log levels).
+- **BehaviorSystem** picks basic actions for a character based on mood and beliefs.
+
+## Testing
+
+Run unit tests with:
+
+```bash
+dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj
+```
 split across several files under `src/UltraWorldAI/`, each implementing
 interlinked systems that model memory, beliefs, personality, emotions and more.
 

@@ -26,6 +26,11 @@ namespace UltraWorldAI
             Logger.Log($"\n[{Name} Experience] '{summary}' (Intensity: {intensity}, Emotion: {emotionalCharge})");
         }
 
+        public string DecideNextAction()
+        {
+            return Mind.Behavior.DecideNextAction();
+        }
+
         public void Update()
         {
             Mind.Update();
