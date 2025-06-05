@@ -27,6 +27,7 @@ namespace UltraWorldAI
         public ReputationSystem Reputation { get; private set; }
         public RitualSystem Rituals { get; private set; }
         public ExternalSupportSystem ExternalSupport { get; private set; }
+        public PhilosophySystem Philosophy { get; private set; }
 
         public Mind(Person person)
         {
@@ -53,6 +54,7 @@ namespace UltraWorldAI
             Reputation = new ReputationSystem();
             Rituals = new RitualSystem();
             ExternalSupport = new ExternalSupportSystem();
+            Philosophy = new PhilosophySystem();
         }
 
         public void Update()
@@ -69,6 +71,7 @@ namespace UltraWorldAI
             ThoughtEngine.DecayThoughts();
             BrainMap.Decay();
             Intuition.GenerateInsight(this);
+            Philosophy.Update(this);
             InternalNarrative.GenerateReflection(this);
             InternalNarrative.InteractWithSubvoices(Subvoices);
         }

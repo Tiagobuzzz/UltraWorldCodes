@@ -18,6 +18,8 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **SelfNarrativeSystem** maintains core personal narratives and assists the narrative engine with psychological defenses.
 - **NarrativeEngine** generates reflections and applies psychological defense
   mechanisms when contradictions arise.
+- **PhilosophySystem** builds core personal doctrines and checks if goals
+  conflict with them.
 - **SemanticMemory** stores durable conceptual knowledge that decays slowly over time.
 - **ExternalSupportSystem** avalia pressões sociais, reputação e rituais que influenciam a mente.
 - **InteractionSystem** permite comunicação simples entre agentes, afetando crenças e emoções.
