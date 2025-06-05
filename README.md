@@ -28,6 +28,11 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **CalendarBuilder** cria calendários culturais simbólicos para cada cultura.
 - **PhilosophicalIntegrity** avalia a coerência entre ideias geradas.
 - **InternalDialectics** coloca ideias em confronto, permitindo sínteses ou reforço.
+- **DivineBeing** permite criar deuses com domínio e temperamento.
+- **FaithSystem** acompanha devoção, dúvida e heresia.
+- **DoctrineEngine** cria dogmas e textos sagrados.
+- **ProphecySystem** registra e cumpre profecias.
+- **CultSplit** gera cismas e novos cultos a partir de doutrinas.
 - **Logger** suporta níveis de log e gravação em arquivo.
 - **xUnit tests** verificam memórias e resolução de contradições.
 
