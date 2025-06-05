@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace UltraWorldAI
 {
@@ -18,6 +19,7 @@ namespace UltraWorldAI
         public InternalNarrativeSystem InternalNarrative { get; private set; }
         public SemanticMemory Knowledge { get; private set; }
         public IdeaNetwork IdeaNet { get; private set; }
+        public IdeaEngine IdeaEngine { get; private set; }
         public ThoughtSystem ThoughtEngine { get; private set; }
         public BrainwireSystem BrainMap { get; private set; }
         public IntuitionSystem Intuition { get; private set; }
@@ -55,6 +57,7 @@ namespace UltraWorldAI
             Knowledge = new SemanticMemory();
             Narrative = new NarrativeEngine(person);
             IdeaNet = new IdeaNetwork();
+            IdeaEngine = new IdeaEngine();
             ThoughtEngine = new ThoughtSystem();
             BrainMap = new BrainwireSystem();
             Intuition = new IntuitionSystem();
@@ -85,6 +88,15 @@ namespace UltraWorldAI
             Knowledge.DecayFacts();
             Stress.UpdateStressDecay();
             IdeaNet.GenerateNewIdea("conflito", Emotions, Memory, Beliefs);
+            var lastMem = Memory.Memories.LastOrDefault();
+            if (lastMem != null && new Random().NextDouble() < 0.05)
+            {
+                IdeaEngine.GenerateIdea(lastMem.Summary, lastMem.Keywords, Emotions);
+            }
+            if (IdeaEngine.GeneratedIdeas.Any() && new Random().NextDouble() < 0.02)
+            {
+                IdeaEngine.ExpressIdea(IdeaEngine.GeneratedIdeas.Last().Title, this);
+            }
             Simulation.Simulate(Emotions, Goals, Memory);
             Subvoices.UpdateInfluences();
             Contradictions.EvaluateContradictions(Goals, Emotions, Subvoices);
