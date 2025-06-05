@@ -7,6 +7,7 @@ namespace UltraWorldAI
         public Person PersonReference { get; private set; }
         public MemorySystem Memory { get; private set; }
         public BeliefSystem Beliefs { get; private set; }
+        public BeliefArchitecture DynamicBeliefs { get; private set; }
         public PersonalitySystem Personality { get; private set; }
         public EmotionSystem Emotions { get; private set; }
         public MetacognitionSystem Meta { get; private set; }
@@ -34,6 +35,7 @@ namespace UltraWorldAI
             PersonReference = person;
             Memory = new MemorySystem();
             Beliefs = new BeliefSystem();
+            DynamicBeliefs = new BeliefArchitecture();
             Personality = new PersonalitySystem();
             Emotions = new EmotionSystem();
             Meta = new MetacognitionSystem(person);
@@ -71,6 +73,7 @@ namespace UltraWorldAI
             ThoughtEngine.DecayThoughts();
             BrainMap.Decay();
             Intuition.GenerateInsight(this);
+            DynamicBeliefs.ResolveContradictions(Conflict, Emotions);
             Philosophy.Update(this);
             InternalNarrative.GenerateReflection(this);
             InternalNarrative.InteractWithSubvoices(Subvoices);
