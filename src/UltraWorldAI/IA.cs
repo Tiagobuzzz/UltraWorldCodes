@@ -19,3 +19,4 @@ namespace UltraWorldAI
             AISettings.Load(configPath);
         }
     }
+}
