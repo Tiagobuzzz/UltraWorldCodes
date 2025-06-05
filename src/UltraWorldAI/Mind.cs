@@ -32,6 +32,7 @@ namespace UltraWorldAI
         public PhilosophySystem Philosophy { get; private set; }
         public ContradictionSystem Contradictions { get; private set; }
         public DefenseMechanismSystem Defenses { get; private set; }
+        public IntrospectionSystem Introspection { get; private set; }
 
         public Mind(Person person)
         {
@@ -63,6 +64,7 @@ namespace UltraWorldAI
             Philosophy = new PhilosophySystem();
             Contradictions = new ContradictionSystem();
             Defenses = new DefenseMechanismSystem();
+            Introspection = new IntrospectionSystem();
         }
 
         public void Update()
@@ -88,6 +90,7 @@ namespace UltraWorldAI
             Philosophy.Update(this);
             InternalNarrative.GenerateReflection(this);
             InternalNarrative.InteractWithSubvoices(Subvoices);
+            Introspection.Reflect(this);
 
             Defenses.EvaluateDefenses(Conflict, Emotions, DynamicBeliefs);
             if (Defenses.IsEmotionBlocked("sorrow"))
