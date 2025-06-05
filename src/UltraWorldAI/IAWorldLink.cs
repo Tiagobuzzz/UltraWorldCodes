@@ -38,7 +38,7 @@ namespace UltraWorldAI
         }
     }
 
-    public class CultureSystem
+    public class CultureLawSystem
     {
         public List<string> Laws { get; } = new();
         public List<string> Taboos { get; } = new();

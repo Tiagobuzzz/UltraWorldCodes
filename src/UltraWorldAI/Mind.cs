@@ -33,6 +33,7 @@ namespace UltraWorldAI
         public ReputationSystem Reputation { get; private set; }
         public RitualSystem Rituals { get; private set; }
         public TraditionSystem Traditions { get; private set; }
+        public CultureSystem Cultures { get; private set; }
         public ExternalSupportSystem ExternalSupport { get; private set; }
         public PhilosophySystem Philosophy { get; private set; }
         public Thoughts.PhilosophicalIntegrity Integrity { get; private set; }
@@ -77,6 +78,7 @@ namespace UltraWorldAI
             Reputation = new ReputationSystem();
             Rituals = new RitualSystem();
             Traditions = new TraditionSystem();
+            Cultures = new CultureSystem();
             ExternalSupport = new ExternalSupportSystem();
             Philosophy = new PhilosophySystem();
             Contradictions = new ContradictionSystem();
@@ -153,6 +155,7 @@ namespace UltraWorldAI
                 }
             }
 
+            Cultures.Update(this);
             LifeNarrative.UpdateNarrative();
         }
     }
