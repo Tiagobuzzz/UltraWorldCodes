@@ -8,7 +8,7 @@ namespace UltraWorldAI
     public class IdeaNetwork
     {
         public List<Idea> Ideas { get; } = new();
-        public List<Brainwire> Brainwires { get; } = new();
+        public List<IdeaLink> Brainwires { get; } = new();
 
         public void GenerateNewIdea(string seed, EmotionSystem emotions, MemorySystem memory, BeliefSystem beliefs)
         {
@@ -30,14 +30,14 @@ namespace UltraWorldAI
             };
 
             Ideas.Add(idea);
-            CreateBrainwiresFromIdea(idea);
+            CreateIdeaLinksFromIdea(idea);
         }
 
-        private void CreateBrainwiresFromIdea(Idea idea)
+        private void CreateIdeaLinksFromIdea(Idea idea)
         {
             foreach (var mem in idea.RelatedMemorySummaries)
             {
-                var wire = new Brainwire
+                var wire = new IdeaLink
                 {
                     Source = mem,
                     Target = idea.Content,
@@ -47,7 +47,7 @@ namespace UltraWorldAI
                 Brainwires.Add(wire);
             }
 
-            var emotionLink = new Brainwire
+            var emotionLink = new IdeaLink
             {
                 Source = idea.OriginEmotion,
                 Target = idea.Content,
@@ -76,7 +76,7 @@ namespace UltraWorldAI
         public DateTime Timestamp { get; set; }
     }
 
-    public class Brainwire
+    public class IdeaLink
     {
         public string Source { get; set; } = string.Empty;
         public string Target { get; set; } = string.Empty;
