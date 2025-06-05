@@ -13,7 +13,8 @@ public static class MovementSystem
         float newY = position.Y + dy;
 
         var region = ResolveRegion(newX, newY);
-        position.MoveTo(region.Name, newX, newY, region.Sacred, region.Hostile);
+        bool sacred = region.Sacred || SacredSpace.IsSacred(region.Name);
+        position.MoveTo(region.Name, newX, newY, sacred, region.Hostile);
 
         person.Mind.Memory.AddMemory($"Visitou {position.RegionName}");
         person.Mind.IdeaEngine.GenerateIdea(
@@ -39,6 +40,7 @@ public static class MovementSystem
                 new() { position.RegionName },
                 0.9f,
                 0.9f);
+            SacredSpace.InfluenceMind(person.Mind, position.RegionName);
         }
     }
 
