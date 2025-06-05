@@ -15,7 +15,7 @@ namespace UltraWorldAI
         /// <summary>
         /// Short description of the event.
         /// </summary>
-        public string Summary { get; set; }
+        public string Summary { get; set; } = string.Empty;
 
         /// <summary>
         /// Time when the memory occurred.
@@ -45,7 +45,7 @@ namespace UltraWorldAI
         /// <summary>
         /// Source of the memory (e.g., self or external).
         /// </summary>
-        public string Source { get; set; }
+        public string Source { get; set; } = string.Empty;
 
         public Memory()
         {
@@ -262,6 +262,15 @@ namespace UltraWorldAI
         public Memory? GetMostIntenseMemory()
         {
             return Memories.OrderByDescending(m => m.Intensity).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Removes memories containing the specified keyword.
+        /// </summary>
+        public void RemoveMemoriesByKeyword(string keyword)
+        {
+            Memories.RemoveAll(m => m.Keywords.Any(k => k.Contains(keyword, StringComparison.OrdinalIgnoreCase)) ||
+                                   m.Summary.Contains(keyword, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

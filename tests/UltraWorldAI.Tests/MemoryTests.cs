@@ -49,4 +49,17 @@ public class MemoryTests
         Assert.NotNull(top);
         Assert.Equal("forte", top!.Summary);
     }
+
+    [Fact]
+    public void RemoveMemoriesByKeywordPurgesMatchingEntries()
+    {
+        var memSys = new MemorySystem();
+        memSys.AddMemory("alpha beta", 0.5f, 0f, new() { "alpha" });
+        memSys.AddMemory("gamma", 0.5f, 0f, new() { "gamma" });
+
+        memSys.RemoveMemoriesByKeyword("alpha");
+
+        Assert.DoesNotContain(memSys.Memories, m => m.Summary.Contains("alpha"));
+        Assert.Single(memSys.Memories);
+    }
 }
