@@ -11,6 +11,7 @@ public class SapientBeing
     public Genome GeneticCode { get; set; } = new();
     public int Age { get; set; }
     public string CurrentRegion { get; set; } = string.Empty;
+    public string PersonalityType { get; set; } = string.Empty;
 }
 
 public static class IA_RaceLinker
@@ -23,6 +24,8 @@ public static class IA_RaceLinker
         if (race == null) throw new Exception("Raça não encontrada!");
 
         var genome = GenerateGenomeFromRace(race);
+        string[] personalities = { "Impulsivo", "Paranoico", "Pacifista", "Calculista" };
+        var rand = new Random();
 
         Beings.Add(new SapientBeing
         {
@@ -30,7 +33,8 @@ public static class IA_RaceLinker
             Race = race.Name,
             GeneticCode = genome,
             Age = 0,
-            CurrentRegion = race.OriginBiome
+            CurrentRegion = race.OriginBiome,
+            PersonalityType = personalities[rand.Next(personalities.Length)]
         });
     }
 
