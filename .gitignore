@@ -1,0 +1,10 @@
+# Ignore build outputs
+bin/
+obj/
+**/bin/
+**/obj/
+# User-specific files
+*.user
+*.vs*
+# Other
+*.log
