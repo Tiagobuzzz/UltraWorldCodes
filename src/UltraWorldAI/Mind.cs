@@ -30,6 +30,7 @@ namespace UltraWorldAI
         public RitualSystem Rituals { get; private set; }
         public ExternalSupportSystem ExternalSupport { get; private set; }
         public PhilosophySystem Philosophy { get; private set; }
+        public ContradictionSystem Contradictions { get; private set; }
 
         public Mind(Person person)
         {
@@ -59,6 +60,7 @@ namespace UltraWorldAI
             Rituals = new RitualSystem();
             ExternalSupport = new ExternalSupportSystem();
             Philosophy = new PhilosophySystem();
+            Contradictions = new ContradictionSystem();
         }
 
         public void Update()
@@ -71,6 +73,8 @@ namespace UltraWorldAI
             IdeaNet.GenerateNewIdea("conflito", Emotions, Memory, Beliefs);
             Simulation.Simulate(Emotions, Goals, Memory);
             Subvoices.UpdateInfluences();
+            Contradictions.EvaluateContradictions(Goals, Emotions, Subvoices);
+            Contradictions.TriggerSelfSabotage(this);
             ThoughtEngine.GenerateThought(this);
             ThoughtEngine.DecayThoughts();
             BrainMap.Decay();
