@@ -66,8 +66,14 @@ namespace UltraWorldAI
                 {
                     conflict.TriggerContradiction("crença", $"{a.Statement} ↔ {b.Statement}");
 
-                    if (a.Conviction < b.Conviction) a.Conviction -= 0.1f;
-                    else b.Conviction -= 0.1f;
+                    if (a.Conviction < b.Conviction)
+                    {
+                        a.Conviction = Math.Max(0f, a.Conviction - 0.1f);
+                    }
+                    else
+                    {
+                        b.Conviction = Math.Max(0f, b.Conviction - 0.1f);
+                    }
                 }
             }
 
