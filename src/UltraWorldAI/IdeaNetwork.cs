@@ -7,7 +7,7 @@ namespace UltraWorldAI
     // Represents a lightweight associative network of ideas connected to memories and emotions
     public class IdeaNetwork
     {
-        public List<Idea> Ideas { get; } = new();
+        public List<NetworkIdea> Ideas { get; } = new();
         public List<IdeaLink> Brainwires { get; } = new();
 
         public void GenerateNewIdea(string seed, EmotionSystem emotions, MemorySystem memory, BeliefSystem beliefs)
@@ -20,7 +20,7 @@ namespace UltraWorldAI
             var beliefInfluence = beliefs.Beliefs.Keys
                 .FirstOrDefault(v => seed.Contains(v, StringComparison.OrdinalIgnoreCase)) ?? "neutro";
 
-            var idea = new Idea
+            var idea = new NetworkIdea
             {
                 Content = $"Ideia relacionada a '{seed}' influenciada por '{emotionalContext}' e crença '{beliefInfluence}'",
                 OriginEmotion = emotionalContext,
@@ -33,7 +33,7 @@ namespace UltraWorldAI
             CreateIdeaLinksFromIdea(idea);
         }
 
-        private void CreateIdeaLinksFromIdea(Idea idea)
+        private void CreateIdeaLinksFromIdea(NetworkIdea idea)
         {
             foreach (var mem in idea.RelatedMemorySummaries)
             {
@@ -67,7 +67,7 @@ namespace UltraWorldAI
         }
     }
 
-    public class Idea
+    public class NetworkIdea
     {
         public string Content { get; set; } = string.Empty;
         public string OriginEmotion { get; set; } = string.Empty;

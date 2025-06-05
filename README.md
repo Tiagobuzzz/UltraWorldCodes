@@ -25,6 +25,8 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **InteractionSystem** permite comunicação simples entre agentes, afetando crenças e emoções.
 - **TraditionSystem** registra tradições e rituais, preservando legado emocional.
 - **LegacySystem** permite transmitir traços e memórias a novos personagens.
+- **PhilosophicalIntegrity** avalia a coerência entre ideias geradas.
+- **InternalDialectics** coloca ideias em confronto, permitindo sínteses ou reforço.
 - **Logger** suporta níveis de log e gravação em arquivo.
 - **xUnit tests** verificam memórias e resolução de contradições.
 
