@@ -1,21 +1,27 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UltraWorldAI
+namespace UltraWorldAI;
+
+public static class CalendarBuilder
 {
-    public static class CalendarBuilder
+    public static Calendar CreateCalendar(CalendarType type)
     {
-        public static Calendar CreateBasicCalendar(string type)
+        var calendar = new Calendar(type)
         {
-            var months = Enumerable.Range(1, 12)
+            Months = Enumerable.Range(1, 12)
                 .Select(i => type switch
                 {
-                    "Lunar" => $"Lua-{i}",
-                    "Solar" => $"Sol-{i}",
+                    CalendarType.Lunar => $"Lua-{i}",
+                    CalendarType.Solar => $"Sol-{i}",
+                    CalendarType.Ritmico => $"Pulso-{i}",
+                    CalendarType.Emocional => $"Sent-{i}",
+                    CalendarType.Profetico => $"Vis-{i}",
                     _ => $"M{i}"
                 })
-                .ToList();
-            return new Calendar { Type = type, Months = months };
-        }
+                .ToList()
+        };
+
+        return calendar;
     }
 }

@@ -13,7 +13,7 @@ namespace UltraWorldAI
                 AestheticStyle = parent.AestheticStyle,
                 CalendarType = parent.CalendarType,
                 AssociatedIdeas = new List<string>(parent.AssociatedIdeas),
-                CulturalCalendar = CalendarBuilder.CreateBasicCalendar(parent.CalendarType)
+                CulturalCalendar = CalendarBuilder.CreateCalendar(parent.CalendarType)
             };
         }
     }
