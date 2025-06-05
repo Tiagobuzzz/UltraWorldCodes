@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UltraWorldAI.World;
 
@@ -50,5 +51,16 @@ public static class WorldSeedGenerator
         if (Regions.Count == 0) return "Nenhuma região gerada.";
         return string.Join("\n\n", Regions.ConvertAll(r =>
             $"\uD83C\uDF0D {r.Name} ({r.Biome})\nClima: {r.Climate} | Símbolo: {r.Symbol} | Afinidade: {r.ElementalAffinity}\nRiqueza: {r.Richness} | Magia: {r.MagicLevel} | Influência Tecnológica: {r.TechInfluence}"));
+    }
+
+    public static string GetNearbyRegion(string current)
+    {
+        if (Regions.Count == 0) return current;
+        var region = Regions.FirstOrDefault(r => r.Name == current);
+        var candidates = Regions.Where(r => r.Name != current && r.Biome == region?.Biome).ToList();
+        if (candidates.Count == 0)
+            candidates = Regions.Where(r => r.Name != current).ToList();
+        if (candidates.Count == 0) return current;
+        return candidates[new Random().Next(candidates.Count)].Name;
     }
 }
