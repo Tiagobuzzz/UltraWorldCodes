@@ -64,6 +64,8 @@ namespace UltraWorldAI
             idea.IsExpressed = true;
             idea.InfluenceOnWorld += (float)_random.NextDouble();
             mind.Memory.AddMemory($"Expressou a ideia '{idea.Title}'", 0.4f, idea.EmotionalCharge, new() { "Ideia" }, "ideia");
+            mind.History.RegisterEvent($"Expressou a ideia '{idea.Title}'");
+            mind.LifeNarrative.UpdateNarrative();
         }
     }
 }
