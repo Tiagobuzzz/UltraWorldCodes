@@ -5,6 +5,7 @@ namespace UltraWorldAI
 {
     public class Mind
     {
+        private static readonly Random _random = new();
         public Person PersonReference { get; private set; }
         public MemorySystem Memory { get; private set; }
         public BeliefSystem Beliefs { get; private set; }
@@ -98,11 +99,11 @@ namespace UltraWorldAI
             Stress.UpdateStressDecay();
             IdeaNet.GenerateNewIdea("conflito", Emotions, Memory, Beliefs);
             var lastMem = Memory.Memories.LastOrDefault();
-            if (lastMem != null && new Random().NextDouble() < 0.05)
+            if (lastMem != null && _random.NextDouble() < 0.05)
             {
                 IdeaEngine.GenerateIdea(lastMem.Summary, lastMem.Keywords, Emotions);
             }
-            if (IdeaEngine.GeneratedIdeas.Any() && new Random().NextDouble() < 0.02)
+            if (IdeaEngine.GeneratedIdeas.Any() && _random.NextDouble() < 0.02)
             {
                 IdeaEngine.ExpressIdea(IdeaEngine.GeneratedIdeas.Last().Title, this);
             }
@@ -125,7 +126,7 @@ namespace UltraWorldAI
             Introspection.Reflect(this);
             CognitiveFeedback.EvaluateTrajectory(this);
 
-            if (new Random().NextDouble() < 0.02)
+            if (_random.NextDouble() < 0.02)
             {
                 Expressions.GenerateSymbolFromExperience(PersonReference);
             }
@@ -138,12 +139,12 @@ namespace UltraWorldAI
             }
             Defenses.Decay();
 
-            if (new Random().NextDouble() < 0.01)
+            if (_random.NextDouble() < 0.01)
             {
                 Doctrines.EvolveFromSymbolsAndBeliefs(Expressions, Beliefs);
             }
 
-            if (Beliefs.Beliefs.ContainsKey("memória sagrada") && new Random().NextDouble() < 0.01)
+            if (Beliefs.Beliefs.ContainsKey("memória sagrada") && _random.NextDouble() < 0.01)
             {
                 var memory = Memory.Memories.LastOrDefault();
                 if (memory != null)
