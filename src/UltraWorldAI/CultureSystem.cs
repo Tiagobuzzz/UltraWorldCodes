@@ -77,6 +77,8 @@ namespace UltraWorldAI
                     Cultures.Add(fragment);
                 }
 
+                CulturalReformation.AttemptReformation(mind, culture);
+
                 if (_random.NextDouble() < 0.1)
                 {
                     culture.CoreValues.Add($"valor{_random.Next(100)}");
