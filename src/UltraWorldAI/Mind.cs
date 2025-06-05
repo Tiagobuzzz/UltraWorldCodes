@@ -17,6 +17,8 @@ namespace UltraWorldAI
         public InternalNarrativeSystem InternalNarrative { get; private set; }
         public SemanticMemory Knowledge { get; private set; }
         public IdeaNetwork IdeaNet { get; private set; }
+        public ThoughtSystem ThoughtEngine { get; private set; }
+        public BrainwireSystem BrainMap { get; private set; }
         public GoalSystem Goals { get; private set; }
         public SimulationSystem Simulation { get; private set; }
         public SubpersonalitySystem Subvoices { get; private set; }
@@ -40,6 +42,8 @@ namespace UltraWorldAI
             Knowledge = new SemanticMemory();
             Narrative = new NarrativeEngine(person);
             IdeaNet = new IdeaNetwork();
+            ThoughtEngine = new ThoughtSystem();
+            BrainMap = new BrainwireSystem();
             Goals = new GoalSystem();
             Simulation = new SimulationSystem();
             Subvoices = new SubpersonalitySystem();
@@ -59,6 +63,9 @@ namespace UltraWorldAI
             IdeaNet.GenerateNewIdea("conflito", Emotions, Memory, Beliefs);
             Simulation.Simulate(Emotions, Goals, Memory);
             Subvoices.UpdateInfluences();
+            ThoughtEngine.GenerateThought(this);
+            ThoughtEngine.DecayThoughts();
+            BrainMap.Decay();
             InternalNarrative.GenerateReflection(this);
             InternalNarrative.InteractWithSubvoices(Subvoices);
         }
