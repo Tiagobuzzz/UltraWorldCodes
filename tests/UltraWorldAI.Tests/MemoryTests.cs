@@ -22,4 +22,31 @@ public class MemoryTests
 
         Assert.Equal("emocional", result[0].Summary);
     }
+
+    [Fact]
+    public void RetrieveMemoriesByEmotionFiltersCorrectly()
+    {
+        var memSys = new MemorySystem();
+        memSys.AddMemory("tristeza", 0.6f, -0.5f, null, "self", "sorrow");
+        memSys.AddMemory("alegria", 0.7f, 0.8f, null, "self", "happiness");
+        memSys.AddMemory("pavor", 0.9f, -0.9f, null, "self", "fear");
+
+        var results = memSys.RetrieveMemoriesByEmotion("fear", 2);
+
+        Assert.Single(results);
+        Assert.Equal("pavor", results[0].Summary);
+    }
+
+    [Fact]
+    public void GetMostIntenseMemoryReturnsHighestIntensity()
+    {
+        var memSys = new MemorySystem();
+        memSys.AddMemory("fraco", 0.1f);
+        memSys.AddMemory("forte", 0.9f);
+
+        var top = memSys.GetMostIntenseMemory();
+
+        Assert.NotNull(top);
+        Assert.Equal("forte", top!.Summary);
+    }
 }
