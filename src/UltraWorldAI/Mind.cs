@@ -50,6 +50,8 @@ namespace UltraWorldAI
         public Thoughts.LifeNarrative LifeNarrative { get; private set; }
         public Thoughts.HistoricalIdentity History { get; private set; }
 
+        public FrameworkSystem Framework { get; private set; }
+
         public Territory.HabitatMemory HabitatMemory { get; private set; }
         public Mind(Person person)
         {
@@ -95,6 +97,7 @@ namespace UltraWorldAI
             LifeNarrative = new Thoughts.LifeNarrative(IdeaEngine);
             History = new Thoughts.HistoricalIdentity();
             HabitatMemory = new Territory.HabitatMemory();
+            Framework = new FrameworkSystem(person);
         }
 
         public void Update()
@@ -162,6 +165,7 @@ namespace UltraWorldAI
 
             Cultures.Update(this);
             LifeNarrative.UpdateNarrative();
+            Framework.Update();
         }
     }
 }
