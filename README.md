@@ -23,6 +23,7 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **SemanticMemory** stores durable conceptual knowledge that decays slowly over time.
 - **ExternalSupportSystem** avalia pressões sociais, reputação e rituais que influenciam a mente.
 - **InteractionSystem** permite comunicação simples entre agentes, afetando crenças e emoções.
+- **TraditionSystem** registra tradições e rituais, preservando legado emocional.
 - **Logger** suporta níveis de log e gravação em arquivo.
 - **xUnit tests** verificam memórias e resolução de contradições.
 
