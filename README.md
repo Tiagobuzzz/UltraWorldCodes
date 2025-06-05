@@ -33,3 +33,11 @@ dotnet build src/UltraWorldAI/UltraWorldAI.csproj
 ```
 
 Before instantiating any `Person` objects, call `IA.Initialize()` so that runtime settings are loaded from `AIConfig.json`.
+
+## Testing
+
+Run the unit tests with:
+
+```bash
+dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj
+```
