@@ -109,7 +109,9 @@ namespace UltraWorldAI
 
         public List<Memory> RetrieveMemories(string keyword, int count = 5)
         {
-            return Memories.Where(m => m.Keywords.Contains(keyword) || m.Summary.Contains(keyword))
+            return Memories.Where(m =>
+                                m.Keywords.Any(k => k.Contains(keyword, StringComparison.OrdinalIgnoreCase)) ||
+                                m.Summary.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                             .OrderByDescending(m => m.Intensity)
                             .Take(count)
                             .ToList();
