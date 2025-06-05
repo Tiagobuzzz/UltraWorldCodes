@@ -35,6 +35,7 @@ namespace UltraWorldAI
         public DefenseMechanismSystem Defenses { get; private set; }
         public IntrospectionSystem Introspection { get; private set; }
         public CognitiveFeedbackSystem CognitiveFeedback { get; private set; }
+        public DoctrineSystem Doctrines { get; private set; }
 
         public Mind(Person person)
         {
@@ -69,6 +70,7 @@ namespace UltraWorldAI
             Defenses = new DefenseMechanismSystem();
             Introspection = new IntrospectionSystem();
             CognitiveFeedback = new CognitiveFeedbackSystem();
+            Doctrines = new DoctrineSystem();
         }
 
         public void Update()
@@ -109,6 +111,11 @@ namespace UltraWorldAI
                 Emotions.SetEmotion("sorrow", s);
             }
             Defenses.Decay();
+
+            if (new Random().NextDouble() < 0.01)
+            {
+                Doctrines.EvolveFromSymbolsAndBeliefs(Expressions, Beliefs);
+            }
         }
     }
 }
