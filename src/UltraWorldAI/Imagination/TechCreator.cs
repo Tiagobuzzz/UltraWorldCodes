@@ -8,20 +8,21 @@ namespace UltraWorldAI.Discovery
     {
         public static List<ConceptualTech> TechPool { get; } = new();
 
-        public static ConceptualTech CreateTech(string creator, List<string> concepts)
+        public static ConceptualTech CreateTech(string creator, List<string> concepts, string emotion = "", string philosophy = "")
         {
             var combined = string.Join("-", concepts.OrderBy(c => c));
             string name = $"Tec-{Math.Abs(combined.GetHashCode() % 99999)}";
             string function = DeriveFunction(concepts);
             string category = ClassifyCategory(concepts);
             string complexity = ClassifyComplexity(concepts);
+            string intent = TechIntentSystem.InferPurpose(concepts, emotion, philosophy);
 
             var tech = new ConceptualTech
             {
                 Name = name,
                 CreatedBy = creator,
                 CombinedConcepts = concepts,
-                HypotheticalFunction = function,
+                HypotheticalFunction = $"{function} (Intenção: {intent})",
                 IsFunctional = new Random().NextDouble() > 0.15,
                 Complexity = complexity,
                 Category = category
