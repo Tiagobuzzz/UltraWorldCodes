@@ -17,7 +17,7 @@ public class CulturalDivergenceTests
         var culture = new Culture
         {
             Name = "Base",
-            Taboos = new List<Taboo> { new() { Description = "Tabu1" } }
+            Taboos = new List<string> { "Tabu1" }
         };
 
         Assert.True(CulturalDivergence.CheckForRupture(mind, culture));

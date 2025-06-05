@@ -13,7 +13,11 @@ public class CultureInfluenceTests
             Taboos = new List<string> { "Mentir" },
             Traditions = new List<Tradition>
             {
-                new() { Name = "Saudacao" , Rituals = new List<RitualInstance>() }
+                new()
+                {
+                    Name = "Saudacao",
+                    Rituals = new List<RitualInstance> { new() { Name = "Saudacao" } }
+                }
             }
         };
         var person = new Person("CulturalMind");
