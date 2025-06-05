@@ -34,6 +34,8 @@ namespace UltraWorldAI
         public TraditionSystem Traditions { get; private set; }
         public ExternalSupportSystem ExternalSupport { get; private set; }
         public PhilosophySystem Philosophy { get; private set; }
+        public Thoughts.PhilosophicalIntegrity Integrity { get; private set; }
+        public float PhilosophicalIntegrityScore { get; private set; }
         public ContradictionSystem Contradictions { get; private set; }
         public DefenseMechanismSystem Defenses { get; private set; }
         public IntrospectionSystem Introspection { get; private set; }
@@ -58,6 +60,7 @@ namespace UltraWorldAI
             Narrative = new NarrativeEngine(person);
             IdeaNet = new IdeaNetwork();
             IdeaEngine = new IdeaEngine();
+            Integrity = new Thoughts.PhilosophicalIntegrity(IdeaEngine);
             ThoughtEngine = new ThoughtSystem();
             BrainMap = new BrainwireSystem();
             Intuition = new IntuitionSystem();
@@ -109,6 +112,7 @@ namespace UltraWorldAI
             Symbols.GenerateFromEmotion(Emotions);
             Symbols.IntegrateSymbolicMeaning(DynamicBeliefs);
             DynamicBeliefs.ResolveContradictions(Conflict, Emotions);
+            PhilosophicalIntegrityScore = Integrity.EvaluateConsistency();
             Philosophy.Update(this);
             InternalNarrative.GenerateReflection(this);
             InternalNarrative.InteractWithSubvoices(Subvoices);
