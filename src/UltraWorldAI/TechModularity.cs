@@ -22,11 +22,12 @@ public static class TechModularity
             finalFunction += $"[{t.HypotheticalFunction}] ";
         }
 
-        return new ModularTech
+        var modular = new ModularTech
         {
             Name = newName,
-            Modules = modules,
             ResultFunction = finalFunction.Trim()
         };
+        modular.Modules.AddRange(modules);
+        return modular;
     }
 }
