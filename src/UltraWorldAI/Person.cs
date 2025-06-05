@@ -7,13 +7,15 @@ namespace UltraWorldAI
     public class Person
     {
         public string Name { get; set; }
+        public string Bloodline { get; set; } = string.Empty;
         public Mind Mind { get; private set; }
         public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adulto;
         public SpatialIdentity Location { get; private set; }
 
-        public Person(string name)
+        public Person(string name, string bloodline = "")
         {
             Name = name;
+            Bloodline = bloodline;
             Mind = new Mind(this);
             Location = new SpatialIdentity("Origem", 0, 0);
         }
