@@ -17,11 +17,13 @@ public class SpatialIdentity
         IsHostile = hostile;
     }
 
-    public void MoveTo(string newRegion, float newX, float newY)
+    public void MoveTo(string newRegion, float newX, float newY, bool sacred = false, bool hostile = false)
     {
         RegionName = newRegion;
         X = newX;
         Y = newY;
+        IsSacredGround = sacred;
+        IsHostile = hostile;
     }
 
     public override string ToString() =>
