@@ -15,6 +15,7 @@ namespace UltraWorldAI
         public StressSystem Stress { get; private set; }
         public SelfNarrativeSystem SelfNarrative { get; private set; }
         public SemanticMemory Knowledge { get; private set; }
+        public IdeaNetwork IdeaNet { get; private set; }
 
         public Mind(Person person)
         {
@@ -29,6 +30,7 @@ namespace UltraWorldAI
             SelfNarrative = new SelfNarrativeSystem(person);
             Knowledge = new SemanticMemory();
             Narrative = new NarrativeEngine(person);
+            IdeaNet = new IdeaNetwork();
         }
 
         public void Update()
@@ -37,6 +39,7 @@ namespace UltraWorldAI
             Emotions.UpdateEmotionsDecay();
             Knowledge.DecayFacts();
             Stress.UpdateStressDecay();
+            IdeaNet.GenerateNewIdea("conflito", Emotions, Memory, Beliefs);
         }
     }
 }
