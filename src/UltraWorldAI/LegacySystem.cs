@@ -17,6 +17,7 @@ namespace UltraWorldAI
 
             MemeticInfluences = mind.Beliefs.Beliefs
                 .Where(kv => kv.Key.Contains("Visão", StringComparison.OrdinalIgnoreCase) ||
+                             kv.Key.Contains("Visao", StringComparison.OrdinalIgnoreCase) ||
                              kv.Key.Contains("doutrina", StringComparison.OrdinalIgnoreCase) ||
                              kv.Key.Contains("tradição", StringComparison.OrdinalIgnoreCase))
                 .Select(kv => kv.Key)
