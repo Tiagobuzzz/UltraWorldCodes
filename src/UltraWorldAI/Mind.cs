@@ -37,6 +37,7 @@ namespace UltraWorldAI
         public IntrospectionSystem Introspection { get; private set; }
         public CognitiveFeedbackSystem CognitiveFeedback { get; private set; }
         public DoctrineSystem Doctrines { get; private set; }
+        public LegacySystem Legacy { get; private set; }
 
         public Mind(Person person)
         {
@@ -73,6 +74,7 @@ namespace UltraWorldAI
             Introspection = new IntrospectionSystem();
             CognitiveFeedback = new CognitiveFeedbackSystem();
             Doctrines = new DoctrineSystem();
+            Legacy = new LegacySystem();
         }
 
         public void Update()

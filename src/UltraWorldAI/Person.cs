@@ -35,5 +35,13 @@ namespace UltraWorldAI
         {
             Mind.Update();
         }
+
+        public static Person CreateDescendant(Person parent, string name)
+        {
+            var child = new Person(name);
+            parent.Mind.Legacy.DefineLegacyFromMind(parent.Mind);
+            parent.Mind.Legacy.ApplyLegacyToNewPerson(child);
+            return child;
+        }
     }
 }

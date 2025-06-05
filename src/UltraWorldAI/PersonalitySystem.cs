@@ -25,5 +25,11 @@ namespace UltraWorldAI
         {
             Traits[traitName] = Math.Clamp(value, AIConfig.TraitMin, AIConfig.TraitMax);
         }
+
+        public void AdjustTrait(string traitName, float delta)
+        {
+            var current = GetTrait(traitName);
+            SetTrait(traitName, current + delta);
+        }
     }
 }
