@@ -26,6 +26,11 @@ namespace UltraWorldAI
         public void AddExperience(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f, List<string>? keywords = null, string source = "self")
         {
             Mind.Memory.AddMemory(summary, intensity, emotionalCharge, keywords, source);
+            if (Math.Abs(emotionalCharge) >= 0.5f)
+            {
+                var emotion = Mind.Emotions.GetDominantEmotion();
+                Mind.HabitatMemory.TagPlace(Location.RegionName, emotion, summary, Math.Abs(emotionalCharge));
+            }
             Logger.Log($"\n[{Name} Experience] '{summary}' (Intensity: {intensity}, Emotion: {emotionalCharge})");
         }
 

@@ -8,7 +8,7 @@ public static class CulturalDivergence
     public static bool CheckForRupture(Mind mind, Culture culture, float threshold = 0.7f)
     {
         var conflictingIdeas = mind.IdeaEngine.GeneratedIdeas
-            .Where(i => culture.Taboos.Any(t => i.Title.Contains(t.Description)) && i.SymbolicPower > threshold)
+            .Where(i => culture.Taboos.Any(t => i.Title.Contains(t)) && i.SymbolicPower > threshold)
             .ToList();
 
         return conflictingIdeas.Count >= 2;
@@ -25,10 +25,10 @@ public static class CulturalDivergence
                 .Where(i => i.IsExpressed && i.SymbolicPower > 0.5f)
                 .Select(i => $"Herdeiro: {i.Title}")
                 .ToList(),
-            Taboos = new List<Taboo>
+            Taboos = new List<string>
             {
-                new() { Description = "Negacao da origem" },
-                new() { Description = "Repetir o passado" }
+                "Negacao da origem",
+                "Repetir o passado"
             },
             Traditions = new List<Tradition>
             {

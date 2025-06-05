@@ -48,6 +48,7 @@ namespace UltraWorldAI
         public Thoughts.LifeNarrative LifeNarrative { get; private set; }
         public Thoughts.HistoricalIdentity History { get; private set; }
 
+        public Territory.HabitatMemory HabitatMemory { get; private set; }
         public Mind(Person person)
         {
             PersonReference = person;
@@ -90,6 +91,7 @@ namespace UltraWorldAI
             Ethics = new Thoughts.EthicalJudgment(IdeaEngine);
             LifeNarrative = new Thoughts.LifeNarrative(IdeaEngine);
             History = new Thoughts.HistoricalIdentity();
+            HabitatMemory = new Territory.HabitatMemory();
         }
 
         public void Update()
