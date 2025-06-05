@@ -22,6 +22,7 @@ namespace UltraWorldAI
         public BrainwireSystem BrainMap { get; private set; }
         public IntuitionSystem Intuition { get; private set; }
         public SymbolicMind Symbols { get; private set; }
+        public SymbolicExpressionSystem Expressions { get; private set; }
         public GoalSystem Goals { get; private set; }
         public SimulationSystem Simulation { get; private set; }
         public SubpersonalitySystem Subvoices { get; private set; }
@@ -55,6 +56,7 @@ namespace UltraWorldAI
             BrainMap = new BrainwireSystem();
             Intuition = new IntuitionSystem();
             Symbols = new SymbolicMind();
+            Expressions = new SymbolicExpressionSystem();
             Goals = new GoalSystem();
             Simulation = new SimulationSystem();
             Subvoices = new SubpersonalitySystem();
@@ -94,6 +96,11 @@ namespace UltraWorldAI
             InternalNarrative.InteractWithSubvoices(Subvoices);
             Introspection.Reflect(this);
             CognitiveFeedback.EvaluateTrajectory(this);
+
+            if (new Random().NextDouble() < 0.02)
+            {
+                Expressions.GenerateSymbolFromExperience(PersonReference);
+            }
 
             Defenses.EvaluateDefenses(Conflict, Emotions, DynamicBeliefs);
             if (Defenses.IsEmotionBlocked("sorrow"))
