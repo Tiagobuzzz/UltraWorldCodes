@@ -42,6 +42,9 @@ namespace UltraWorldAI
         public CognitiveFeedbackSystem CognitiveFeedback { get; private set; }
         public DoctrineSystem Doctrines { get; private set; }
         public LegacySystem Legacy { get; private set; }
+        public Thoughts.EthicalJudgment Ethics { get; private set; }
+        public Thoughts.LifeNarrative LifeNarrative { get; private set; }
+        public Thoughts.HistoricalIdentity History { get; private set; }
 
         public Mind(Person person)
         {
@@ -81,6 +84,9 @@ namespace UltraWorldAI
             CognitiveFeedback = new CognitiveFeedbackSystem();
             Doctrines = new DoctrineSystem();
             Legacy = new LegacySystem();
+            Ethics = new Thoughts.EthicalJudgment(IdeaEngine);
+            LifeNarrative = new Thoughts.LifeNarrative(IdeaEngine);
+            History = new Thoughts.HistoricalIdentity();
         }
 
         public void Update()
@@ -145,6 +151,8 @@ namespace UltraWorldAI
                     Traditions.CreateTradition("lembrança", "manter a conexão com o passado", memory.Summary);
                 }
             }
+
+            LifeNarrative.UpdateNarrative();
         }
     }
 }
