@@ -30,4 +30,17 @@ public class BeliefArchitectureTests
         Assert.True(weakened < weakBefore);
         Assert.True(person.Mind.Conflict.HasActiveContradictions());
     }
+
+    [Fact]
+    public void ResolveContradictionsDoesNotMakeConvictionsNegative()
+    {
+        var person = new Person("Philo");
+        var arch = person.Mind.DynamicBeliefs;
+        arch.AddBelief("Sempre fazer o bem", 0.2f, "ensinamento", "hope");
+        arch.AddBelief("Nunca fazer o bem", 0.9f, "opressor", "fear");
+
+        arch.ResolveContradictions(person.Mind.Conflict, person.Mind.Emotions);
+
+        Assert.DoesNotContain(arch.Beliefs, b => b.Conviction < 0f);
+    }
 }
