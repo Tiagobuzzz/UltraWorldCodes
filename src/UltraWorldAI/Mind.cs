@@ -29,6 +29,7 @@ namespace UltraWorldAI
         public SocialSystem Social { get; private set; }
         public ReputationSystem Reputation { get; private set; }
         public RitualSystem Rituals { get; private set; }
+        public TraditionSystem Traditions { get; private set; }
         public ExternalSupportSystem ExternalSupport { get; private set; }
         public PhilosophySystem Philosophy { get; private set; }
         public ContradictionSystem Contradictions { get; private set; }
@@ -64,6 +65,7 @@ namespace UltraWorldAI
             Social = new SocialSystem();
             Reputation = new ReputationSystem();
             Rituals = new RitualSystem();
+            Traditions = new TraditionSystem();
             ExternalSupport = new ExternalSupportSystem();
             Philosophy = new PhilosophySystem();
             Contradictions = new ContradictionSystem();
@@ -115,6 +117,15 @@ namespace UltraWorldAI
             if (new Random().NextDouble() < 0.01)
             {
                 Doctrines.EvolveFromSymbolsAndBeliefs(Expressions, Beliefs);
+            }
+
+            if (Beliefs.Beliefs.ContainsKey("memória sagrada") && new Random().NextDouble() < 0.01)
+            {
+                var memory = Memory.Memories.LastOrDefault();
+                if (memory != null)
+                {
+                    Traditions.CreateTradition("lembrança", "manter a conexão com o passado", memory.Summary);
+                }
             }
         }
     }
