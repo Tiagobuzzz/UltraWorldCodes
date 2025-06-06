@@ -103,7 +103,7 @@ dotnet test --collect:"XPlat Code Coverage"
 
 ## Building
 
-Use the .NET 6 SDK to build the library. Run:
+Use the .NET 8 SDK to build the library. Run:
 
 ```bash
 dotnet build src/UltraWorldAI/UltraWorldAI.csproj
@@ -125,6 +125,14 @@ loop.AddPerson(new Person("Bob"), 1, 1);
 loop.Run(3);
 ```
 
+## Benchmarking
+
+Benchmarks help estimate the cost of AI loops. Build and run the benchmark project with:
+
+```bash
+dotnet run -c Release -p benchmarks/Benchmarks.csproj
+```
+
 ## Testing
 
 Run the unit tests with:
@@ -136,3 +144,14 @@ dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj
 ## Diagrams
 
 An overview of the update cycle is provided as a Mermaid sequence diagram in [docs/sequence_diagram.md](docs/sequence_diagram.md).
+
+Additional usage examples can be found in [docs/advanced_examples.md](docs/advanced_examples.md).
+
+## Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+- Use the .NET 8 SDK and follow C# 10 style conventions.
+- Keep the code modular under `src/UltraWorldAI` and format the code using `dotnet format`.
+- Run `dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj` before submitting a pull request.
+- Keep comments in the present tense to maintain consistency.

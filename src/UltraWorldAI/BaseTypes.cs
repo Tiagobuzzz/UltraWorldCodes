@@ -20,7 +20,7 @@ namespace UltraWorldAI
     {
         public const int MaxMemories = 100;
         public const float MemoryDecayRate = 0.01f;
-        public const float ForgottenMemoryThreshold = 0.1f;
+        public const float ForgottenMemoryThreshold = 0.05f;
 
         public const float EmotionDecayHappiness = -0.01f;
         public const float EmotionDecayFear = -0.05f;
@@ -53,6 +53,7 @@ namespace UltraWorldAI
         public static int MaxMemories = AIConfig.MaxMemories;
         public static float MemoryDecayRate = AIConfig.MemoryDecayRate;
         public static float StressDecayRate = AIConfig.StressDecayRate;
+        public static float ForgottenMemoryThreshold = AIConfig.ForgottenMemoryThreshold;
         public static float PersonalityMin = AIConfig.DefaultPersonalityMin;
         public static float PersonalityMax = AIConfig.DefaultPersonalityMax;
         public static void Load(string path)
@@ -66,6 +67,7 @@ namespace UltraWorldAI
             if (data.TryGetValue("StressDecayRate", out var sdr)) StressDecayRate = sdr;
             if (data.TryGetValue("PersonalityMin", out var pmin)) PersonalityMin = pmin;
             if (data.TryGetValue("PersonalityMax", out var pmax)) PersonalityMax = pmax;
+            if (data.TryGetValue("ForgottenMemoryThreshold", out var fmt)) ForgottenMemoryThreshold = fmt;
         }
     }
 

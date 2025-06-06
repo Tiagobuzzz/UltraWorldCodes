@@ -28,16 +28,25 @@ public static class MapFaithEconomyIntegration
 
     public static void RegisterNode(string settlement, double wealth, bool market, bool temple, string faith)
     {
-        if (Nodes.Any(n => n.Settlement == settlement)) return;
-
-        Nodes.Add(new EconomicNode
+        var node = Nodes.FirstOrDefault(n => n.Settlement == settlement);
+        if (node != null)
         {
-            Settlement = settlement,
-            Wealth = wealth,
-            HasMarket = market,
-            HasTemple = temple,
-            DominantFaith = faith
-        });
+            node.Wealth = wealth;
+            node.HasMarket = market;
+            node.HasTemple = temple;
+            node.DominantFaith = faith;
+        }
+        else
+        {
+            Nodes.Add(new EconomicNode
+            {
+                Settlement = settlement,
+                Wealth = wealth,
+                HasMarket = market,
+                HasTemple = temple,
+                DominantFaith = faith
+            });
+        }
 
         SettlementHistoryTracker.Register(settlement, "Registro Econômico", "Assentamento mapeado para economia e fé.");
         Console.WriteLine($"\uD83D\uDCCD {settlement} adicionado ao mapa: mercado={market}, templo={temple}, fé={faith}");

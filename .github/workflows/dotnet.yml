@@ -24,6 +24,14 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
+    - name: Lint
+      run: dotnet format --no-restore --verify-no-changes
+    - name: Static Analysis
+      run: |
+        dotnet tool install --global dotnet-sonarscanner
+        dotnet sonarscanner begin /k:"UltraWorldAI" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        dotnet build --no-restore
+        dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
     - name: Build
       run: dotnet build --no-restore
     - name: Test
