@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace UltraWorldAI
 {
@@ -18,7 +19,8 @@ namespace UltraWorldAI
         /// <summary>
         /// Memories shared collectively by members of the culture.
         /// </summary>
-        public MemorySystem CollectiveMemory { get; } = new();
+        [JsonInclude]
+        public MemorySystem CollectiveMemory { get; private set; } = new();
     }
 
     public class Festival
