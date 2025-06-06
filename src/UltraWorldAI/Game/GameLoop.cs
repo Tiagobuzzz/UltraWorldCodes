@@ -9,7 +9,10 @@ public class GameLoop
     private readonly List<(Person person, int x, int y, int? tx, int? ty)> _actors = new();
     private readonly Random _rng = new();
     private readonly bool _display;
+    private readonly IPathfinder _pathfinder;
     private GameDifficulty _difficulty = GameDifficulty.Normal;
+
+    public event Action<Person>? PersonUpdated;
 
     public GameDifficulty Difficulty
     {
@@ -25,10 +28,11 @@ public class GameLoop
         _ => 1
     };
 
-    public GameLoop(int width, int height, bool display = false)
+    public GameLoop(int width, int height, bool display = false, IPathfinder? pathfinder = null)
     {
         _map = new GameMap(width, height);
         _display = display;
+        _pathfinder = pathfinder ?? new DefaultPathfinder();
     }
 
     public void AddPerson(Person person, int x, int y, int? targetX = null, int? targetY = null)
@@ -50,7 +54,7 @@ public class GameLoop
 
                 if (actor.tx.HasValue && actor.ty.HasValue)
                 {
-                    var path = Pathfinder.FindPath(_map, actor.x, actor.y, actor.tx.Value, actor.ty.Value);
+                    var path = _pathfinder.FindPath(_map, actor.x, actor.y, actor.tx.Value, actor.ty.Value);
                     if (path.Count > 0)
                     {
                         var stepTo = path[0];
@@ -70,6 +74,7 @@ public class GameLoop
 
                 _map.Move(actor.person, actor.x, actor.y, newX, newY);
                 _actors[i] = (actor.person, newX, newY, actor.tx, actor.ty);
+                PersonUpdated?.Invoke(actor.person);
             });
 
             if (_display)

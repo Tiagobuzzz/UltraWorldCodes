@@ -162,12 +162,19 @@ Run the unit tests with:
 ./run-tests.sh
 ```
 
+Cyclomatic complexity metrics can be generated with:
+
+```bash
+./run-metrics.sh
+```
+
 ## Diagrams
 
 An overview of the update cycle is provided as a Mermaid sequence diagram in [docs/sequence_diagram.md](docs/sequence_diagram.md).
 
 Additional usage examples can be found in [docs/advanced_examples.md](docs/advanced_examples.md).
 Video walkthroughs are listed in [docs/video_tutorials.md](docs/video_tutorials.md).
+Guidelines for scaling worlds to very large maps are documented in [docs/scaling_large_maps.md](docs/scaling_large_maps.md).
 
 ## Contributing
 
