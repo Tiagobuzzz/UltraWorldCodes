@@ -46,6 +46,11 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **DoctrinalPoliticalInfluence** registra reformas e dogmas que impactam reinos.
 - **DoctrinalLineageSystem** mapeia sucessões filosóficas e heresias.
 - **TradeDiplomacySystem** coordena tratados comerciais, confiança e traições entre reinos.
+- **MaritimeTradeSystem** gerencia portos e rotas de comércio naval.
+- **RuinGenerator** e **ArchaeologySystem** criam ruínas e possibilitam exploração arqueológica.
+- **LifeCycleSystem** acompanha nascimento, envelhecimento e morte dos personagens.
+- **HistoricalInspirationSystem** fornece eventos reais para inspiração narrativa.
+- **NarrativeWebPlatform** permite compartilhar narrativas geradas via HTTP.
 - **Logger** suporta níveis de log e gravação em arquivo.
 - **Inventory system** permite que personagens colecionem `Item`s básicos.
 - **ReputationSystem** agora registra pontuações numéricas por tag.

@@ -16,13 +16,17 @@ namespace UltraWorldAI
         public SpatialIdentity Location { get; private set; }
         public Genome Genome { get; set; } = new();
         public int Age { get; set; }
+        public DateTime BirthDate { get; }
+        public DateTime? DeathDate { get; private set; }
+        public bool IsAlive => DeathDate == null;
 
-        public Person(string name, string bloodline = "")
+        public Person(string name, string bloodline = "", DateTime? birthDate = null)
         {
             Name = name;
             Bloodline = bloodline;
             Mind = new Mind(this);
             Location = new SpatialIdentity("Origem", 0, 0);
+            BirthDate = birthDate ?? DateTime.Now;
             Age = 0;
             Religion.RelicSystem.ApplyRelics(this);
         }
@@ -53,10 +57,17 @@ namespace UltraWorldAI
             Location.MoveTo(region, x, y);
         }
 
+        public void Die()
+        {
+            if (DeathDate != null) return;
+            DeathDate = DateTime.Now;
+            Mind.History.RegisterEvent("Morreu");
+        }
+
         public void Update()
         {
             Mind.Update();
-            Age++;
+            LifeCycleSystem.Advance(this);
             PersonalityLifeAdjuster.Apply(this);
         }
 
