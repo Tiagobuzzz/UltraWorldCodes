@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace UltraWorldAI.Interface;
@@ -29,19 +30,28 @@ public class NarrativeWebPlatform : IDisposable
         _listener.Prefixes.Add($"http://localhost:{port}/");
     }
 
-    public void Start()
+    public void Start(CancellationToken cancellationToken = default)
     {
         if (_running) return;
         _running = true;
         _listener.Start();
-        Task.Run(HandleAsync);
+        _ = HandleAsync(cancellationToken);
     }
 
-    private async Task HandleAsync()
+    private async Task HandleAsync(CancellationToken cancellationToken)
     {
-        while (_running)
+        while (_running && !cancellationToken.IsCancellationRequested)
         {
-            var ctx = await _listener.GetContextAsync();
+            HttpListenerContext ctx;
+            try
+            {
+                ctx = await _listener.GetContextAsync();
+            }
+            catch (HttpListenerException ex)
+            {
+                Logger.LogError("NarrativeWebPlatform failed", ex);
+                continue;
+            }
             if (ctx.Request.HttpMethod == "POST" && ctx.Request.Url?.AbsolutePath == "/narratives")
             {
                 using var reader = new StreamReader(ctx.Request.InputStream, ctx.Request.ContentEncoding);

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace UltraWorldAI
@@ -117,7 +118,8 @@ namespace UltraWorldAI
         /// <summary>
         /// Asynchronously writes the persisted state to disk.
         /// </summary>
-        public async Task SaveMemoriesAsync(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
+        public async Task SaveMemoriesAsync(string path, BeliefSystem? beliefs = null,
+            PersonalitySystem? personality = null, CancellationToken cancellationToken = default)
         {
             if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
             {
@@ -138,7 +140,7 @@ namespace UltraWorldAI
                 {
                     await using var fs = File.Create(path);
                     await using var gz = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionLevel.Optimal);
-                    await JsonSerializer.SerializeAsync(gz, state, MemorySystemJsonContext.Default.PersistedState);
+                    await JsonSerializer.SerializeAsync(gz, state, MemorySystemJsonContext.Default.PersistedState, cancellationToken);
                     return;
                 }
                 catch (IOException ex)
@@ -150,7 +152,7 @@ namespace UltraWorldAI
             try
             {
                 await using var fs = File.Create(path);
-                await JsonSerializer.SerializeAsync(fs, state, MemorySystemJsonContext.Default.PersistedState);
+                await JsonSerializer.SerializeAsync(fs, state, MemorySystemJsonContext.Default.PersistedState, cancellationToken);
             }
             catch (IOException ex)
             {
@@ -207,7 +209,8 @@ namespace UltraWorldAI
         /// <summary>
         /// Asynchronously loads persisted memories from disk.
         /// </summary>
-        public async Task LoadMemoriesAsync(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
+        public async Task LoadMemoriesAsync(string path, BeliefSystem? beliefs = null,
+            PersonalitySystem? personality = null, CancellationToken cancellationToken = default)
         {
             if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
             {
@@ -224,11 +227,11 @@ namespace UltraWorldAI
                 {
                     await using var fs = File.OpenRead(path);
                     await using var gz = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionMode.Decompress);
-                    state = await JsonSerializer.DeserializeAsync(gz, MemorySystemJsonContext.Default.PersistedState);
+                    state = await JsonSerializer.DeserializeAsync(gz, MemorySystemJsonContext.Default.PersistedState, cancellationToken);
                 }
                 else
                 {
-                    var json = await File.ReadAllTextAsync(path);
+                    var json = await File.ReadAllTextAsync(path, cancellationToken);
                     state = JsonSerializer.Deserialize(json, MemorySystemJsonContext.Default.PersistedState);
                 }
             }

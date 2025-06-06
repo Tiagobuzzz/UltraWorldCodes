@@ -7,6 +7,7 @@ public class HabitatMemory
     public class MemoryTag
     {
         public string RegionName { get; set; } = string.Empty;
+        public string Environment { get; set; } = string.Empty;
         public string Emotion { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public float Intensity { get; set; }
@@ -14,14 +15,15 @@ public class HabitatMemory
 
     public List<MemoryTag> TaggedPlaces { get; } = new();
 
-    public void TagPlace(string region, string emotion, string description, float intensity)
+    public void TagPlace(string region, string emotion, string description, float intensity, string environment = "neutral")
     {
-        var existing = TaggedPlaces.Find(p => p.RegionName == region);
+        var existing = TaggedPlaces.Find(p => p.RegionName == region && p.Environment == environment);
         if (existing == null)
         {
             TaggedPlaces.Add(new MemoryTag
             {
                 RegionName = region,
+                Environment = environment,
                 Emotion = emotion,
                 Description = description,
                 Intensity = intensity
@@ -34,9 +36,10 @@ public class HabitatMemory
         }
     }
 
-    public List<MemoryTag> GetStrongestMemories(float threshold = 0.5f)
+    public List<MemoryTag> GetStrongestMemories(float threshold = 0.5f, string? environment = null)
     {
-        return TaggedPlaces.FindAll(p => p.Intensity >= threshold);
+        return TaggedPlaces.FindAll(p => p.Intensity >= threshold &&
+            (environment == null || p.Environment == environment));
     }
 
     public string Describe()
@@ -47,7 +50,7 @@ public class HabitatMemory
         var list = new List<string>();
         foreach (var m in TaggedPlaces)
         {
-            list.Add($"[{m.RegionName}] sentiu '{m.Emotion}' - {m.Description} (Intensidade {m.Intensity})");
+            list.Add($"[{m.RegionName}]({m.Environment}) sentiu '{m.Emotion}' - {m.Description} (Intensidade {m.Intensity})");
         }
         return string.Join("\n", list);
     }
