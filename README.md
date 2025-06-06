@@ -109,6 +109,9 @@ Sample culture data for quick experiments is available in
 - **ScientificDiscoveryGenerator** cria eventos aleatórios de descobertas científicas.
 - **CulturalEntertainmentSystem** mantém mídias de entretenimento por cultura.
 - **LanguageEvolutionSystem** faz evoluir dialetos ao longo do tempo.
+- **LanguageHeritageSystem** preserva idiomas como herança cultural e lamenta sua perda.
+- **ImperialLinguisticConflictSystem** registra disputas de idioma dentro de impérios.
+- **NeologismGenerator** permite que IAs criem novas palavras.
 - **AirTradeSystem** suporta rotas comerciais aéreas.
 - **ModScriptEngine** possibilita scripts externos de mods.
 - **ExternalAIConnector** integra serviços de IA de terceiros.
