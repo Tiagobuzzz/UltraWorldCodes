@@ -47,6 +47,7 @@ dotnet test --collect:"XPlat Code Coverage"
 - **ExternalSupportSystem** avalia pressões sociais, reputação e rituais que influenciam a mente.
 - **InteractionSystem** permite comunicação simples entre agentes, afetando crenças e emoções.
 - **TraditionSystem** registra tradições e rituais, preservando legado emocional.
+- **CulturalAdaptationSystem** ajusta comportamentos para respeitar costumes locais.
 - **LegacySystem** permite transmitir traços e memórias a novos personagens.
 - **CalendarBuilder** cria calendários culturais simbólicos para cada cultura.
 - **PhilosophicalIntegrity** avalia a coerência entre ideias geradas.
@@ -80,6 +81,7 @@ dotnet test --collect:"XPlat Code Coverage"
 - **HistoricalInspirationSystem** fornece eventos reais para inspiração narrativa.
 - **NarrativeWebPlatform** permite compartilhar narrativas geradas via HTTP.
 - **Logger** suporta níveis de log e gravação em arquivo.
+- **Logger** permite personalizar cores de saída e grava logs de forma assíncrona.
 - **Inventory system** permite que personagens colecionem `Item`s básicos.
 - **ReputationSystem** agora registra pontuações numéricas por tag.
 - **InteractionVisualizer** mantém um log visual das trocas de diálogos.
@@ -99,6 +101,7 @@ dotnet test --collect:"XPlat Code Coverage"
 - **OralTraditionRecorder** registra histórias contadas verbalmente.
 - **LostTechnologyRegistry** acompanha tecnologias perdidas e redescobertas.
 - **RealTimeStatsServer** disponibiliza estatísticas ao vivo via HTTP.
+- **Muitos NPCs** podem aumentar bastante o uso de memória e CPU; meça com os benchmarks antes de ampliar a escala.
 - **xUnit tests** verificam memórias e resolução de contradições.
 
 ## Building
@@ -155,3 +158,6 @@ Contributions are welcome! Please follow these guidelines:
 - Keep the code modular under `src/UltraWorldAI` and format the code using `dotnet format`.
 - Run `dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj` before submitting a pull request.
 - Keep comments in the present tense to maintain consistency.
+- Add or update unit tests whenever you introduce new functionality.
+- Document any public APIs you create or modify in the `docs` folder.
+- Prefer the built-in `Logger` and use its asynchronous methods when logging to disk.

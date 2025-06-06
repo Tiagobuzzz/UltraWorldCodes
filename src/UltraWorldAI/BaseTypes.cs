@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Text.Json;
 
 namespace UltraWorldAI
@@ -77,6 +78,18 @@ namespace UltraWorldAI
     {
         public static LogLevel Level = LogLevel.Info;
         public static string? FilePath;
+        public static Dictionary<LogLevel, ConsoleColor> LevelColors { get; } = new()
+        {
+            [LogLevel.Debug] = ConsoleColor.Gray,
+            [LogLevel.Info] = ConsoleColor.White,
+            [LogLevel.Warning] = ConsoleColor.Yellow,
+            [LogLevel.Error] = ConsoleColor.Red
+        };
+
+        public static void SetColor(LogLevel level, ConsoleColor color)
+        {
+            LevelColors[level] = color;
+        }
 
         public static void Log(string message, LogLevel level = LogLevel.Info, Exception? ex = null)
         {
@@ -85,8 +98,7 @@ namespace UltraWorldAI
             if (ex != null) formatted += $" Exception: {ex.Message}";
 
             var color = Console.ForegroundColor;
-            if (level == LogLevel.Error) Console.ForegroundColor = ConsoleColor.Red;
-            else if (level == LogLevel.Warning) Console.ForegroundColor = ConsoleColor.Yellow;
+            if (LevelColors.TryGetValue(level, out var custom)) Console.ForegroundColor = custom;
 
             Console.WriteLine(formatted);
             Console.ForegroundColor = color;
@@ -95,6 +107,25 @@ namespace UltraWorldAI
             {
                 File.AppendAllText(FilePath!, formatted + Environment.NewLine);
                 if (ex != null) File.AppendAllText(FilePath!, ex.StackTrace + Environment.NewLine);
+            }
+        }
+
+        public static async Task LogAsync(string message, LogLevel level = LogLevel.Info, Exception? ex = null)
+        {
+            if (level < Level) return;
+            var formatted = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}][{level}] {message}";
+            if (ex != null) formatted += $" Exception: {ex.Message}";
+
+            var color = Console.ForegroundColor;
+            if (LevelColors.TryGetValue(level, out var custom)) Console.ForegroundColor = custom;
+
+            Console.WriteLine(formatted);
+            Console.ForegroundColor = color;
+
+            if (!string.IsNullOrEmpty(FilePath))
+            {
+                await File.AppendAllTextAsync(FilePath!, formatted + Environment.NewLine);
+                if (ex != null) await File.AppendAllTextAsync(FilePath!, ex.StackTrace + Environment.NewLine);
             }
         }
 
