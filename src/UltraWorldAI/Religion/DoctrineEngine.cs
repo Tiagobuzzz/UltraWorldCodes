@@ -8,6 +8,7 @@ namespace UltraWorldAI.Religion
         public string Title { get; set; } = string.Empty;
         public string OriginGod { get; set; } = string.Empty;
         public List<string> SacredRules { get; set; } = new();
+        public List<string> SacredTexts { get; set; } = new();
         public string TransmissionMethod { get; set; } = string.Empty;
         public bool IsMutable { get; set; }
         public List<string> KnownHeresies { get; } = new();
@@ -74,7 +75,14 @@ namespace UltraWorldAI.Religion
         {
             return $"\uD83D\uDCDC {doctrine.Title} – Transmissao: {doctrine.TransmissionMethod}\n" +
                    $"Regras: {string.Join(" / ", doctrine.SacredRules)}\n" +
+                   $"Textos: {string.Join(" / ", doctrine.SacredTexts)}\n" +
                    $"Heresias conhecidas: {string.Join(" / ", doctrine.KnownHeresies)}";
+        }
+
+        public static void AddSacredText(Doctrine doctrine, string textType)
+        {
+            if (!doctrine.SacredTexts.Contains(textType))
+                doctrine.SacredTexts.Add(textType);
         }
     }
 }
