@@ -64,12 +64,12 @@ namespace UltraWorldAI.Religion
 
             if (god.Domain == DivineDomain.Memoria)
             {
-                list.Add("Escreva os nomes dos mortos com lagrimas.");
+                list.Add("Escreva os nomes dos mortos com lágrimas.");
             }
 
             if (god.Temperament == DivineTemperament.Vingativo)
             {
-                list.Add("Nao perdoe o traidor. Nem em pensamento.");
+                list.Add("Não perdoe o traidor. Nem em pensamento.");
             }
 
             return list;

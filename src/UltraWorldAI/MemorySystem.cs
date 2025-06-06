@@ -16,11 +16,6 @@ namespace UltraWorldAI
     /// </summary>
     public partial class MemorySystem
     {
-        private static readonly JsonSerializerOptions _options = new()
-        {
-            WriteIndented = false,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
         /// <summary>
         /// List of all memories known by the agent, ordered from newest to oldest.
         /// </summary>
@@ -110,7 +105,7 @@ namespace UltraWorldAI
             };
             try
             {
-                var json = JsonSerializer.Serialize(state, _options);
+                var json = JsonSerializer.Serialize(state, MemorySystemJsonContext.Default.PersistedState);
                 File.WriteAllText(path, json);
             }
             catch (IOException ex)
@@ -143,7 +138,7 @@ namespace UltraWorldAI
                 {
                     await using var fs = File.Create(path);
                     await using var gz = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionLevel.Optimal);
-                    await JsonSerializer.SerializeAsync(gz, state, _options);
+                    await JsonSerializer.SerializeAsync(gz, state, MemorySystemJsonContext.Default.PersistedState);
                     return;
                 }
                 catch (IOException ex)
@@ -155,7 +150,7 @@ namespace UltraWorldAI
             try
             {
                 await using var fs = File.Create(path);
-                await JsonSerializer.SerializeAsync(fs, state, _options);
+                await JsonSerializer.SerializeAsync(fs, state, MemorySystemJsonContext.Default.PersistedState);
             }
             catch (IOException ex)
             {
@@ -185,7 +180,7 @@ namespace UltraWorldAI
             try
             {
                 var json = File.ReadAllText(path);
-                state = JsonSerializer.Deserialize<PersistedState>(json, _options);
+                state = JsonSerializer.Deserialize(json, MemorySystemJsonContext.Default.PersistedState);
             }
             catch (IOException ex)
             {
@@ -229,12 +224,12 @@ namespace UltraWorldAI
                 {
                     await using var fs = File.OpenRead(path);
                     await using var gz = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionMode.Decompress);
-                    state = await JsonSerializer.DeserializeAsync<PersistedState>(gz, _options);
+                    state = await JsonSerializer.DeserializeAsync(gz, MemorySystemJsonContext.Default.PersistedState);
                 }
                 else
                 {
                     var json = await File.ReadAllTextAsync(path);
-                    state = JsonSerializer.Deserialize<PersistedState>(json, _options);
+                    state = JsonSerializer.Deserialize(json, MemorySystemJsonContext.Default.PersistedState);
                 }
             }
             catch (IOException ex)
@@ -259,7 +254,7 @@ namespace UltraWorldAI
             }
         }
 
-        private class PersistedState
+        internal class PersistedState
         {
             public List<Memory> Memories { get; set; } = new();
             public Dictionary<string, float>? Beliefs { get; set; }

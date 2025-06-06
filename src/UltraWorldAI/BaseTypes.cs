@@ -59,8 +59,19 @@ namespace UltraWorldAI
         public static float PersonalityMax = AIConfig.DefaultPersonalityMax;
         public static bool ObserverMode = false;
         public static EventSourcing.IEventStore? EventStore;
+        public static void ApplyDefaults()
+        {
+            MaxMemories = AIConfig.MaxMemories;
+            MemoryDecayRate = AIConfig.MemoryDecayRate;
+            StressDecayRate = AIConfig.StressDecayRate;
+            ForgottenMemoryThreshold = AIConfig.ForgottenMemoryThreshold;
+            PersonalityMin = AIConfig.DefaultPersonalityMin;
+            PersonalityMax = AIConfig.DefaultPersonalityMax;
+        }
+
         public static void Load(string path)
         {
+            ApplyDefaults();
             if (!File.Exists(path)) return;
             var json = File.ReadAllText(path);
             var data = JsonSerializer.Deserialize<Dictionary<string, float>>(json);
@@ -96,9 +107,12 @@ namespace UltraWorldAI
             LevelColors[level] = color;
         }
 
+        public static Func<string, LogLevel, bool>? EventFilter;
+
         public static void Log(string message, LogLevel level = LogLevel.Info, Exception? ex = null)
         {
             if (level < Level) return;
+            if (EventFilter != null && !EventFilter.Invoke(message, level)) return;
             var formatted = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}][{level}] {message}";
             if (ex != null) formatted += $" Exception: {ex.Message}";
 
@@ -128,6 +142,7 @@ namespace UltraWorldAI
         public static async Task LogAsync(string message, LogLevel level = LogLevel.Info, Exception? ex = null)
         {
             if (level < Level) return;
+            if (EventFilter != null && !EventFilter.Invoke(message, level)) return;
             var formatted = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}][{level}] {message}";
             if (ex != null) formatted += $" Exception: {ex.Message}";
 
