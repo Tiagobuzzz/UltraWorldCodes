@@ -11,6 +11,7 @@ namespace UltraWorldAI
         public string Name { get; set; }
         public string Bloodline { get; set; } = string.Empty;
         public Mind Mind { get; private set; }
+        public bool HasPhotographicMemory { get; }
         public Inventory Inventory { get; } = new();
         public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adulto;
         public SpatialIdentity Location { get; private set; }
@@ -20,11 +21,12 @@ namespace UltraWorldAI
         public DateTime? DeathDate { get; private set; }
         public bool IsAlive => DeathDate == null;
 
-        public Person(string name, string bloodline = "", DateTime? birthDate = null)
+        public Person(string name, string bloodline = "", DateTime? birthDate = null, bool photographicMemory = false)
         {
             Name = name;
             Bloodline = bloodline;
-            Mind = new Mind(this);
+            Mind = new Mind(this, photographicMemory ? new PhotographicMemorySystem() : null);
+            HasPhotographicMemory = photographicMemory;
             Location = new SpatialIdentity("Origem", 0, 0);
             BirthDate = birthDate ?? DateTime.Now;
             Age = 0;

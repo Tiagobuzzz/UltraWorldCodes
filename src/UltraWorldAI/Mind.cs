@@ -54,10 +54,10 @@ namespace UltraWorldAI
 
         public Territory.HabitatMemory HabitatMemory { get; private set; }
         public Language.NeuralLanguageLearner LanguageLearner { get; private set; }
-        public Mind(Person person)
+        public Mind(Person person, MemorySystem? memory = null)
         {
             PersonReference = person;
-            Memory = new MemorySystem();
+            Memory = memory ?? new MemorySystem();
             Beliefs = new BeliefSystem();
             DynamicBeliefs = new BeliefArchitecture();
             Personality = new PersonalitySystem();

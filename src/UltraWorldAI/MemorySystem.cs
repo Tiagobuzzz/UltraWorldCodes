@@ -79,7 +79,7 @@ namespace UltraWorldAI
         /// <param name="emotionalCharge">Associated emotional valence.</param>
         /// <param name="keywords">Optional keywords for retrieval.</param>
         /// <param name="source">Source of the experience.</param>
-        public void AddMemory(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f, List<string>? keywords = null, string source = "self", string emotion = "")
+        public virtual void AddMemory(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f, List<string>? keywords = null, string source = "self", string emotion = "")
         {
             if (Memories.Count >= AISettings.MaxMemories)
             {
@@ -115,7 +115,7 @@ namespace UltraWorldAI
         /// Applies decay to all memories and removes those that fall below the
         /// configured threshold.
         /// </summary>
-        public void UpdateMemoryDecay()
+        public virtual void UpdateMemoryDecay()
         {
             var threshold = AIConfig.ForgottenMemoryThreshold;
             foreach (var mem in Memories)
