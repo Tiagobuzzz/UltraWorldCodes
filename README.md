@@ -14,6 +14,8 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - [Microsoft.Data.Sqlite](https://www.nuget.org/packages/Microsoft.Data.Sqlite) for local storage
 - [xUnit](https://xunit.net/) for unit tests
 
+For help and community discussions join our [support channel](https://example.com/discord).
+
 ## Versioning
 
 This project follows [Semantic Versioning](https://semver.org/). Public releases

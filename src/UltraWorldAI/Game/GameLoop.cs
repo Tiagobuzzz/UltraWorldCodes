@@ -12,6 +12,7 @@ public class GameLoop
     private readonly bool _observerMode;
     private readonly IPathfinder _pathfinder;
     private GameDifficulty _difficulty = GameDifficulty.Normal;
+    private bool _paused;
 
     public event Action<Person>? PersonUpdated;
 
@@ -38,14 +39,20 @@ public class GameLoop
         _pathfinder = pathfinder ?? new DefaultPathfinder();
     }
 
+    public bool IsPaused => _paused;
+
+    public void Pause() => _paused = true;
+    public void Resume() => _paused = false;
+
     public void AddPerson(Person person, int x, int y, int? targetX = null, int? targetY = null)
     {
         _actors.Add((person, x, y, targetX, targetY));
         _map.Place(person, x, y);
     }
 
-    private void Step()
+    public void Step()
     {
+        if (_paused) return;
         System.Threading.Tasks.Parallel.For(0, _actors.Count, i =>
         {
             var actor = _actors[i];

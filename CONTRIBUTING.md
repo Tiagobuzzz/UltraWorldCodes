@@ -3,6 +3,7 @@
 Thank you for considering a contribution! Please follow these steps:
 
 1. Create feature branches from `main` and keep commits focused.
+   Use the pattern `feature/<short-description>` or `fix/<issue-number>`.
 2. Run `./run-tests.sh` before submitting any pull request.
 3. Use `dotnet format` to automatically format your code.
 4. New features should include unit tests when possible.

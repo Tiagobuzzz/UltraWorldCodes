@@ -64,4 +64,12 @@ public class MemoryTests
         Assert.DoesNotContain(memSys.Memories, m => m.Summary.Contains("alpha"));
         Assert.Single(memSys.Memories);
     }
+
+    [Fact]
+    public void AddFalseMemoryMarksEntry()
+    {
+        var memSys = new MemorySystem();
+        memSys.AddMemory("boato", 0.4f, 0f, null, "self", string.Empty, true);
+        Assert.True(memSys.Memories[0].IsFalse);
+    }
 }

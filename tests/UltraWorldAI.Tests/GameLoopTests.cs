@@ -45,4 +45,15 @@ public class GameLoopTests
         loop.Run(1);
         Assert.True(fired);
     }
+
+    [Fact]
+    public void PausePreventsStepExecution()
+    {
+        var loop = new GameLoop(3, 3, false, false, CreateMockPathfinder());
+        var p = new Person("Idle");
+        loop.AddPerson(p, 0, 0);
+        loop.Pause();
+        loop.Run(1);
+        Assert.Empty(p.Mind.Memory.Memories);
+    }
 }
