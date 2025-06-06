@@ -102,6 +102,13 @@ namespace UltraWorldAI
             [LogLevel.Error] = ConsoleColor.Red
         };
 
+        public static Microsoft.Extensions.Logging.ILogger? StructuredLogger { get; private set; }
+
+        public static void SetLogger(Microsoft.Extensions.Logging.ILogger logger)
+        {
+            StructuredLogger = logger;
+        }
+
         public static void SetColor(LogLevel level, ConsoleColor color)
         {
             LevelColors[level] = color;
@@ -116,11 +123,32 @@ namespace UltraWorldAI
             var formatted = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}][{level}] {message}";
             if (ex != null) formatted += $" Exception: {ex.Message}";
 
-            var color = Console.ForegroundColor;
-            if (LevelColors.TryGetValue(level, out var custom)) Console.ForegroundColor = custom;
+            if (StructuredLogger != null)
+            {
+                switch (level)
+                {
+                    case LogLevel.Debug:
+                        StructuredLogger.LogDebug(formatted);
+                        break;
+                    case LogLevel.Info:
+                        StructuredLogger.LogInformation(formatted);
+                        break;
+                    case LogLevel.Warning:
+                        StructuredLogger.LogWarning(formatted);
+                        break;
+                    case LogLevel.Error:
+                        StructuredLogger.LogError(ex, formatted);
+                        break;
+                }
+            }
+            else
+            {
+                var color = Console.ForegroundColor;
+                if (LevelColors.TryGetValue(level, out var custom)) Console.ForegroundColor = custom;
 
-            Console.WriteLine(formatted);
-            Console.ForegroundColor = color;
+                Console.WriteLine(formatted);
+                Console.ForegroundColor = color;
+            }
 
             if (!string.IsNullOrEmpty(FilePath))
             {
@@ -146,11 +174,32 @@ namespace UltraWorldAI
             var formatted = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}][{level}] {message}";
             if (ex != null) formatted += $" Exception: {ex.Message}";
 
-            var color = Console.ForegroundColor;
-            if (LevelColors.TryGetValue(level, out var custom)) Console.ForegroundColor = custom;
+            if (StructuredLogger != null)
+            {
+                switch (level)
+                {
+                    case LogLevel.Debug:
+                        StructuredLogger.LogDebug(formatted);
+                        break;
+                    case LogLevel.Info:
+                        StructuredLogger.LogInformation(formatted);
+                        break;
+                    case LogLevel.Warning:
+                        StructuredLogger.LogWarning(formatted);
+                        break;
+                    case LogLevel.Error:
+                        StructuredLogger.LogError(ex, formatted);
+                        break;
+                }
+            }
+            else
+            {
+                var color = Console.ForegroundColor;
+                if (LevelColors.TryGetValue(level, out var custom)) Console.ForegroundColor = custom;
 
-            Console.WriteLine(formatted);
-            Console.ForegroundColor = color;
+                Console.WriteLine(formatted);
+                Console.ForegroundColor = color;
+            }
 
             if (!string.IsNullOrEmpty(FilePath))
             {

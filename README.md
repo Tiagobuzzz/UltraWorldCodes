@@ -18,6 +18,8 @@ This project follows [Semantic Versioning](https://semver.org/). Public releases
 use the `MAJOR.MINOR.PATCH` scheme where breaking changes increment the major
 version, new features increment the minor version and bug fixes increment the
 patch number.
+Release artifacts are tagged in the repository using the same version number
+(for example `v1.2.0`).
 
 To generate coverage reports use:
 
@@ -173,6 +175,7 @@ Cyclomatic complexity metrics can be generated with:
 An overview of the update cycle is provided as a Mermaid sequence diagram in [docs/sequence_diagram.md](docs/sequence_diagram.md).
 
 Additional usage examples can be found in [docs/advanced_examples.md](docs/advanced_examples.md).
+Usage scenarios for each subsystem are summarized in [docs/subsystem_usage_scenarios.md](docs/subsystem_usage_scenarios.md).
 Video walkthroughs are listed in [docs/video_tutorials.md](docs/video_tutorials.md).
 Guidelines for scaling worlds to very large maps are documented in [docs/scaling_large_maps.md](docs/scaling_large_maps.md).
 Examples of fulfilled prophecies are listed in [docs/fulfilled_prophecies.md](docs/fulfilled_prophecies.md).
@@ -190,3 +193,8 @@ Contributions are welcome! A full guide is available in [CONTRIBUTING.md](CONTRI
 - Add or update unit tests whenever you introduce new functionality.
 - Document any public APIs you create or modify in the `docs` folder.
 - Prefer the built-in `Logger` and use its asynchronous methods when logging to disk.
+
+## Performance Hints
+
+- Execute `run-profiling.sh` para obter relatórios rápidos de CPU e memória.
+- Rode o jogo em build *Release* para medições mais realistas.

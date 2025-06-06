@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UltraWorldAI;
 
 namespace UltraWorldAI.Religion
 {
@@ -70,6 +71,18 @@ namespace UltraWorldAI.Religion
                 {
                     p.IsFulfilled = true;
                     continue;
+                }
+                if (FeatureFlags.ProphecyRealEventsEnabled)
+                {
+                    foreach (var e in HistorySystem.Events)
+                    {
+                        if (e.EventName.Contains(p.PredictedEvent, System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            p.IsFulfilled = true;
+                            break;
+                        }
+                    }
+                    if (p.IsFulfilled) continue;
                 }
                 if (mind.Beliefs.Beliefs.ContainsKey(p.PredictedEvent) || mind.DynamicBeliefs.Beliefs.Exists(b => b.Statement.Contains(p.PredictedEvent)))
                 {
