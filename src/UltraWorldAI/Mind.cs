@@ -53,6 +53,7 @@ namespace UltraWorldAI
         public FrameworkSystem Framework { get; private set; }
 
         public Territory.HabitatMemory HabitatMemory { get; private set; }
+        public Language.NeuralLanguageLearner LanguageLearner { get; private set; }
         public Mind(Person person)
         {
             PersonReference = person;
@@ -98,6 +99,7 @@ namespace UltraWorldAI
             History = new Thoughts.HistoricalIdentity();
             HabitatMemory = new Territory.HabitatMemory();
             Framework = new FrameworkSystem(person);
+            LanguageLearner = new Language.NeuralLanguageLearner();
         }
 
         /// <summary>
