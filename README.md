@@ -43,6 +43,7 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **EconomicCrisisReactionSystem** faz IAs protestarem ou criarem seitas quando a fé é corrompida ou há injustiça.
 - **TradeDiplomacySystem** coordena tratados comerciais, confiança e traições entre reinos.
 - **Logger** suporta níveis de log e gravação em arquivo.
+- **Inventory system** permite que personagens colecionem `Item`s básicos.
 - **xUnit tests** verificam memórias e resolução de contradições.
 
 ## Building
@@ -54,6 +55,22 @@ dotnet build src/UltraWorldAI/UltraWorldAI.csproj
 ```
 
 Before instantiating any `Person` objects, call `IA.Initialize()` so that runtime settings are loaded from `AIConfig.json`.
+
+### Example Game Loop
+
+The `GameLoop` class provides a very small wrapper to step through multiple `Person` objects on a simple tile map. Create a loop, add characters and run:
+
+```csharp
+IA.Initialize();
+var loop = new GameLoop(5, 5, true);
+var alice = new Person("Alice");
+alice.Inventory.Add(new Item("Key"));
+loop.AddPerson(alice, 2, 2);
+loop.AddPerson(new Person("Bob"), 1, 1);
+loop.Run(3);
+```
+
+`GameMap` supports obstacles using `SetPassable(x, y, false)`. Use `Pathfinding.FindPath` to move toward targets avoiding obstacles.
 
 ## Testing
 
