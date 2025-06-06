@@ -39,6 +39,13 @@ public static class ConstructionEngine
             SacredSpace.SanctifyRegion(location.RegionName);
     }
 
+    public static void UpgradeStructure(string region, string type)
+    {
+        var s = BuiltStructures.Find(b => b.Region == region && b.Type == type);
+        if (s != null)
+            s.SymbolicPurpose += " (Aprimorado)";
+    }
+
     private static string ClassifyStructure(string purpose)
     {
         if (purpose.Contains("fé") || purpose.Contains("deus")) return "Templo";

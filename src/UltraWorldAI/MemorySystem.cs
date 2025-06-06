@@ -117,15 +117,12 @@ namespace UltraWorldAI
         /// </summary>
         public void UpdateMemoryDecay()
         {
-            for (int i = Memories.Count - 1; i >= 0; i--)
+            var threshold = AIConfig.ForgottenMemoryThreshold;
+            foreach (var mem in Memories)
             {
-                var mem = Memories[i];
                 mem.Intensity = Math.Max(0, mem.Intensity - AISettings.MemoryDecayRate);
-                if (mem.Intensity <= AIConfig.ForgottenMemoryThreshold)
-                {
-                    Memories.RemoveAt(i);
-                }
             }
+            Memories.RemoveAll(m => m.Intensity <= threshold);
         }
 
         /// <summary>
@@ -136,6 +133,12 @@ namespace UltraWorldAI
         /// <param name="personality">Current personality traits to store.</param>
         public void SaveMemories(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
         {
+            if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
+            {
+                Persistence.MemoryDatabase.Save(path, Memories);
+                return;
+            }
+
             var state = new PersistedState
             {
                 Memories = Memories,
@@ -151,6 +154,12 @@ namespace UltraWorldAI
         /// </summary>
         public async Task SaveMemoriesAsync(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
         {
+            if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
+            {
+                Persistence.MemoryDatabase.Save(path, Memories);
+                return;
+            }
+
             var state = new PersistedState
             {
                 Memories = Memories,
@@ -166,6 +175,13 @@ namespace UltraWorldAI
         /// </summary>
         public void LoadMemories(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
         {
+            if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(path))
+                    Memories = Persistence.MemoryDatabase.Load(path);
+                return;
+            }
+
             if (!File.Exists(path)) return;
             var json = File.ReadAllText(path);
             var state = JsonSerializer.Deserialize<PersistedState>(json, _options);
@@ -192,6 +208,13 @@ namespace UltraWorldAI
         /// </summary>
         public async Task LoadMemoriesAsync(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
         {
+            if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(path))
+                    Memories = Persistence.MemoryDatabase.Load(path);
+                return;
+            }
+
             if (!File.Exists(path)) return;
             var json = await File.ReadAllTextAsync(path);
             var state = JsonSerializer.Deserialize<PersistedState>(json, _options);

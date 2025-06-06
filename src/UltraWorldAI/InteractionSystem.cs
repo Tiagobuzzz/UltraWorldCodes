@@ -23,5 +23,17 @@ namespace UltraWorldAI
                 DecisionLogger.LogDecision(speaker.Name, $"Spoke: '{lines[i]}'");
             }
         }
+
+        public static void BranchingDialogue(Person a, Person b,
+            Dictionary<int, List<string>> branches, System.Func<Person, int, int> selector)
+        {
+            int branch = 0;
+            while (branches.ContainsKey(branch))
+            {
+                var lines = branches[branch];
+                ComplexDialogue(a, b, lines);
+                branch = selector(a, branch);
+            }
+        }
     }
 }

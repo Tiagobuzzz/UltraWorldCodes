@@ -9,6 +9,7 @@ namespace UltraWorldAI
         public string Name { get; set; } = string.Empty;
         public List<string> Tenets { get; set; } = new();
         public string OriginSymbol { get; set; } = string.Empty;
+        public List<string> Rituals { get; set; } = new();
     }
 
     public class DoctrineSystem
@@ -42,6 +43,8 @@ namespace UltraWorldAI
                 },
                 OriginSymbol = meaningfulSymbols.FirstOrDefault() ?? "símbolo ancestral"
             };
+
+            newDoctrine.Rituals.Add($"Ritual de {meaningfulSymbols.FirstOrDefault() ?? "origem"}");
 
             Doctrines.Add(newDoctrine);
             CoreTruths.Add(truth);
