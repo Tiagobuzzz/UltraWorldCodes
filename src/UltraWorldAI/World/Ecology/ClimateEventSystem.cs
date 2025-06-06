@@ -14,7 +14,7 @@ public class ClimateEvent
 public static class ClimateEventSystem
 {
     private static readonly Random _rand = new();
-    private static readonly string[] _types = new[] { "Chuva", "Seca", "Tempestade", "Nevasca" };
+    private static readonly string[] _types = new[] { "Chuva", "Seca", "Tempestade", "Nevasca", "Furacao", "Granizo" };
     public static List<ClimateEvent> Events { get; } = new();
 
     public static ClimateEvent Generate(string region)
@@ -27,6 +27,15 @@ public static class ClimateEventSystem
         };
         Events.Add(evt);
         return evt;
+    }
+
+    public static void AdvanceDay(IEnumerable<string> regions)
+    {
+        foreach (var region in regions)
+        {
+            if (_rand.NextDouble() < 0.1)
+                Generate(region);
+        }
     }
 
     public static string Summary()

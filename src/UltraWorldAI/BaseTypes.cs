@@ -33,6 +33,8 @@ namespace UltraWorldAI
 
         public const float TraitMin = 0f;
         public const float TraitMax = 1f;
+        public const float DefaultPersonalityMin = 0.3f;
+        public const float DefaultPersonalityMax = 0.7f;
         public const float EmotionMin = 0f;
         public const float EmotionMax = 1f;
         public const float AffinityMin = 0f;
@@ -51,6 +53,8 @@ namespace UltraWorldAI
         public static int MaxMemories = AIConfig.MaxMemories;
         public static float MemoryDecayRate = AIConfig.MemoryDecayRate;
         public static float StressDecayRate = AIConfig.StressDecayRate;
+        public static float PersonalityMin = AIConfig.DefaultPersonalityMin;
+        public static float PersonalityMax = AIConfig.DefaultPersonalityMax;
         public static void Load(string path)
         {
             if (!File.Exists(path)) return;
@@ -60,6 +64,8 @@ namespace UltraWorldAI
             if (data.TryGetValue("MaxMemories", out var mm)) MaxMemories = (int)mm;
             if (data.TryGetValue("MemoryDecayRate", out var mdr)) MemoryDecayRate = mdr;
             if (data.TryGetValue("StressDecayRate", out var sdr)) StressDecayRate = sdr;
+            if (data.TryGetValue("PersonalityMin", out var pmin)) PersonalityMin = pmin;
+            if (data.TryGetValue("PersonalityMax", out var pmax)) PersonalityMax = pmax;
         }
     }
 
