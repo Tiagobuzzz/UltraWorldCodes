@@ -15,6 +15,10 @@ namespace UltraWorldAI
         public List<string> AssociatedIdeas { get; set; } = new();
         public Calendar CulturalCalendar { get; set; } = new(CalendarType.Lunar);
         public List<Festival> Festivals { get; set; } = new();
+        /// <summary>
+        /// Memories shared collectively by members of the culture.
+        /// </summary>
+        public MemorySystem CollectiveMemory { get; } = new();
     }
 
     public class Festival
@@ -65,6 +69,16 @@ namespace UltraWorldAI
                 CreateCultureFromIdea(idea.Title, idea.AssociatedMemories);
             }
             EvolveCultures(mind);
+        }
+
+        /// <summary>
+        /// Records a shared memory for the specified culture.
+        /// </summary>
+        public void AddCollectiveMemory(string cultureName, string summary, float intensity = 0.5f,
+            float emotionalCharge = 0f, List<string>? keywords = null)
+        {
+            var culture = Cultures.FirstOrDefault(c => c.Name == cultureName);
+            culture?.CollectiveMemory.AddMemory(summary, intensity, emotionalCharge, keywords, "collective");
         }
 
         private void EvolveCultures(Mind mind)
