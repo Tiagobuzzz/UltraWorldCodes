@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace UltraWorldAI.Economy;
@@ -47,6 +48,7 @@ public static class TradeCareerSystem
         {
             var change = (Random.Shared.NextDouble() * 2 - 1) * crypto.Volatility;
             crypto.Value = Math.Max(0.01, crypto.Value * (1 + change));
+            BlockchainLedger.AddBlock("Update " + crypto.Name + " " + crypto.Value.ToString("F2"));
         }
     }
 
@@ -95,6 +97,7 @@ public static class TradeCareerSystem
         if (!career.CryptoWallet.ContainsKey(crypto)) career.CryptoWallet[crypto] = 0;
         career.CryptoWallet[crypto] += amount;
         career.Capital -= amount * currency.Value;
+        BlockchainLedger.AddBlock("Trade " + career.Name + " " + crypto + " " + amount);
     }
 
     public static void SimulateCryptoMarket()
