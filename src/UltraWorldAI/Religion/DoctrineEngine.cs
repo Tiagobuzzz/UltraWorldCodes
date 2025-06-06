@@ -8,7 +8,9 @@ namespace UltraWorldAI.Religion
         Scroll,
         Tablet,
         OralTradition,
-        Digital
+        Digital,
+        Codex,
+        Hologram
     }
     public class Doctrine
     {

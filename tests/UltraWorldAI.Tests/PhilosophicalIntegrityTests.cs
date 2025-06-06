@@ -27,4 +27,16 @@ public class PhilosophicalIntegrityTests
         var score = integrity.EvaluateConsistency();
         Assert.Equal(0f, score);
     }
+
+    [Fact]
+    public void IsConsistentUsesThreshold()
+    {
+        var engine = new IdeaEngine();
+        engine.GeneratedIdeas.Add(new Idea { Title = "a", SymbolicPower = 0.1f });
+        engine.GeneratedIdeas.Add(new Idea { Title = "b", SymbolicPower = 0.15f });
+        engine.BrainConnections.Add(new Brainwire { IdeaA = "a", IdeaB = "b", Strength = 1f });
+
+        var integrity = new PhilosophicalIntegrity(engine);
+        Assert.True(integrity.IsConsistent(0.9f));
+    }
 }

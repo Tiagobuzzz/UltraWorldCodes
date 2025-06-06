@@ -252,23 +252,48 @@ namespace UltraWorldAI
         public List<Memory> RetrieveMemories(string keyword, int count = 5)
         {
             var now = DateTime.Now;
-            var results = Memories
-                .Where(m => string.IsNullOrWhiteSpace(keyword) ||
-                             m.Keywords.Any(k => k.Contains(keyword, StringComparison.OrdinalIgnoreCase)) ||
-                             m.Summary.Contains(keyword, StringComparison.OrdinalIgnoreCase))
-                .OrderByDescending(m =>
-                    (m.Intensity * 0.6f) +
-                    (Math.Abs(m.EmotionalCharge) * 0.3f) +
-                    (float)(1.0 / (1.0 + (now - m.Date).TotalDays)))
+            var lower = keyword?.Trim().ToLowerInvariant();
+            var results = new List<(Memory mem, float weight)>();
+
+            foreach (var m in Memories)
+            {
+                bool matches = string.IsNullOrWhiteSpace(lower);
+                if (!matches)
+                {
+                    foreach (var k in m.Keywords)
+                    {
+                        if (k.Contains(lower!, StringComparison.OrdinalIgnoreCase))
+                        {
+                            matches = true;
+                            break;
+                        }
+                    }
+
+                    if (!matches && m.Summary.Contains(lower!, StringComparison.OrdinalIgnoreCase))
+                        matches = true;
+                }
+
+                if (matches)
+                {
+                    float weight = (m.Intensity * 0.6f) +
+                                   (Math.Abs(m.EmotionalCharge) * 0.3f) +
+                                   (float)(1.0 / (1.0 + (now - m.Date).TotalDays));
+                    results.Add((m, weight));
+                }
+            }
+
+            var sorted = results
+                .OrderByDescending(r => r.weight)
                 .Take(count)
+                .Select(r => r.mem)
                 .ToList();
 
-            foreach (var mem in results)
+            foreach (var mem in sorted)
             {
                 mem.Intensity = Math.Min(1f, mem.Intensity + 0.05f);
             }
 
-            return results;
+            return sorted;
         }
 
         /// <summary>
@@ -276,8 +301,15 @@ namespace UltraWorldAI
         /// </summary>
         public List<Memory> RetrieveMemoriesByEmotion(string emotion, int count = 5)
         {
-            var results = Memories
-                .Where(m => string.Equals(m.Emotion, emotion, StringComparison.OrdinalIgnoreCase))
+            var lower = emotion.ToLowerInvariant();
+            var matches = new List<Memory>();
+            foreach (var m in Memories)
+            {
+                if (string.Equals(m.Emotion, lower, StringComparison.OrdinalIgnoreCase))
+                    matches.Add(m);
+            }
+
+            var results = matches
                 .OrderByDescending(m => m.Intensity)
                 .Take(count)
                 .ToList();
@@ -303,8 +335,16 @@ namespace UltraWorldAI
         /// </summary>
         public void RemoveMemoriesByKeyword(string keyword)
         {
-            Memories.RemoveAll(m => m.Keywords.Any(k => k.Contains(keyword, StringComparison.OrdinalIgnoreCase)) ||
-                                   m.Summary.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+            var lower = keyword.ToLowerInvariant();
+            Memories.RemoveAll(m =>
+            {
+                foreach (var k in m.Keywords)
+                {
+                    if (k.Contains(lower, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+                return m.Summary.Contains(lower, StringComparison.OrdinalIgnoreCase);
+            });
         }
     }
 }

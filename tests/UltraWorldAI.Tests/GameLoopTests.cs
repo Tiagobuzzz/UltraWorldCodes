@@ -14,4 +14,13 @@ public class GameLoopTests
         loop.Run(2);
         Assert.True(a.Mind.Memory.Memories.Count >= before);
     }
+
+    [Fact]
+    public void DifficultyChangesStepRange()
+    {
+        var loop = new GameLoop(3, 3);
+        loop.Difficulty = GameDifficulty.Hard;
+        Assert.Equal(GameDifficulty.Hard, loop.Difficulty);
+        Assert.Equal(2, loop.StepRange);
+    }
 }
