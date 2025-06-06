@@ -14,23 +14,28 @@ public partial class MemorySystem
     {
         var now = DateTime.Now;
         var lower = keyword?.Trim().ToLowerInvariant();
+        System.Text.RegularExpressions.Regex? regex = null;
+        if (!string.IsNullOrWhiteSpace(lower))
+            regex = new System.Text.RegularExpressions.Regex(System.Text.RegularExpressions.Regex.Escape(lower!),
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase |
+                System.Text.RegularExpressions.RegexOptions.Compiled);
         var results = new List<(Memory mem, float weight)>();
 
         foreach (var m in Memories)
         {
-            bool matches = string.IsNullOrWhiteSpace(lower);
+            bool matches = regex == null;
             if (!matches)
             {
                 foreach (var k in m.Keywords)
                 {
-                    if (k.Contains(lower!, StringComparison.OrdinalIgnoreCase))
+                    if (regex!.IsMatch(k))
                     {
                         matches = true;
                         break;
                     }
                 }
 
-                if (!matches && m.Summary.Contains(lower!, StringComparison.OrdinalIgnoreCase))
+                if (!matches && regex!.IsMatch(m.Summary))
                     matches = true;
             }
 
@@ -93,14 +98,16 @@ public partial class MemorySystem
     public void RemoveMemoriesByKeyword(string keyword)
     {
         var lower = keyword.ToLowerInvariant();
+        var regex = new System.Text.RegularExpressions.Regex(System.Text.RegularExpressions.Regex.Escape(lower),
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.Compiled);
         Memories.RemoveAll(m =>
         {
             foreach (var k in m.Keywords)
             {
-                if (k.Contains(lower, StringComparison.OrdinalIgnoreCase))
+                if (regex.IsMatch(k))
                     return true;
             }
-            return m.Summary.Contains(lower, StringComparison.OrdinalIgnoreCase);
+            return regex.IsMatch(m.Summary);
         });
     }
 }

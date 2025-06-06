@@ -5,7 +5,8 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        IA.Initialize();
+        string configPath = args.Length > 0 ? args[0] : "AIConfig.json";
+        IA.Initialize(configPath);
         var loop = new GameLoop(5, 5, true);
         var alice = new Person("Alice");
         var bob = new Person("Bob");
