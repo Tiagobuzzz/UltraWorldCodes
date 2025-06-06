@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using UltraWorldAI.Religion;
+using ReligionDoctrine = UltraWorldAI.Religion.Doctrine;
 
 namespace UltraWorldAI;
 
@@ -10,7 +10,7 @@ public class RadicalDoctrineEmotionBlocker
 {
     private readonly HashSet<string> _blockedEmotions = new();
 
-    public void ApplyDoctrine(Doctrine doctrine, IEnumerable<string> emotions)
+    public void ApplyDoctrine(ReligionDoctrine doctrine, IEnumerable<string> emotions)
     {
         if (doctrine.KnownHeresies.Count > 5)
         {
