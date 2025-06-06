@@ -8,7 +8,7 @@ public class HabitatMemoryTests
     public void TagPlaceAddsMemory()
     {
         var mem = new HabitatMemory();
-        mem.TagPlace("caverna", "medo", "quase morri", 0.8f);
+        mem.TagPlace("caverna", "medo", "quase morri", 0.8f, "hostil");
 
         Assert.Single(mem.TaggedPlaces);
         Assert.Equal("caverna", mem.TaggedPlaces[0].RegionName);
@@ -22,5 +22,6 @@ public class HabitatMemoryTests
 
         Assert.Single(person.Mind.HabitatMemory.TaggedPlaces);
         Assert.Equal("Origem", person.Mind.HabitatMemory.TaggedPlaces[0].RegionName);
+        Assert.Equal("neutral", person.Mind.HabitatMemory.TaggedPlaces[0].Environment);
     }
 }

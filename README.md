@@ -117,6 +117,7 @@ Sample culture data for quick experiments is available in
 - **LostTechnologyRegistry** acompanha tecnologias perdidas e redescobertas.
 - **RealTimeStatsServer** disponibiliza estatísticas ao vivo via HTTP.
 - **Muitos NPCs** podem aumentar bastante o uso de memória e CPU; meça com os benchmarks antes de ampliar a escala.
+- Minimum hardware requirements are listed in [docs/hardware_requirements.md](docs/hardware_requirements.md).
 - **xUnit tests** verificam memórias e resolução de contradições.
 
 ## Building
@@ -177,6 +178,7 @@ An overview of the update cycle is provided as a Mermaid sequence diagram in [do
 
 Additional usage examples can be found in [docs/advanced_examples.md](docs/advanced_examples.md).
 Usage scenarios for each subsystem are summarized in [docs/subsystem_usage_scenarios.md](docs/subsystem_usage_scenarios.md).
+Example assets are available under [assets/examples](assets/examples).
 Video walkthroughs are listed in [docs/video_tutorials.md](docs/video_tutorials.md).
 Guidelines for scaling worlds to very large maps are documented in [docs/scaling_large_maps.md](docs/scaling_large_maps.md).
 Examples of fulfilled prophecies are listed in [docs/fulfilled_prophecies.md](docs/fulfilled_prophecies.md).
@@ -184,6 +186,7 @@ The effect of doctrines on personality traits is described in [docs/doctrine_imp
 The module startup order is detailed in [docs/module_startup_order.md](docs/module_startup_order.md).
 High level diagrams can be found in [docs/uml_overview.md](docs/uml_overview.md).
 Technology integration is documented in [docs/technology_integration.md](docs/technology_integration.md).
+The technology inheritance system is described in [docs/tech_inheritance.md](docs/tech_inheritance.md).
 Known simulation issues are listed in [docs/known_simulation_failures.md](docs/known_simulation_failures.md).
 NPC hiring and training guidelines are described in [docs/npc_hiring_training.md](docs/npc_hiring_training.md).
 

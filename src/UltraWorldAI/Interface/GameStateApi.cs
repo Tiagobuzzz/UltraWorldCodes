@@ -8,13 +8,16 @@ using UltraWorldAI.World;
 
 namespace UltraWorldAI.Interface;
 
-public class RealTimeStatsServer : IDisposable
+/// <summary>
+/// Minimal REST API exposing basic game state.
+/// </summary>
+public class GameStateApi : IDisposable
 {
     private readonly HttpListener _listener = new();
     private bool _running;
     public int Port { get; }
 
-    public RealTimeStatsServer(int port = 19090)
+    public GameStateApi(int port = 18181)
     {
         Port = port;
         _listener.Prefixes.Add($"http://localhost:{port}/");
@@ -32,17 +35,8 @@ public class RealTimeStatsServer : IDisposable
     {
         while (_running && !cancellationToken.IsCancellationRequested)
         {
-            HttpListenerContext ctx;
-            try
-            {
-                ctx = await _listener.GetContextAsync();
-            }
-            catch (HttpListenerException ex)
-            {
-                Logger.LogError("RealTimeStatsServer failed", ex);
-                continue;
-            }
-            if (ctx.Request.HttpMethod == "GET" && ctx.Request.Url?.AbsolutePath == "/stats")
+            var ctx = await _listener.GetContextAsync();
+            if (ctx.Request.HttpMethod == "GET" && ctx.Request.Url?.AbsolutePath == "/map")
             {
                 var data = JsonSerializer.Serialize(MapFaithEconomyIntegration.Nodes);
                 var buffer = Encoding.UTF8.GetBytes(data);

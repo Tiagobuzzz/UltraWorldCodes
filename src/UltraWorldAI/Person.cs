@@ -38,13 +38,16 @@ namespace UltraWorldAI
             return Mind.Narrative.GenerateReflection();
         }
 
-        public void AddExperience(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f, List<string>? keywords = null, string source = "self")
+        public void AddExperience(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f, List<string>? keywords = null, string source = "self", string environment = "neutral")
         {
             Mind.Memory.AddMemory(summary, intensity, emotionalCharge, keywords, source);
             if (Math.Abs(emotionalCharge) >= 0.5f)
             {
                 var emotion = Mind.Emotions.GetDominantEmotion();
-                Mind.HabitatMemory.TagPlace(Location.RegionName, emotion, summary, Math.Abs(emotionalCharge));
+                var env = environment;
+                if (environment == "neutral")
+                    env = Location.IsHostile ? "hostile" : Location.IsSacredGround ? "sacred" : "neutral";
+                Mind.HabitatMemory.TagPlace(Location.RegionName, emotion, summary, Math.Abs(emotionalCharge), env);
             }
             Logger.Log($"\n[{Name} Experience] '{summary}' (Intensity: {intensity}, Emotion: {emotionalCharge})");
         }
