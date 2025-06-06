@@ -43,6 +43,8 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **EconomicCrisisReactionSystem** faz IAs protestarem ou criarem seitas quando a fé é corrompida ou há injustiça.
 - **HybridDoctrineSystem** mescla economia e filosofia, criando doutrinas híbridas.
 - **PhilosopherLegacySystem** registra filósofos mercantis e suas influências.
+- **DoctrinalPoliticalInfluence** registra reformas e dogmas que impactam reinos.
+- **DoctrinalLineageSystem** mapeia sucessões filosóficas e heresias.
 - **TradeDiplomacySystem** coordena tratados comerciais, confiança e traições entre reinos.
 - **Logger** suporta níveis de log e gravação em arquivo.
 - **Inventory system** permite que personagens colecionem `Item`s básicos.

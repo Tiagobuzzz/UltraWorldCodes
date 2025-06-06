@@ -67,6 +67,7 @@ namespace UltraWorldAI
         /// <summary>
         /// List of all memories known by the agent, ordered from newest to oldest.
         /// </summary>
+        [JsonInclude]
         public List<Memory> Memories { get; private set; } = new List<Memory>();
 
         /// <summary>
