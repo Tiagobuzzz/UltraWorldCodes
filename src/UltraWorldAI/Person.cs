@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UltraWorldAI.Territory;
 using UltraWorldAI.Game;
+using UltraWorldAI.Biology;
 
 namespace UltraWorldAI
 {
@@ -13,6 +14,7 @@ namespace UltraWorldAI
         public Inventory Inventory { get; } = new();
         public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adulto;
         public SpatialIdentity Location { get; private set; }
+        public Genome Genome { get; set; } = new();
 
         public Person(string name, string bloodline = "")
         {
@@ -58,6 +60,7 @@ namespace UltraWorldAI
             var child = new Person(name);
             parent.Mind.Legacy.DefineLegacyFromMind(parent.Mind);
             parent.Mind.Legacy.ApplyLegacyToNewPerson(child);
+            child.Genome = Biology.GeneticReproduction.CrossGenomes(parent.Genome, child.Genome);
             return child;
         }
     }

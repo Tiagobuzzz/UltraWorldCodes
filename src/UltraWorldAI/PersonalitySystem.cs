@@ -7,13 +7,20 @@ namespace UltraWorldAI
     {
         public Dictionary<string, float> Traits { get; private set; } = new Dictionary<string, float>();
 
+        private static readonly Random _rand = new();
+
         public PersonalitySystem()
         {
-            Traits.Add("Abertura", 0.7f);
-            Traits.Add("Conscienciosidade", 0.6f);
-            Traits.Add("Extroversão", 0.5f);
-            Traits.Add("Amabilidade", 0.8f);
-            Traits.Add("Neuroticismo", 0.3f);
+            Traits.Add("Abertura", RandomInitial());
+            Traits.Add("Conscienciosidade", RandomInitial());
+            Traits.Add("Extroversão", RandomInitial());
+            Traits.Add("Amabilidade", RandomInitial());
+            Traits.Add("Neuroticismo", RandomInitial());
+        }
+
+        private static float RandomInitial()
+        {
+            return (float)(_rand.NextDouble() * 0.2 + 0.4);
         }
 
         public float GetTrait(string traitName)

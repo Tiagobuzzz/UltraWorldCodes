@@ -12,5 +12,16 @@ namespace UltraWorldAI
             to.Mind.Emotions.SetEmotion("curiosity", curiosity + influence);
             to.Mind.IdeaNet.GenerateNewIdea(from.Name, to.Mind.Emotions, to.Mind.Memory, to.Mind.Beliefs);
         }
+
+        public static void ComplexDialogue(Person a, Person b, List<string> lines)
+        {
+            for (int i = 0; i < lines.Count; i++)
+            {
+                var speaker = i % 2 == 0 ? a : b;
+                var listener = i % 2 == 0 ? b : a;
+                Exchange(speaker, listener, lines[i], 0.2f);
+                DecisionLogger.LogDecision(speaker.Name, $"Spoke: '{lines[i]}'");
+            }
+        }
     }
 }

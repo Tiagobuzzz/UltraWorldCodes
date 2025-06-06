@@ -105,6 +105,7 @@ namespace UltraWorldAI
         /// </summary>
         public void Update()
         {
+            DecisionLogger.LogDecision(PersonReference.Name, "Mind update cycle");
             ExternalSupport.EvaluateInfluences(PersonReference);
             UpdateDecaySystems();
             HandleIdeas();
