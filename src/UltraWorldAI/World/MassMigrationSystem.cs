@@ -37,4 +37,19 @@ public static class MassMigrationSystem
         var amount = from.Population / 10;
         TriggerMigration(region, to.Region, amount);
     }
+
+    /// <summary>
+    /// Forces migration based on cultural differences (exile or deportation).
+    /// </summary>
+    public static void ForceCulturalMigration(string fromCulture, string toCulture, int amount)
+    {
+        var from = RaceSettlementDistributor.Settlements.FirstOrDefault(s => s.CultureSummary == fromCulture);
+        var to = RaceSettlementDistributor.Settlements.FirstOrDefault(s => s.CultureSummary == toCulture);
+        if (from == null || to == null) return;
+        var migrating = System.Math.Min(amount, from.Population);
+        if (migrating <= 0) return;
+        from.Population -= migrating;
+        to.Population += migrating;
+        SettlementHistoryTracker.Register(from.Name, "Exílio", $"{migrating} pessoas foram deportadas para {to.Name}");
+    }
 }

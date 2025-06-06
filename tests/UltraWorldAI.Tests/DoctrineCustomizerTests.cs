@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UltraWorldAI;
 using UltraWorldAI.Religion;
 using Xunit;
 
