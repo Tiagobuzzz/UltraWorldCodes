@@ -23,18 +23,20 @@ public class MemoryTests
         Assert.Equal("emocional", result[0].Summary);
     }
 
-    [Fact]
-    public void RetrieveMemoriesByEmotionFiltersCorrectly()
+    [Theory]
+    [InlineData("fear", "pavor")]
+    [InlineData("sorrow", "tristeza")]
+    public void RetrieveMemoriesByEmotionFiltersCorrectly(string emotion, string expected)
     {
         var memSys = new MemorySystem();
         memSys.AddMemory("tristeza", 0.6f, -0.5f, null, "self", "sorrow");
         memSys.AddMemory("alegria", 0.7f, 0.8f, null, "self", "happiness");
         memSys.AddMemory("pavor", 0.9f, -0.9f, null, "self", "fear");
 
-        var results = memSys.RetrieveMemoriesByEmotion("fear", 2);
+        var results = memSys.RetrieveMemoriesByEmotion(emotion, 2);
 
         Assert.Single(results);
-        Assert.Equal("pavor", results[0].Summary);
+        Assert.Equal(expected, results[0].Summary);
     }
 
     [Fact]
