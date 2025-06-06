@@ -139,14 +139,14 @@ Before instantiating any `Person` objects, call `IA.Initialize()` so that runtim
 
 ### Example Game Loop
 
-The `GameLoop` class provides a very small wrapper to step through multiple `Person` objects on a simple tile map. Create a loop, add characters and run:
+The `GameLoop` class provides a very small wrapper to step through multiple `Person` objects on a simple tile map. Use `PrehistoricWorldInitializer` to begin with no knowledge in a pre-stone age era and then create a loop:
 
 ```csharp
 IA.Initialize();
+var deity = new Person("Deity");
+PrehistoricWorldInitializer.Initialize(deity);
 var loop = new GameLoop(5, 5, true);
-var alice = new Person("Alice");
-alice.Inventory.Add(new Item("Key"));
-loop.AddPerson(alice, 2, 2);
+loop.AddPerson(deity, 2, 2);
 loop.AddPerson(new Person("Bob"), 1, 1);
 loop.Run(3);
 ```

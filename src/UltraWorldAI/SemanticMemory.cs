@@ -37,6 +37,14 @@ namespace UltraWorldAI
             foreach (var key in forgotten) Facts.Remove(key);
         }
 
+        /// <summary>
+        /// Clears all stored semantic facts.
+        /// </summary>
+        public void ClearFacts()
+        {
+            Facts.Clear();
+        }
+
         public string? Recall(string key)
         {
             return Facts.ContainsKey(key) ? Facts[key].Content : null;

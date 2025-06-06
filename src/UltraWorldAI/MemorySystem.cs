@@ -94,6 +94,15 @@ namespace UltraWorldAI
         }
 
         /// <summary>
+        /// Removes all stored memories and clears internal caches.
+        /// </summary>
+        public void ClearAllMemories()
+        {
+            ClearCache();
+            Memories.Clear();
+        }
+
+        /// <summary>
         /// Persists memories and optional state to disk.
         /// </summary>
         /// <param name="path">Destination file path.</param>
