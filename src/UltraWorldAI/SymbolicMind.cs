@@ -81,7 +81,7 @@ namespace UltraWorldAI
                     {
                         Archetype = parts[1].ToLowerInvariant(),
                         Meaning = parts[3].TrimEnd(';').ToLowerInvariant(),
-                        EmotionLinked = "",
+                        EmotionLinked = string.Empty,
                         Intensity = 0.5f,
                         CreatedAt = DateTime.Now
                     });

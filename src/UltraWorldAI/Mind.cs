@@ -117,6 +117,14 @@ namespace UltraWorldAI
 
         private void UpdateDecaySystems()
         {
+            DecayCoreSystems();
+            UpdateCognitiveCycles();
+            UpdateSymbolicBeliefs();
+            UpdateNarratives();
+        }
+
+        private void DecayCoreSystems()
+        {
             Memory.UpdateMemoryDecay();
             Emotions.UpdateEmotionsDecay();
             Knowledge.DecayFacts();
@@ -128,14 +136,26 @@ namespace UltraWorldAI
             ThoughtEngine.GenerateThought(this);
             ThoughtEngine.DecayThoughts();
             BrainMap.Decay();
+        }
+
+        private void UpdateCognitiveCycles()
+        {
             DynamicBeliefs.DecayBeliefs();
             Intuition.GenerateInsight(this);
             Symbols.DecaySymbols();
             Symbols.GenerateFromEmotion(Emotions);
             Symbols.IntegrateSymbolicMeaning(DynamicBeliefs);
             DynamicBeliefs.ResolveContradictions(Conflict, Emotions);
+        }
+
+        private void UpdateSymbolicBeliefs()
+        {
             PhilosophicalIntegrityScore = Integrity.EvaluateConsistency();
             Philosophy.Update(this);
+        }
+
+        private void UpdateNarratives()
+        {
             InternalNarrative.GenerateReflection(this);
             InternalNarrative.InteractWithSubvoices(Subvoices);
             Introspection.Reflect(this);
@@ -170,8 +190,8 @@ namespace UltraWorldAI
             Defenses.EvaluateDefenses(Conflict, Emotions, DynamicBeliefs);
             if (Defenses.IsEmotionBlocked("sorrow"))
             {
-                var s = Emotions.GetEmotion("sorrow") * 0.5f;
-                Emotions.SetEmotion("sorrow", s);
+                var reducedSorrow = Emotions.GetEmotion("sorrow") * 0.5f;
+                Emotions.SetEmotion("sorrow", reducedSorrow);
             }
             Defenses.Decay();
         }

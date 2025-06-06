@@ -1,5 +1,7 @@
 {
   "MaxMemories": 150,
   "MemoryDecayRate": 0.01,
-  "StressDecayRate": 0.01
+  "StressDecayRate": 0.01,
+  "PersonalityMin": 0.3,
+  "PersonalityMax": 0.7
 }
