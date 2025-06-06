@@ -4,12 +4,12 @@ using Xunit;
 public class LanguageHeritageSystemTests
 {
     [Fact]
-    public void RemovingLastLanguageLeavesEmptyList()
+    public void SuppressLanguageMarksHeritage()
     {
         LanguageHeritageSystem.Heritages.Clear();
-        LanguageHeritageSystem.AddLanguage("C", "L1");
-        LanguageHeritageSystem.RemoveLanguage("C", "L1");
+        LanguageHeritageSystem.RegisterHeritage("C", "L1", 0.8);
+        LanguageHeritageSystem.SuppressLanguage("C");
         var heritage = LanguageHeritageSystem.Heritages.Find(h => h.Culture == "C");
-        Assert.True(heritage == null || heritage.Languages.Count == 0);
+        Assert.True(heritage?.IsSuppressed);
     }
 }
