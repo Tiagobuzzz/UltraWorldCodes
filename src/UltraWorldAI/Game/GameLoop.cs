@@ -1,3 +1,4 @@
+using UltraWorldAI;
 using System;
 using System.Collections.Generic;
 
@@ -7,8 +8,8 @@ public class GameLoop
 {
     private readonly GameMap _map;
     private readonly List<(Person person, int x, int y, int? tx, int? ty)> _actors = new();
-    private readonly Random _rng = new();
     private readonly bool _display;
+    private readonly bool _observerMode;
     private readonly IPathfinder _pathfinder;
     private GameDifficulty _difficulty = GameDifficulty.Normal;
 
@@ -28,10 +29,11 @@ public class GameLoop
         _ => 1
     };
 
-    public GameLoop(int width, int height, bool display = false, IPathfinder? pathfinder = null)
+    public GameLoop(int width, int height, bool display = false, bool observerMode = false, IPathfinder? pathfinder = null)
     {
         _map = new GameMap(width, height);
         _display = display;
+        _observerMode = observerMode;
         _pathfinder = pathfinder ?? new DefaultPathfinder();
     }
 
@@ -65,8 +67,8 @@ public class GameLoop
                 else
                 {
                     int range = StepRange;
-                    newX += _rng.Next(-range, range + 1);
-                    newY += _rng.Next(-range, range + 1);
+                    newX += RandomProvider.Next(-range, range + 1);
+                    newY += RandomProvider.Next(-range, range + 1);
                 }
 
                 newX = Math.Clamp(newX, 0, _map.Width - 1);
@@ -74,7 +76,8 @@ public class GameLoop
 
                 _map.Move(actor.person, actor.x, actor.y, newX, newY);
                 _actors[i] = (actor.person, newX, newY, actor.tx, actor.ty);
-                PersonUpdated?.Invoke(actor.person);
+                if (!_observerMode)
+                    PersonUpdated?.Invoke(actor.person);
             });
 
             if (_display)

@@ -1,4 +1,5 @@
 using System;
+using UltraWorldAI.EventSourcing;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -51,6 +52,7 @@ namespace UltraWorldAI
                 Source = source,
                 Emotion = emotion
             });
+            AISettings.EventStore?.Record(new EventSourcing.EventRecord("MemoryAdded", summary, DateTime.Now));
             Memories = Memories.OrderByDescending(m => m.Date).ToList();
         }
 

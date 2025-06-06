@@ -7,7 +7,9 @@ public class Program
     {
         string configPath = args.Length > 0 ? args[0] : "AIConfig.json";
         IA.Initialize(configPath);
-        var loop = new GameLoop(5, 5, true);
+        var observer = args.Length > 1 && args[1] == "--observe";
+        AISettings.ObserverMode = observer;
+        var loop = new GameLoop(5, 5, true, observer);
         var alice = new Person("Alice");
         var bob = new Person("Bob");
         alice.Inventory.Add(new Item("Key"));
