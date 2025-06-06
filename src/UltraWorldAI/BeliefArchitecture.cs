@@ -36,6 +36,15 @@ namespace UltraWorldAI
             }
         }
 
+        public void DecayBeliefs(float amount = 0.005f)
+        {
+            for (int i = 0; i < Beliefs.Count; i++)
+            {
+                Beliefs[i].Conviction = Math.Max(0f, Beliefs[i].Conviction - amount);
+            }
+            Beliefs.RemoveAll(b => b.Conviction <= AIConfig.ForgottenMemoryThreshold);
+        }
+
         public List<(BeliefNode, BeliefNode)> DetectContradictions()
         {
             var contradictions = new List<(BeliefNode, BeliefNode)>();
