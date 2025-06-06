@@ -58,6 +58,12 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **BranchingDialogue** possui limite de iterações para evitar loops infinitos.
 - **NarrativePdfExporter** exporta narrativas simples para arquivos PDF.
 - **CalendarBuilder** aceita nomes de meses customizados por cultura.
+- **ScientificDiscoveryGenerator** cria eventos aleatórios de descobertas científicas.
+- **CulturalEntertainmentSystem** mantém mídias de entretenimento por cultura.
+- **LanguageEvolutionSystem** faz evoluir dialetos ao longo do tempo.
+- **AirTradeSystem** suporta rotas comerciais aéreas.
+- **ModScriptEngine** possibilita scripts externos de mods.
+- **ClimateForecastAI** prevê padrões climáticos com base em eventos passados.
 - **xUnit tests** verificam memórias e resolução de contradições.
 
 ## Building
