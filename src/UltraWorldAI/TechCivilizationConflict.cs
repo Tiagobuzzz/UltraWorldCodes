@@ -49,4 +49,12 @@ public static class TechCivilizationConflict
             $"\u2694\uFE0F {w.CultureA} vs {w.CultureB}\nConflito: {w.TechConflict}\n" +
             $"Motivo: {w.Reason}\nResultado: {(w.IsResolved ? w.Outcome : "Em andamento")}"));
     }
+
+    public static string CompareWars(string culture)
+    {
+        var wars = Wars.FindAll(w => w.CultureA == culture || w.CultureB == culture);
+        if (wars.Count == 0) return "Sem guerras registradas.";
+        int victories = wars.Count(w => w.IsResolved && w.Outcome.Contains(culture));
+        return $"{culture}: {victories} vit\u00f3rias em {wars.Count} guerras";
+    }
 }

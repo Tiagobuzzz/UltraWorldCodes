@@ -3,12 +3,15 @@ using System.Collections.Generic;
 
 namespace UltraWorldAI.Game;
 
+public enum Difficulty { Easy, Normal, Hard }
+
 public class GameLoop
 {
     private readonly GameMap _map;
     private readonly List<(Person person, int x, int y, int? tx, int? ty)> _actors = new();
     private readonly Random _rng = new();
     private readonly bool _display;
+    public Difficulty Level { get; set; } = Difficulty.Normal;
 
     public GameLoop(int width, int height, bool display = false)
     {
@@ -24,6 +27,8 @@ public class GameLoop
 
     public void Run(int steps)
     {
+        int diffMultiplier = Level == Difficulty.Hard ? 2 : 1;
+        steps *= diffMultiplier;
         for (int step = 0; step < steps; step++)
         {
             System.Threading.Tasks.Parallel.For(0, _actors.Count, i =>
@@ -45,8 +50,14 @@ public class GameLoop
                 }
                 else
                 {
-                    newX += _rng.Next(-1, 2);
-                    newY += _rng.Next(-1, 2);
+                    int range = Level switch
+                    {
+                        Difficulty.Easy => 1,
+                        Difficulty.Normal => 2,
+                        _ => 3
+                    };
+                    newX += _rng.Next(-range, range + 1);
+                    newY += _rng.Next(-range, range + 1);
                 }
 
                 newX = Math.Clamp(newX, 0, _map.Width - 1);

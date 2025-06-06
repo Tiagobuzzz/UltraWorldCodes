@@ -62,11 +62,12 @@ namespace UltraWorldAI
         private static readonly JsonSerializerOptions _options = new()
         {
             WriteIndented = false,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
         };
         /// <summary>
         /// List of all memories known by the agent, ordered from newest to oldest.
         /// </summary>
+        [System.Text.Json.Serialization.JsonInclude]
         public List<Memory> Memories { get; private set; } = new List<Memory>();
 
         /// <summary>
@@ -141,8 +142,8 @@ namespace UltraWorldAI
                 Beliefs = beliefs?.Beliefs,
                 Traits = personality?.Traits
             };
-            var json = JsonSerializer.Serialize(state, _options);
-            File.WriteAllText(path, json);
+            var bytes = JsonSerializer.SerializeToUtf8Bytes(state, _options);
+            File.WriteAllBytes(path, bytes);
         }
 
         /// <summary>
@@ -156,8 +157,8 @@ namespace UltraWorldAI
                 Beliefs = beliefs?.Beliefs,
                 Traits = personality?.Traits
             };
-            var json = JsonSerializer.Serialize(state, _options);
-            await File.WriteAllTextAsync(path, json);
+            var bytes = JsonSerializer.SerializeToUtf8Bytes(state, _options);
+            await File.WriteAllBytesAsync(path, bytes);
         }
 
         /// <summary>
@@ -166,8 +167,8 @@ namespace UltraWorldAI
         public void LoadMemories(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
         {
             if (!File.Exists(path)) return;
-            var json = File.ReadAllText(path);
-            var state = JsonSerializer.Deserialize<PersistedState>(json, _options);
+            var bytes = File.ReadAllBytes(path);
+            var state = JsonSerializer.Deserialize<PersistedState>(bytes, _options);
             if (state == null) return;
             if (state.Memories != null) Memories = state.Memories;
             if (state.Beliefs != null && beliefs != null)
@@ -192,8 +193,8 @@ namespace UltraWorldAI
         public async Task LoadMemoriesAsync(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
         {
             if (!File.Exists(path)) return;
-            var json = await File.ReadAllTextAsync(path);
-            var state = JsonSerializer.Deserialize<PersistedState>(json, _options);
+            var bytes = await File.ReadAllBytesAsync(path);
+            var state = JsonSerializer.Deserialize<PersistedState>(bytes, _options);
             if (state == null) return;
             if (state.Memories != null) Memories = state.Memories;
             if (state.Beliefs != null && beliefs != null)
@@ -228,10 +229,11 @@ namespace UltraWorldAI
         public List<Memory> RetrieveMemories(string keyword, int count = 5)
         {
             var now = DateTime.Now;
+            string lower = keyword.ToLowerInvariant();
             var results = Memories
-                .Where(m => string.IsNullOrWhiteSpace(keyword) ||
-                             m.Keywords.Any(k => k.Contains(keyword, StringComparison.OrdinalIgnoreCase)) ||
-                             m.Summary.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                .Where(m => string.IsNullOrWhiteSpace(lower) ||
+                             m.Keywords.Any(k => k.ToLowerInvariant().Contains(lower)) ||
+                             m.Summary.ToLowerInvariant().Contains(lower))
                 .OrderByDescending(m =>
                     (m.Intensity * 0.6f) +
                     (Math.Abs(m.EmotionalCharge) * 0.3f) +

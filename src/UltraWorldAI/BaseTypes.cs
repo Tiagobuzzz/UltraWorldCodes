@@ -63,7 +63,7 @@ namespace UltraWorldAI
         }
     }
 
-    public enum LogLevel { Debug = 0, Info = 1, Warning = 2 }
+    public enum LogLevel { Debug = 0, Info = 1, Warning = 2, Error = 3 }
 
     public static class Logger
     {
@@ -79,7 +79,10 @@ namespace UltraWorldAI
             if (!string.IsNullOrEmpty(FilePath))
             {
                 File.AppendAllText(FilePath!, formatted + Environment.NewLine);
-                if (ex != null) File.AppendAllText(FilePath!, ex.StackTrace + Environment.NewLine);
+                if (ex != null)
+                {
+                    File.AppendAllText(FilePath!, ex.ToString() + Environment.NewLine);
+                }
             }
         }
 
@@ -89,7 +92,7 @@ namespace UltraWorldAI
             [System.Runtime.CompilerServices.CallerLineNumber] int line = 0)
         {
             var detail = $"{message} (at {Path.GetFileName(file)}:{line} in {member})";
-            Log(detail, LogLevel.Warning, ex);
+            Log(detail, LogLevel.Error, ex);
         }
     }
 }

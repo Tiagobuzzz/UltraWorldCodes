@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 
 namespace UltraWorldAI
 {
@@ -18,7 +20,8 @@ namespace UltraWorldAI
         /// <summary>
         /// Memories shared collectively by members of the culture.
         /// </summary>
-        public MemorySystem CollectiveMemory { get; } = new();
+        [System.Text.Json.Serialization.JsonInclude]
+        public MemorySystem CollectiveMemory { get; private set; } = new();
     }
 
     public class Festival
@@ -106,6 +109,24 @@ namespace UltraWorldAI
                 }
 
                 TraditionEngine.MutateTraditions(culture);
+            }
+        }
+
+        public void SaveCultures(string path)
+        {
+            var json = JsonSerializer.Serialize(Cultures);
+            File.WriteAllText(path, json);
+        }
+
+        public void LoadCultures(string path)
+        {
+            if (!File.Exists(path)) return;
+            var json = File.ReadAllText(path);
+            var loaded = JsonSerializer.Deserialize<List<Culture>>(json);
+            if (loaded != null)
+            {
+                Cultures.Clear();
+                Cultures.AddRange(loaded);
             }
         }
     }

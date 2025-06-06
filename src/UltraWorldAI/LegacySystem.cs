@@ -58,6 +58,8 @@ namespace UltraWorldAI
             {
                 newPerson.Genome = Biology.GeneticReproduction.CrossGenomes(Genome, newPerson.Genome);
             }
+
+            RelicSystem.ApplyRelics(newPerson);
         }
     }
 }
