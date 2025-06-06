@@ -27,5 +27,11 @@ namespace UltraWorldAI
         {
             ApplyReward(name, -value);
         }
+
+        public float GetStanding(string name)
+        {
+            var rel = Relationships.Find(r => r.Name == name);
+            return rel?.Affinity ?? 0f;
+        }
     }
 }

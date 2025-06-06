@@ -166,8 +166,8 @@ namespace UltraWorldAI
                 Beliefs = beliefs?.Beliefs,
                 Traits = personality?.Traits
             };
-            var json = JsonSerializer.Serialize(state, _options);
-            await File.WriteAllTextAsync(path, json);
+            await using var fs = File.Create(path);
+            await JsonSerializer.SerializeAsync(fs, state, _options);
         }
 
         /// <summary>

@@ -64,16 +64,22 @@ public static class BankingCollapseSystem
 
     private static void CascadeFailures()
     {
-        foreach (var kv in BankWealth)
+        bool newFailure;
+        do
         {
-            if (kv.Value < 0 && !FailedBanks.Contains(kv.Key))
+            newFailure = false;
+            foreach (var kv in BankWealth)
             {
-                FailedBanks.Add(kv.Key);
-                foreach (var loan in Loans.Where(l => l.Creditor == kv.Key))
+                if (kv.Value < 0 && !FailedBanks.Contains(kv.Key))
                 {
-                    BankWealth[loan.Debtor] -= loan.Amount;
+                    FailedBanks.Add(kv.Key);
+                    newFailure = true;
+                    foreach (var loan in Loans.Where(l => l.Creditor == kv.Key))
+                    {
+                        BankWealth[loan.Debtor] -= loan.Amount;
+                    }
                 }
             }
-        }
+        } while (newFailure);
     }
 }
