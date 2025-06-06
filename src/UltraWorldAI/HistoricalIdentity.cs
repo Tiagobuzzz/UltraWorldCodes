@@ -8,11 +8,18 @@ namespace UltraWorldAI.Thoughts
         public List<string> LifeEvents { get; } = new();
         public string MythicTitle { get; private set; } = "Anônimo";
         public string LegacyPhrase { get; private set; } = "Nada será lembrado.";
+        public int FamePoints { get; private set; }
 
         public void RegisterEvent(string symbolicEvent)
         {
             LifeEvents.Add($"{DateTime.Now:yyyy-MM-dd} - {symbolicEvent}");
+            AddFame(1);
             UpdateLegacy();
+        }
+
+        public void AddFame(int points)
+        {
+            FamePoints += points;
         }
 
         private void UpdateLegacy()

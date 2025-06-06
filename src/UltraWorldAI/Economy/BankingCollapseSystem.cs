@@ -15,6 +15,7 @@ public static class BankingCollapseSystem
 {
     public static List<Loan> Loans { get; } = new();
     public static Dictionary<string, double> BankWealth { get; } = new();
+    public static HashSet<string> FailedBanks { get; } = new();
 
     public static void GiveLoan(string bank, string debtor, double amount, int duration)
     {
@@ -48,7 +49,7 @@ public static class BankingCollapseSystem
                 bool defaulted = Random.Shared.NextDouble() < 0.3;
                 if (defaulted)
                 {
-                    // Banco perde capital permanentemente
+                    BankWealth[loan.Creditor] -= loan.Amount;
                 }
                 else
                 {
@@ -58,5 +59,21 @@ public static class BankingCollapseSystem
         }
 
         Loans.RemoveAll(l => l.TurnsLeft <= 0);
+        CascadeFailures();
+    }
+
+    private static void CascadeFailures()
+    {
+        foreach (var kv in BankWealth)
+        {
+            if (kv.Value < 0 && !FailedBanks.Contains(kv.Key))
+            {
+                FailedBanks.Add(kv.Key);
+                foreach (var loan in Loans.Where(l => l.Creditor == kv.Key))
+                {
+                    BankWealth[loan.Debtor] -= loan.Amount;
+                }
+            }
+        }
     }
 }

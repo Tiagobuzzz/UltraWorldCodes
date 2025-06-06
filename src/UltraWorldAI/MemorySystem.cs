@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace UltraWorldAI
@@ -58,6 +59,11 @@ namespace UltraWorldAI
     /// </summary>
     public class MemorySystem
     {
+        private static readonly JsonSerializerOptions _options = new()
+        {
+            WriteIndented = false,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
         /// <summary>
         /// List of all memories known by the agent, ordered from newest to oldest.
         /// </summary>
@@ -135,7 +141,7 @@ namespace UltraWorldAI
                 Beliefs = beliefs?.Beliefs,
                 Traits = personality?.Traits
             };
-            var json = JsonSerializer.Serialize(state);
+            var json = JsonSerializer.Serialize(state, _options);
             File.WriteAllText(path, json);
         }
 
@@ -150,7 +156,7 @@ namespace UltraWorldAI
                 Beliefs = beliefs?.Beliefs,
                 Traits = personality?.Traits
             };
-            var json = JsonSerializer.Serialize(state);
+            var json = JsonSerializer.Serialize(state, _options);
             await File.WriteAllTextAsync(path, json);
         }
 
@@ -161,7 +167,7 @@ namespace UltraWorldAI
         {
             if (!File.Exists(path)) return;
             var json = File.ReadAllText(path);
-            var state = JsonSerializer.Deserialize<PersistedState>(json);
+            var state = JsonSerializer.Deserialize<PersistedState>(json, _options);
             if (state == null) return;
             if (state.Memories != null) Memories = state.Memories;
             if (state.Beliefs != null && beliefs != null)
@@ -187,7 +193,7 @@ namespace UltraWorldAI
         {
             if (!File.Exists(path)) return;
             var json = await File.ReadAllTextAsync(path);
-            var state = JsonSerializer.Deserialize<PersistedState>(json);
+            var state = JsonSerializer.Deserialize<PersistedState>(json, _options);
             if (state == null) return;
             if (state.Memories != null) Memories = state.Memories;
             if (state.Beliefs != null && beliefs != null)
