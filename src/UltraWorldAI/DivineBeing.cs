@@ -14,7 +14,8 @@ namespace UltraWorldAI
         Tempo,
         Luz,
         Loucura,
-        Reflexo
+        Reflexo,
+        Luz
     }
 
     public enum DivineTemperament
@@ -81,6 +82,7 @@ namespace UltraWorldAI
             if (domain == DivineDomain.Silencio) return "Um vulto sem boca com olhos de pedra.";
             if (domain == DivineDomain.Fogo && temp == DivineTemperament.Vingativo) return "Figura flamejante com olhos vazios.";
             if (domain == DivineDomain.Reflexo) return "Espelho líquido com braços que somem.";
+            if (domain == DivineDomain.Luz) return "Figura radiante envolta em brilho.";
             return "Forma mutável e incompreensível.";
         }
 
@@ -91,6 +93,7 @@ namespace UltraWorldAI
                 DivineDomain.Morte => "Caveira invertida",
                 DivineDomain.Memoria => "Olho costurado",
                 DivineDomain.Sangue => "Círculo quebrado",
+                DivineDomain.Luz => "Raio ascendente",
                 _ => "Símbolo abstrato e ritualístico"
             };
         }
