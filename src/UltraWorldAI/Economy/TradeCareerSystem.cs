@@ -18,12 +18,19 @@ public class TradeGuild
     public double Wealth { get; set; }
 }
 
+public class Cryptocurrency
+{
+    public string Name { get; set; } = string.Empty;
+    public double Value { get; set; }
+}
+
 public class EconomicCareer
 {
     public string Name { get; set; } = string.Empty;
     public string Role { get; set; } = string.Empty; // Mercador, Contrabandista, Banqueiro
     public double Capital { get; set; }
     public string? GuildAffiliation { get; set; }
+    public Dictionary<string, double> CryptoWallet { get; } = new();
 }
 
 public static class TradeCareerSystem
@@ -31,6 +38,7 @@ public static class TradeCareerSystem
     public static List<TradeRoute> Routes { get; } = new();
     public static List<TradeGuild> Guilds { get; } = new();
     public static List<EconomicCareer> ActiveIAs { get; } = new();
+    public static List<Cryptocurrency> Cryptocurrencies { get; } = new();
 
     public static void CreateCareer(string iaName, string role)
     {
@@ -63,5 +71,19 @@ public static class TradeCareerSystem
             Wealth = 1000,
             ControlledSettlements = { initialSettlement }
         });
+    }
+
+    public static void RegisterCryptocurrency(string name, double startingValue)
+    {
+        Cryptocurrencies.Add(new Cryptocurrency { Name = name, Value = startingValue });
+    }
+
+    public static void TradeCrypto(EconomicCareer career, string crypto, double amount)
+    {
+        var currency = Cryptocurrencies.Find(c => c.Name == crypto);
+        if (currency == null) return;
+        if (!career.CryptoWallet.ContainsKey(crypto)) career.CryptoWallet[crypto] = 0;
+        career.CryptoWallet[crypto] += amount;
+        career.Capital -= amount * currency.Value;
     }
 }

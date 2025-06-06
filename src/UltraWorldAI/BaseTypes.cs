@@ -70,12 +70,17 @@ namespace UltraWorldAI
         public static LogLevel Level = LogLevel.Info;
         public static string? FilePath;
 
-        public static void Log(string message, LogLevel level = LogLevel.Info)
+        public static void Log(string message, LogLevel level = LogLevel.Info, Exception? ex = null)
         {
             if (level < Level) return;
-            Console.WriteLine(message);
+            var formatted = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}][{level}] {message}";
+            if (ex != null) formatted += $" Exception: {ex.Message}";
+            Console.WriteLine(formatted);
             if (!string.IsNullOrEmpty(FilePath))
-                File.AppendAllText(FilePath!, message + Environment.NewLine);
+            {
+                File.AppendAllText(FilePath!, formatted + Environment.NewLine);
+                if (ex != null) File.AppendAllText(FilePath!, ex.StackTrace + Environment.NewLine);
+            }
         }
     }
 }
