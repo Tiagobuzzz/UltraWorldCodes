@@ -17,7 +17,7 @@ public class GameLoopTests
     [Fact]
     public void RunAdvancesActors()
     {
-        var loop = new GameLoop(3, 3, false, CreateMockPathfinder());
+        var loop = new GameLoop(3, 3, false, false, CreateMockPathfinder());
         var a = new Person("A");
         loop.AddPerson(a, 1, 1);
         var before = a.Mind.Memory.Memories.Count;
@@ -28,7 +28,7 @@ public class GameLoopTests
     [Fact]
     public void DifficultyChangesStepRange()
     {
-        var loop = new GameLoop(3, 3, false, CreateMockPathfinder());
+        var loop = new GameLoop(3, 3, false, false, CreateMockPathfinder());
         loop.Difficulty = GameDifficulty.Hard;
         Assert.Equal(GameDifficulty.Hard, loop.Difficulty);
         Assert.Equal(2, loop.StepRange);
@@ -37,7 +37,7 @@ public class GameLoopTests
     [Fact]
     public void PersonUpdatedEventIsRaised()
     {
-        var loop = new GameLoop(3, 3, false, CreateMockPathfinder());
+        var loop = new GameLoop(3, 3, false, false, CreateMockPathfinder());
         var p = new Person("Evt");
         loop.AddPerson(p, 0, 0);
         bool fired = false;

@@ -36,6 +36,8 @@ jobs:
       run: dotnet build --no-restore
     - name: Test with coverage
       run: dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      env:
+        DOTNET_TEST_RUN_IN_PARALLEL: 'true'
     - name: Upload coverage
       uses: actions/upload-artifact@v4
       with:

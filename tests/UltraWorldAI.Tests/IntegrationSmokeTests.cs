@@ -9,7 +9,7 @@ namespace UltraWorldAI.Tests
     public class IntegrationSmokeTests
     {
         [Fact]
-        public void SandboxSystemsWorkTogether()
+        public void FaunaEvolutionAndGovernance()
         {
             FaunaEvolutionSystem.RegisterSpecies("Lobo", 5);
             FaunaEvolutionSystem.Evolve("Lobo");
@@ -20,12 +20,17 @@ namespace UltraWorldAI.Tests
             demo.ProposeLaw("Paz");
             demo.Vote("Paz", "Ana", true);
 
+            Assert.True(pop >= 0);
+            Assert.Contains("Paz", demo.GetApprovedLaws());
+        }
+
+        [Fact]
+        public void DoctrineCreationPersistsTexts()
+        {
             var doc = DoctrineEngine.CreateDoctrine(new DivineBeing { Name = "Sol", Domain = DivineDomain.Luz });
             DoctrineEngine.AddSacredText(doc, SacredTextType.Scroll);
             DoctrineEngine.AddSacredText(doc, SacredTextType.Hologram);
 
-            Assert.True(pop >= 0);
-            Assert.Contains("Paz", demo.GetApprovedLaws());
             Assert.Contains(SacredTextType.Scroll, doc.SacredTexts);
             Assert.Contains(SacredTextType.Hologram, doc.SacredTexts);
         }

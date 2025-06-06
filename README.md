@@ -175,6 +175,9 @@ An overview of the update cycle is provided as a Mermaid sequence diagram in [do
 Additional usage examples can be found in [docs/advanced_examples.md](docs/advanced_examples.md).
 Video walkthroughs are listed in [docs/video_tutorials.md](docs/video_tutorials.md).
 Guidelines for scaling worlds to very large maps are documented in [docs/scaling_large_maps.md](docs/scaling_large_maps.md).
+Examples of fulfilled prophecies are listed in [docs/fulfilled_prophecies.md](docs/fulfilled_prophecies.md).
+The effect of doctrines on personality traits is described in [docs/doctrine_impact.md](docs/doctrine_impact.md).
+The module startup order is detailed in [docs/module_startup_order.md](docs/module_startup_order.md).
 
 ## Contributing
 
