@@ -86,4 +86,13 @@ public static class TradeCareerSystem
         career.CryptoWallet[crypto] += amount;
         career.Capital -= amount * currency.Value;
     }
+
+    public static void SimulateCryptoMarket()
+    {
+        foreach (var c in Cryptocurrencies)
+        {
+            var change = Random.Shared.NextDouble() * 0.1 - 0.05;
+            c.Value = Math.Max(0.01, c.Value * (1 + change));
+        }
+    }
 }

@@ -32,4 +32,20 @@ public class PhilosophySystemTests
         Assert.True(person.Mind.Philosophy.ConsistencyScore < initialScore);
         Assert.True(person.Mind.Conflict.HasActiveContradictions());
     }
+    [Fact]
+    public void ContradictoryMemoryReducesConsistency()
+    {
+        var person = new Person("Memor");
+        person.Mind.BrainMap.Connect("happiness", "natureza", 0.8f);
+        person.Mind.Emotions.SetEmotion("happiness", 0.9f);
+        person.Mind.Intuition.GenerateInsight(person.Mind);
+        person.Mind.Philosophy.Update(person.Mind);
+        var initial = person.Mind.Philosophy.ConsistencyScore;
+
+        person.AddExperience("questionar a voz dominante", 0.6f);
+        person.Mind.Philosophy.Update(person.Mind);
+
+        Assert.True(person.Mind.Philosophy.ConsistencyScore < initial);
+        Assert.True(person.Mind.Conflict.HasActiveContradictions());
+    }
 }

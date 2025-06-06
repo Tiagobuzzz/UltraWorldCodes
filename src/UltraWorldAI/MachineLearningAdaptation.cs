@@ -54,6 +54,7 @@ namespace UltraWorldAI
         public void AdaptPersonality(Person person, Memory memory, string trait)
         {
             var feats = new float[] { memory.Intensity, memory.EmotionalCharge };
+            Train(feats, 1f);
             var result = Predict(feats);
             var delta = result - 0.5f;
             person.Mind.Personality.AdjustTrait(trait, delta * 0.1f);

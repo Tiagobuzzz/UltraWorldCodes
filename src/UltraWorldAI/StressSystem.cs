@@ -33,4 +33,17 @@ namespace UltraWorldAI
             return CurrentStressLevel > 0.5f;
         }
     }
+
+    public static class PopulationStressEvaluator
+    {
+        public static string? CheckForUprising(Politics.PowerStructure gov, System.Collections.Generic.List<Person> population, string rebelLeader)
+        {
+            if (population.Count == 0) return null;
+            float avg = 0f;
+            foreach (var p in population)
+                avg += p.Mind.Stress.CurrentStressLevel;
+            avg /= population.Count;
+            return avg > 0.8f ? Politics.RevoltSystem.TriggerRevolt(gov, rebelLeader) : null;
+        }
+    }
 }
