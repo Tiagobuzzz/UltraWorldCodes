@@ -16,9 +16,9 @@ public class LanguagePropagation
 public static class MysticLanguagePropagationSystem
 {
     public static List<LanguagePropagation> Propagations { get; } = new();
-    public static Dictionary<string, Doctrine> LanguageDoctrines { get; } = new();
+    public static Dictionary<string, Religion.Doctrine> LanguageDoctrines { get; } = new();
 
-    private static Doctrine GetOrCreateDoctrine(string language)
+    private static Religion.Doctrine GetOrCreateDoctrine(string language)
     {
         if (LanguageDoctrines.TryGetValue(language, out var doctrine))
             return doctrine;
