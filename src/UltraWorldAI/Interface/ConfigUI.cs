@@ -17,6 +17,7 @@ public static class ConfigUI
             Console.WriteLine($"2) Memory decay rate: {AISettings.MemoryDecayRate}");
             Console.WriteLine($"3) Stress decay rate: {AISettings.StressDecayRate}");
             Console.WriteLine($"4) Forget threshold: {AISettings.ForgottenMemoryThreshold}");
+            Console.WriteLine($"5) Max emotions: {AISettings.MaxEmotionCount}");
             Console.WriteLine("0) Save and exit");
             var key = Console.ReadKey(true);
             switch (key.Key)
@@ -45,6 +46,12 @@ public static class ConfigUI
                     if (float.TryParse(Console.ReadLine(), out var fth))
                         AISettings.ForgottenMemoryThreshold = fth;
                     break;
+                case ConsoleKey.D5:
+                case ConsoleKey.NumPad5:
+                    Console.Write("New value: ");
+                    if (int.TryParse(Console.ReadLine(), out var mec))
+                        AISettings.MaxEmotionCount = mec;
+                    break;
                 case ConsoleKey.D0:
                 case ConsoleKey.NumPad0:
                 case ConsoleKey.Escape:
@@ -65,7 +72,8 @@ public static class ConfigUI
             ["StressDecayRate"] = AISettings.StressDecayRate,
             ["PersonalityMin"] = AISettings.PersonalityMin,
             ["PersonalityMax"] = AISettings.PersonalityMax,
-            ["ForgottenMemoryThreshold"] = AISettings.ForgottenMemoryThreshold
+            ["ForgottenMemoryThreshold"] = AISettings.ForgottenMemoryThreshold,
+            ["MaxEmotionCount"] = AISettings.MaxEmotionCount
         }, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
         try
         {

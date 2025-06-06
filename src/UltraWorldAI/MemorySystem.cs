@@ -23,6 +23,15 @@ namespace UltraWorldAI
         [JsonInclude]
         public List<Memory> Memories { get; private set; } = new List<Memory>();
 
+        private readonly Dictionary<string, List<Memory>> _keywordCache = new();
+        private readonly Dictionary<string, List<Memory>> _emotionCache = new();
+
+        private void ClearCache()
+        {
+            _keywordCache.Clear();
+            _emotionCache.Clear();
+        }
+
         /// <summary>
         /// Records a new memory. When the configured maximum is reached the least
         /// important entry will be discarded.
@@ -34,6 +43,7 @@ namespace UltraWorldAI
         /// <param name="source">Source of the experience.</param>
         public virtual void AddMemory(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f, List<string>? keywords = null, string source = "self", string emotion = "")
         {
+            ClearCache();
             if (Memories.Count >= AISettings.MaxMemories)
             {
                 ForgetLeastImportantMemory();
@@ -54,6 +64,7 @@ namespace UltraWorldAI
 
         private void ForgetLeastImportantMemory()
         {
+            ClearCache();
             Memories.RemoveAll(m => m.Intensity < AISettings.ForgottenMemoryThreshold || (DateTime.Now - m.Date).TotalDays > 365);
             if (Memories.Count >= AISettings.MaxMemories)
             {
@@ -71,6 +82,7 @@ namespace UltraWorldAI
         /// </summary>
         public virtual void UpdateMemoryDecay()
         {
+            ClearCache();
             var threshold = AISettings.ForgottenMemoryThreshold;
             foreach (var mem in Memories)
             {

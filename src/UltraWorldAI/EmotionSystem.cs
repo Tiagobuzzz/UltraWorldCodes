@@ -7,6 +7,7 @@ namespace UltraWorldAI
     public class EmotionSystem
     {
         public Dictionary<string, float> Emotions { get; private set; } = new Dictionary<string, float>();
+        public int MaxEmotionCount { get; set; } = AISettings.MaxEmotionCount;
 
         public EmotionSystem()
         {
@@ -33,6 +34,11 @@ namespace UltraWorldAI
 
         public void SetEmotion(string emotionName, float value)
         {
+            if (!Emotions.ContainsKey(emotionName) && Emotions.Count >= MaxEmotionCount)
+            {
+                var toRemove = Emotions.OrderBy(e => Math.Abs(e.Value)).First();
+                Emotions.Remove(toRemove.Key);
+            }
             Emotions[emotionName] = Math.Clamp(value, AIConfig.EmotionMin, AIConfig.EmotionMax);
         }
 

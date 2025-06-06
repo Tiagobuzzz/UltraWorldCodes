@@ -92,6 +92,20 @@ public class GameLoop
         }
     }
 
+    public SimulationReplay RunReplay(int steps)
+    {
+        var frames = new List<string>();
+        for (int step = 0; step < steps; step++)
+        {
+            Step();
+            var frame = _map.Render();
+            frames.Add(frame);
+            if (_display)
+                Console.WriteLine($"Step {step + 1}\n{frame}");
+        }
+        return new SimulationReplay(frames);
+    }
+
     public async IAsyncEnumerable<string> RunAsync(int steps)
     {
         for (int step = 0; step < steps; step++)

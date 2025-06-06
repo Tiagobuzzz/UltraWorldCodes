@@ -33,6 +33,8 @@ namespace UltraWorldAI
         public const float EmotionDecaySurprise = -0.03f;
         public const float EmotionDecayDisgust = -0.04f;
 
+        public const int MaxEmotionCount = 8;
+
         public const float TraitMin = 0f;
         public const float TraitMax = 1f;
         public const float DefaultPersonalityMin = 0.3f;
@@ -58,6 +60,7 @@ namespace UltraWorldAI
         public static float ForgottenMemoryThreshold = AIConfig.ForgottenMemoryThreshold;
         public static float PersonalityMin = AIConfig.DefaultPersonalityMin;
         public static float PersonalityMax = AIConfig.DefaultPersonalityMax;
+        public static int MaxEmotionCount = AIConfig.MaxEmotionCount;
         public static bool ObserverMode = false;
         public static EventSourcing.IEventStore? EventStore;
         public static void ApplyDefaults()
@@ -68,6 +71,7 @@ namespace UltraWorldAI
             ForgottenMemoryThreshold = AIConfig.ForgottenMemoryThreshold;
             PersonalityMin = AIConfig.DefaultPersonalityMin;
             PersonalityMax = AIConfig.DefaultPersonalityMax;
+            MaxEmotionCount = AIConfig.MaxEmotionCount;
         }
 
         public static void Load(string path)
@@ -83,6 +87,7 @@ namespace UltraWorldAI
             if (data.TryGetValue("PersonalityMin", out var pmin)) PersonalityMin = pmin;
             if (data.TryGetValue("PersonalityMax", out var pmax)) PersonalityMax = pmax;
             if (data.TryGetValue("ForgottenMemoryThreshold", out var fmt)) ForgottenMemoryThreshold = fmt;
+            if (data.TryGetValue("MaxEmotionCount", out var mec)) MaxEmotionCount = (int)mec;
         }
 
         public static void Reload(string path) => Load(path);
@@ -94,6 +99,7 @@ namespace UltraWorldAI
     {
         public static LogLevel Level = LogLevel.Info;
         public static string? FilePath;
+        public static string? ExceptionFilePath;
         public static long MaxFileSizeBytes = 5 * 1024 * 1024;
         public static Dictionary<LogLevel, ConsoleColor> LevelColors { get; } = new()
         {
@@ -156,7 +162,12 @@ namespace UltraWorldAI
                 try
                 {
                     File.AppendAllText(FilePath!, formatted + Environment.NewLine);
-                    if (ex != null) File.AppendAllText(FilePath!, ex.StackTrace + Environment.NewLine);
+                    if (ex != null)
+                    {
+                        File.AppendAllText(FilePath!, ex.StackTrace + Environment.NewLine);
+                        if (!string.IsNullOrEmpty(ExceptionFilePath))
+                            File.AppendAllText(ExceptionFilePath!, formatted + Environment.NewLine + ex.ToString() + Environment.NewLine);
+                    }
                     var info = new FileInfo(FilePath!);
                     if (info.Length > MaxFileSizeBytes)
                         FilePath = Path.ChangeExtension(FilePath, $"{DateTime.Now:yyyyMMddHHmmss}.log");
@@ -207,7 +218,12 @@ namespace UltraWorldAI
                 try
                 {
                     await File.AppendAllTextAsync(FilePath!, formatted + Environment.NewLine);
-                    if (ex != null) await File.AppendAllTextAsync(FilePath!, ex.StackTrace + Environment.NewLine);
+                    if (ex != null)
+                    {
+                        await File.AppendAllTextAsync(FilePath!, ex.StackTrace + Environment.NewLine);
+                        if (!string.IsNullOrEmpty(ExceptionFilePath))
+                            await File.AppendAllTextAsync(ExceptionFilePath!, formatted + Environment.NewLine + ex.ToString() + Environment.NewLine);
+                    }
                     var info = new FileInfo(FilePath!);
                     if (info.Length > MaxFileSizeBytes)
                         FilePath = Path.ChangeExtension(FilePath, $"{DateTime.Now:yyyyMMddHHmmss}.log");
