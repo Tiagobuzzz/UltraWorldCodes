@@ -105,8 +105,15 @@ namespace UltraWorldAI
 
             if (!string.IsNullOrEmpty(FilePath))
             {
-                File.AppendAllText(FilePath!, formatted + Environment.NewLine);
-                if (ex != null) File.AppendAllText(FilePath!, ex.StackTrace + Environment.NewLine);
+                try
+                {
+                    File.AppendAllText(FilePath!, formatted + Environment.NewLine);
+                    if (ex != null) File.AppendAllText(FilePath!, ex.StackTrace + Environment.NewLine);
+                }
+                catch (IOException)
+                {
+                    // Fail silently if log can't be written
+                }
             }
         }
 
@@ -124,8 +131,15 @@ namespace UltraWorldAI
 
             if (!string.IsNullOrEmpty(FilePath))
             {
-                await File.AppendAllTextAsync(FilePath!, formatted + Environment.NewLine);
-                if (ex != null) await File.AppendAllTextAsync(FilePath!, ex.StackTrace + Environment.NewLine);
+                try
+                {
+                    await File.AppendAllTextAsync(FilePath!, formatted + Environment.NewLine);
+                    if (ex != null) await File.AppendAllTextAsync(FilePath!, ex.StackTrace + Environment.NewLine);
+                }
+                catch (IOException)
+                {
+                    // Fail silently if log can't be written
+                }
             }
         }
 

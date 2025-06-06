@@ -19,6 +19,13 @@ public static class NarrativePdfExporter
         sb.AppendLine("endstream endobj");
         sb.AppendLine("trailer <</Root 1 0 R>>");
         sb.AppendLine("%%EOF");
-        File.WriteAllText(path, sb.ToString());
+        try
+        {
+            File.WriteAllText(path, sb.ToString());
+        }
+        catch (IOException ex)
+        {
+            Logger.LogError($"Failed to export PDF to {path}", ex);
+        }
     }
 }

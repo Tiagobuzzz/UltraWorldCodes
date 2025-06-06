@@ -67,6 +67,13 @@ public static class ConfigUI
             ["PersonalityMax"] = AISettings.PersonalityMax,
             ["ForgottenMemoryThreshold"] = AISettings.ForgottenMemoryThreshold
         }, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-        System.IO.File.WriteAllText(path, json);
+        try
+        {
+            System.IO.File.WriteAllText(path, json);
+        }
+        catch (System.IO.IOException ex)
+        {
+            Logger.LogError($"Failed to write config to {path}", ex);
+        }
     }
 }

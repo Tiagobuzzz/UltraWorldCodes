@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Tradi\u00e7\u00e3o Solar",
+    "OriginStory": "A cultura nasceu de um pacto com o deus sol.",
+    "CoreValues": ["Honra", "Coragem", "Comunidade"]
+  },
+  {
+    "Name": "Guardians of the Moon",
+    "OriginStory": "Originada de um \u00eaxodo noturno.",
+    "CoreValues": ["Mist\u00e9rio", "Equil\u00edbrio", "Respeito"]
+  },
+  {
+    "Name": "Mar do Norte",
+    "OriginStory": "Fundada ap\u00f3s uma grande viagem mar\u00edtima.",
+    "CoreValues": ["Explora\u00e7\u00e3o", "Resili\u00eancia", "Com\u00e9rcio"]
+  }
+]

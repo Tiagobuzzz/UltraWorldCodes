@@ -13,14 +13,29 @@ public static class CulturePersistence
 
     public static void Save(string path, List<Culture> cultures)
     {
-        var json = JsonSerializer.Serialize(cultures, _options);
-        File.WriteAllText(path, json);
+        try
+        {
+            var json = JsonSerializer.Serialize(cultures, _options);
+            File.WriteAllText(path, json);
+        }
+        catch (IOException ex)
+        {
+            Logger.LogError($"Failed to save cultures to {path}", ex);
+        }
     }
 
     public static List<Culture> Load(string path)
     {
         if (!File.Exists(path)) return new();
-        var json = File.ReadAllText(path);
-        return JsonSerializer.Deserialize<List<Culture>>(json, _options) ?? new();
+        try
+        {
+            var json = File.ReadAllText(path);
+            return JsonSerializer.Deserialize<List<Culture>>(json, _options) ?? new();
+        }
+        catch (IOException ex)
+        {
+            Logger.LogError($"Failed to load cultures from {path}", ex);
+            return new();
+        }
     }
 }

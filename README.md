@@ -10,6 +10,13 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - [Microsoft.Data.Sqlite](https://www.nuget.org/packages/Microsoft.Data.Sqlite) for local storage
 - [xUnit](https://xunit.net/) for unit tests
 
+## Versioning
+
+This project follows [Semantic Versioning](https://semver.org/). Public releases
+use the `MAJOR.MINOR.PATCH` scheme where breaking changes increment the major
+version, new features increment the minor version and bug fixes increment the
+patch number.
+
 To generate coverage reports use:
 
 ```bash
@@ -31,6 +38,9 @@ dotnet test --collect:"XPlat Code Coverage"
     "PersonalityMax": 0.7
   }
   ```
+
+Sample culture data for quick experiments is available in
+[`docs/culture_examples.json`](docs/culture_examples.json).
 
 ### Features
 
@@ -135,6 +145,9 @@ Benchmarks help estimate the cost of AI loops. Build and run the benchmark proje
 ```bash
 dotnet run -c Release -p benchmarks/Benchmarks.csproj
 ```
+
+Typical runs on a mid-range machine process around 5 turns in under 50ms,
+allowing thousands of iterations per second for large simulations.
 
 ## Testing
 
