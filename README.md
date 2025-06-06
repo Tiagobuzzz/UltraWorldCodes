@@ -55,6 +55,18 @@ dotnet build src/UltraWorldAI/UltraWorldAI.csproj
 
 Before instantiating any `Person` objects, call `IA.Initialize()` so that runtime settings are loaded from `AIConfig.json`.
 
+### Example Game Loop
+
+The `GameLoop` class provides a very small wrapper to step through multiple `Person` objects on a simple tile map. Create a loop, add characters and run:
+
+```csharp
+IA.Initialize();
+var loop = new GameLoop(5, 5);
+loop.AddPerson(new Person("Alice"), 2, 2);
+loop.AddPerson(new Person("Bob"), 1, 1);
+loop.Run(3);
+```
+
 ## Testing
 
 Run the unit tests with:
