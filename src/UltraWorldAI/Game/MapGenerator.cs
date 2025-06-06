@@ -2,9 +2,9 @@ using System;
 
 namespace UltraWorldAI.Game;
 
-public static class MapGenerator
+public class MapGenerator : IMapGenerator
 {
-    public static GameMap Generate(int width, int height, int seed = 0)
+    public GameMap Generate(int width, int height, int seed = 0)
     {
         if (seed != 0)
             Random.Shared.Next(seed);

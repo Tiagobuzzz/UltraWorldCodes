@@ -169,6 +169,7 @@ Cyclomatic complexity metrics can be generated with:
 ```bash
 ./run-metrics.sh
 ```
+See [docs/code_quality_metrics.md](docs/code_quality_metrics.md) for more details.
 
 ## Diagrams
 
@@ -181,6 +182,10 @@ Guidelines for scaling worlds to very large maps are documented in [docs/scaling
 Examples of fulfilled prophecies are listed in [docs/fulfilled_prophecies.md](docs/fulfilled_prophecies.md).
 The effect of doctrines on personality traits is described in [docs/doctrine_impact.md](docs/doctrine_impact.md).
 The module startup order is detailed in [docs/module_startup_order.md](docs/module_startup_order.md).
+High level diagrams can be found in [docs/uml_overview.md](docs/uml_overview.md).
+Technology integration is documented in [docs/technology_integration.md](docs/technology_integration.md).
+Known simulation issues are listed in [docs/known_simulation_failures.md](docs/known_simulation_failures.md).
+NPC hiring and training guidelines are described in [docs/npc_hiring_training.md](docs/npc_hiring_training.md).
 
 ## Contributing
 
@@ -188,6 +193,7 @@ Contributions are welcome! A full guide is available in [CONTRIBUTING.md](CONTRI
 
 - Use the .NET 8 SDK and follow C# 10 style conventions.
 - Keep the code modular under `src/UltraWorldAI` and format the code using `dotnet format`.
+- Configure git to use the pre-commit hook under `.githooks` to enforce formatting.
 - Run `./run-tests.sh` before submitting a pull request.
 - Keep comments in the present tense to maintain consistency.
 - Add or update unit tests whenever you introduce new functionality.

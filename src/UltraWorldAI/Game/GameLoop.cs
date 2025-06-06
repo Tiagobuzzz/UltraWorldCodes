@@ -29,9 +29,10 @@ public class GameLoop
         _ => 1
     };
 
-    public GameLoop(int width, int height, bool display = false, bool observerMode = false, IPathfinder? pathfinder = null)
+    public GameLoop(int width, int height, bool display = false, bool observerMode = false,
+        IPathfinder? pathfinder = null, IMapGenerator? mapGenerator = null)
     {
-        _map = new GameMap(width, height);
+        _map = (mapGenerator ?? new MapGenerator()).Generate(width, height);
         _display = display;
         _observerMode = observerMode;
         _pathfinder = pathfinder ?? new DefaultPathfinder();
