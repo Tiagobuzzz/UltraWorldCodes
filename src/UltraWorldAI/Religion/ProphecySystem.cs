@@ -60,5 +60,23 @@ namespace UltraWorldAI.Religion
             if (_prophecies.Count == 0) return "Nenhuma profecia conhecida.";
             return string.Join("\n\n", _prophecies.ConvertAll(p => p.Describe()));
         }
+
+        public static void ApplySelfFulfillment(Mind mind)
+        {
+            foreach (var p in _prophecies)
+            {
+                if (p.IsFulfilled || p.IsCorrupted) continue;
+                if (mind.Memory.Memories.Exists(m => m.Summary.Contains(p.PredictedEvent)))
+                {
+                    p.IsFulfilled = true;
+                    continue;
+                }
+                if (mind.Beliefs.Beliefs.ContainsKey(p.PredictedEvent) || mind.DynamicBeliefs.Beliefs.Exists(b => b.Statement.Contains(p.PredictedEvent)))
+                {
+                    mind.Memory.AddMemory(p.PredictedEvent, 0.3f, 0.1f, new() { "Profecia" }, "profecia");
+                    p.IsFulfilled = true;
+                }
+            }
+        }
     }
 }

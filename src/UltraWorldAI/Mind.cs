@@ -126,6 +126,7 @@ namespace UltraWorldAI
             ThoughtEngine.GenerateThought(this);
             ThoughtEngine.DecayThoughts();
             BrainMap.Decay();
+            DynamicBeliefs.DecayBeliefs();
             Intuition.GenerateInsight(this);
             Symbols.DecaySymbols();
             Symbols.GenerateFromEmotion(Emotions);
@@ -137,6 +138,7 @@ namespace UltraWorldAI
             InternalNarrative.InteractWithSubvoices(Subvoices);
             Introspection.Reflect(this);
             CognitiveFeedback.EvaluateTrajectory(this);
+            Religion.ProphecySystem.ApplySelfFulfillment(this);
         }
 
         private void HandleIdeas()

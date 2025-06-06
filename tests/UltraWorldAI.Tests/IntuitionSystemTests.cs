@@ -26,4 +26,13 @@ public class IntuitionSystemTests
         var core = person.Mind.Intuition.GetCoreBeliefs();
         Assert.Contains(person.Mind.Intuition.Insights[0], core);
     }
+
+    [Fact]
+    public void NoInsightWhenNoAssociations()
+    {
+        var person = new Person("Blank");
+        person.Mind.Emotions.SetEmotion("fear", 0.8f);
+        person.Mind.Intuition.GenerateInsight(person.Mind);
+        Assert.Empty(person.Mind.Intuition.Insights);
+    }
 }

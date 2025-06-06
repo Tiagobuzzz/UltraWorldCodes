@@ -41,4 +41,14 @@ public static class TechTimelineSystem
             $"\uD83D\uDCDC {e.Name}\nIniciada por: {e.TriggerTech} em {e.Start.ToShortDateString()}\n" +
             $"Caracter\u00edsticas: {string.Join(", ", e.Characteristics)}"));
     }
+
+    public static string RenderTimeline()
+    {
+        if (Eras.Count == 0) return string.Empty;
+        Eras.Sort((a, b) => a.Start.CompareTo(b.Start));
+        var parts = new List<string>();
+        foreach (var era in Eras)
+            parts.Add($"[{era.Start:yyyy}] {era.Name}");
+        return string.Join(" -> ", parts);
+    }
 }

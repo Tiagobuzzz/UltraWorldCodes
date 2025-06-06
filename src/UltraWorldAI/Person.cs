@@ -15,6 +15,7 @@ namespace UltraWorldAI
         public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adulto;
         public SpatialIdentity Location { get; private set; }
         public Genome Genome { get; set; } = new();
+        public int Age { get; set; }
 
         public Person(string name, string bloodline = "")
         {
@@ -22,6 +23,7 @@ namespace UltraWorldAI
             Bloodline = bloodline;
             Mind = new Mind(this);
             Location = new SpatialIdentity("Origem", 0, 0);
+            Age = 0;
         }
 
         public string ReflectOnSelf()
@@ -53,6 +55,8 @@ namespace UltraWorldAI
         public void Update()
         {
             Mind.Update();
+            Age++;
+            PersonalityLifeAdjuster.Apply(this);
         }
 
         public static Person CreateDescendant(Person parent, string name)
