@@ -4,10 +4,33 @@ This repository contains the game code and the AI module. The AI logic is
 split across several files under `src/UltraWorldAI/`, each implementing
 interlinked systems that model memory, beliefs, personality, emotions and more.
 
+## Dependencies
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/) for building and running the project
+- [Microsoft.Data.Sqlite](https://www.nuget.org/packages/Microsoft.Data.Sqlite) for local storage
+- [xUnit](https://xunit.net/) for unit tests
+
+To generate coverage reports use:
+
+```bash
+dotnet test --collect:"XPlat Code Coverage"
+```
+
 ## Structure
 - The `src/UltraWorldAI/` directory contains the implementation of all
   subsystems such as memory, beliefs, metacognition and the narrative engine.
 - `AIConfig.json` can override some runtime parameters (like `MaxMemories`).
+  Example:
+
+  ```json
+  {
+    "MaxMemories": 150,
+    "MemoryDecayRate": 0.01,
+    "StressDecayRate": 0.01,
+    "PersonalityMin": 0.3,
+    "PersonalityMax": 0.7
+  }
+  ```
 
 ### Features
 
@@ -109,3 +132,7 @@ Run the unit tests with:
 ```bash
 dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj
 ```
+
+## Diagrams
+
+An overview of the update cycle is provided as a Mermaid sequence diagram in [docs/sequence_diagram.md](docs/sequence_diagram.md).

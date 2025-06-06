@@ -8,7 +8,7 @@ public class TechIntentSystemTests
     public void InferPurposeRecognizesArt()
     {
         var concepts = new List<string> { "imagem", "som" };
-        var intent = TechIntentSystem.InferPurpose(concepts, "", "");
+        var intent = TechIntentSystem.InferPurpose(concepts, string.Empty, string.Empty);
         Assert.Equal("Expressar arte ou registrar", intent);
     }
 }
