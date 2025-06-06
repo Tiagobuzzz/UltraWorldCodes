@@ -14,8 +14,7 @@ namespace UltraWorldAI
         Tempo,
         Luz,
         Loucura,
-        Reflexo,
-        Luz
+        Reflexo
     }
 
     public enum DivineTemperament

@@ -48,6 +48,11 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **TradeDiplomacySystem** coordena tratados comerciais, confiança e traições entre reinos.
 - **Logger** suporta níveis de log e gravação em arquivo.
 - **Inventory system** permite que personagens colecionem `Item`s básicos.
+- **ReputationSystem** agora registra pontuações numéricas por tag.
+- **InteractionVisualizer** mantém um log visual das trocas de diálogos.
+- **BranchingDialogue** possui limite de iterações para evitar loops infinitos.
+- **NarrativePdfExporter** exporta narrativas simples para arquivos PDF.
+- **CalendarBuilder** aceita nomes de meses customizados por cultura.
 - **xUnit tests** verificam memórias e resolução de contradições.
 
 ## Building

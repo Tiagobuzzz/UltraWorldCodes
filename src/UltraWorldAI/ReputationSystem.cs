@@ -4,11 +4,18 @@ namespace UltraWorldAI
 {
     public class ReputationSystem
     {
-        public List<string> Tags { get; } = new();
+        private readonly Dictionary<string, float> _scores = new();
+
+        public IReadOnlyDictionary<string, float> Scores => _scores;
+
+        public void AdjustReputation(string tag, float delta)
+        {
+            _scores[tag] = _scores.GetValueOrDefault(tag) + delta;
+        }
 
         public float GetReputation(string tag)
         {
-            return Tags.Contains(tag) ? 1f : 0f;
+            return _scores.GetValueOrDefault(tag);
         }
     }
 }
