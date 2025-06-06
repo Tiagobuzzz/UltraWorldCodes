@@ -14,6 +14,7 @@ public static class MemoryDatabase
         cmd.CommandText = "CREATE TABLE IF NOT EXISTS Memories(Summary TEXT,Date TEXT,Intensity REAL,Emotion REAL,Source TEXT)";
         cmd.ExecuteNonQuery();
         using var tx = db.BeginTransaction();
+        cmd.Transaction = tx;
         foreach (var m in memories)
         {
             cmd.CommandText = "INSERT INTO Memories VALUES(@s,@d,@i,@e,@src)";

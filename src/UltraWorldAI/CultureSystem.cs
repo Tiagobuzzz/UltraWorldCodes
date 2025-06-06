@@ -51,6 +51,8 @@ namespace UltraWorldAI
             var baseTradition = TraditionEngine.CreateBasicTradition(ideaTitle);
             culture.Traditions.Add(baseTradition);
 
+            CultureScriptEngine.Execute(culture);
+
             Cultures.Add(culture);
             return culture;
         }
