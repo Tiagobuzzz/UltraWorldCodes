@@ -36,7 +36,22 @@ namespace UltraWorldAI
                 ConsistencyScore = Math.Max(0f, ConsistencyScore - 0.1f);
                 brain.Conflict.TriggerContradiction("filosofia", currentGoal.Description);
             }
-            else
+
+            foreach (var mem in brain.Memory.Memories.Take(5))
+            {
+                foreach (var doc in Doctrines)
+                {
+                    var opp = GetOppositeConcept(doc);
+                    if (!string.IsNullOrEmpty(opp) &&
+                        mem.Summary.Contains(opp, StringComparison.OrdinalIgnoreCase))
+                    {
+                        ConsistencyScore = Math.Max(0f, ConsistencyScore - 0.05f);
+                        brain.Conflict.TriggerContradiction("filosofia", mem.Summary);
+                    }
+                }
+            }
+
+            if (!brain.Conflict.HasActiveContradictions())
             {
                 ConsistencyScore = Math.Min(1f, ConsistencyScore + 0.01f);
             }
