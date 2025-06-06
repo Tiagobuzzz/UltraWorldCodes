@@ -1,5 +1,7 @@
 # UltraWorldCodes
 
+[![Build Status](https://github.com/example/UltraWorldCodes/actions/workflows/dotnet.yml/badge.svg)](https://github.com/example/UltraWorldCodes/actions)
+
 This repository contains the game code and the AI module. The AI logic is
 split across several files under `src/UltraWorldAI/`, each implementing
 interlinked systems that model memory, beliefs, personality, emotions and more.
@@ -103,6 +105,7 @@ Sample culture data for quick experiments is available in
 - **LanguageEvolutionSystem** faz evoluir dialetos ao longo do tempo.
 - **AirTradeSystem** suporta rotas comerciais aéreas.
 - **ModScriptEngine** possibilita scripts externos de mods.
+- **ExternalAIConnector** integra serviços de IA de terceiros.
 - **ClimateForecastAI** prevê padrões climáticos com base em eventos passados.
 - **RevolutionPatternDetector** analisa causas recorrentes de revoluções.
 - **EnergyGrid** gerencia fontes e consumo de energia.
@@ -138,6 +141,8 @@ loop.AddPerson(new Person("Bob"), 1, 1);
 loop.Run(3);
 ```
 
+Enable verbose information during simulations by toggling the `DebugMode` property on `SimulationSystem`.
+
 ## Benchmarking
 
 Benchmarks help estimate the cost of AI loops. Build and run the benchmark project with:
@@ -154,7 +159,7 @@ allowing thousands of iterations per second for large simulations.
 Run the unit tests with:
 
 ```bash
-dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj
+./run-tests.sh
 ```
 
 ## Diagrams
@@ -162,14 +167,15 @@ dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj
 An overview of the update cycle is provided as a Mermaid sequence diagram in [docs/sequence_diagram.md](docs/sequence_diagram.md).
 
 Additional usage examples can be found in [docs/advanced_examples.md](docs/advanced_examples.md).
+Video walkthroughs are listed in [docs/video_tutorials.md](docs/video_tutorials.md).
 
 ## Contributing
 
-Contributions are welcome! Please follow these guidelines:
+Contributions are welcome! A full guide is available in [CONTRIBUTING.md](CONTRIBUTING.md). Key points:
 
 - Use the .NET 8 SDK and follow C# 10 style conventions.
 - Keep the code modular under `src/UltraWorldAI` and format the code using `dotnet format`.
-- Run `dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj` before submitting a pull request.
+- Run `./run-tests.sh` before submitting a pull request.
 - Keep comments in the present tense to maintain consistency.
 - Add or update unit tests whenever you introduce new functionality.
 - Document any public APIs you create or modify in the `docs` folder.

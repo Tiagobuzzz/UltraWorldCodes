@@ -27,11 +27,11 @@ namespace UltraWorldAI
 
         private void CalculateReputationInfluence(ReputationSystem reputation)
         {
-            if (reputation.GetReputation("herói") > 0.5f)
+            if (reputation.GetReputation("hero") > 0.5f)
             {
                 ReputationWeight = 0.8f;
             }
-            else if (reputation.GetReputation("traidor") < -0.5f)
+            else if (reputation.GetReputation("traitor") < -0.5f)
             {
                 ReputationWeight = -0.8f;
             }
@@ -54,7 +54,7 @@ namespace UltraWorldAI
 
         public string DescribeExternalForces()
         {
-            return $"Pressão Social: {SocialPressure:F2}, Reputação: {ReputationWeight:F2}, Rituais: {RitualObligation:F2}";
+            return $"Social Pressure: {SocialPressure:F2}, Reputation: {ReputationWeight:F2}, Rituals: {RitualObligation:F2}";
         }
     }
 }
