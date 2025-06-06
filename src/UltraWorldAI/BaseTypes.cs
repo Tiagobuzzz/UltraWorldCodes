@@ -82,5 +82,14 @@ namespace UltraWorldAI
                 if (ex != null) File.AppendAllText(FilePath!, ex.StackTrace + Environment.NewLine);
             }
         }
+
+        public static void LogError(string message, Exception? ex = null,
+            [System.Runtime.CompilerServices.CallerMemberName] string member = "",
+            [System.Runtime.CompilerServices.CallerFilePath] string file = "",
+            [System.Runtime.CompilerServices.CallerLineNumber] int line = 0)
+        {
+            var detail = $"{message} (at {Path.GetFileName(file)}:{line} in {member})";
+            Log(detail, LogLevel.Warning, ex);
+        }
     }
 }
