@@ -60,4 +60,16 @@ public static class DiplomacyEngine
         if (Relations.Count == 0) return "Nenhuma relação diplomática registrada.";
         return string.Join("\n\n", Relations.ConvertAll(DescribeRelation));
     }
+
+    public static void AutoAlliance(string a, string b, Func<int> trustEvaluator)
+    {
+        if (Relations.Exists(r => r.KingdomA == a && r.KingdomB == b && r.Relation == DiplomaticRelation.Aliança))
+            return;
+        int trust = trustEvaluator();
+        if (trust > 70)
+        {
+            SetRelation(a, b, DiplomaticRelation.Aliança, "AI", "Confiança elevada");
+            Logger.Log($"[Diplomacy] Aliança formada entre {a} e {b}", LogLevel.Info);
+        }
+    }
 }

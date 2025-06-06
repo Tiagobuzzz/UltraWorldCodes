@@ -28,6 +28,8 @@ namespace UltraWorldAI
         public const float EmotionDecayLove = -0.01f;
         public const float EmotionDecaySorrow = -0.02f;
         public const float EmotionDecayCuriosity = -0.01f;
+        public const float EmotionDecaySurprise = -0.03f;
+        public const float EmotionDecayDisgust = -0.04f;
 
         public const float TraitMin = 0f;
         public const float TraitMax = 1f;

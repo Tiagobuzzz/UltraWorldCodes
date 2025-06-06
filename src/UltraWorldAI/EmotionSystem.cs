@@ -16,6 +16,8 @@ namespace UltraWorldAI
             Emotions.Add("love", 0.3f);
             Emotions.Add("sorrow", 0.1f);
             Emotions.Add("curiosity", 0.4f);
+            Emotions.Add("surprise", 0.3f);
+            Emotions.Add("disgust", 0.2f);
         }
 
         public string GetDominantEmotion()
@@ -46,6 +48,8 @@ namespace UltraWorldAI
                     "love" => AIConfig.EmotionDecayLove,
                     "sorrow" => AIConfig.EmotionDecaySorrow,
                     "curiosity" => AIConfig.EmotionDecayCuriosity,
+                    "surprise" => AIConfig.EmotionDecaySurprise,
+                    "disgust" => AIConfig.EmotionDecayDisgust,
                     _ => 0f
                 };
                 SetEmotion(key, Emotions[key] + decayRate);

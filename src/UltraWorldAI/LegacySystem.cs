@@ -9,6 +9,7 @@ namespace UltraWorldAI
         public Dictionary<string, float> TransmissibleTraits { get; private set; } = new();
         public List<string> MemeticInfluences { get; private set; } = new();
         public List<Memory> LegacyMemories { get; private set; } = new();
+        public Biology.Genome? Genome { get; private set; }
 
         public void DefineLegacyFromMind(Mind mind)
         {
@@ -27,6 +28,8 @@ namespace UltraWorldAI
                 .OrderByDescending(m => Math.Abs(m.EmotionalCharge))
                 .Take(5)
                 .ToList();
+
+            Genome = mind.PersonReference.Genome;
         }
 
         public void ApplyLegacyToNewPerson(Person newPerson)
@@ -49,6 +52,11 @@ namespace UltraWorldAI
                     mem.EmotionalCharge * 0.3f,
                     new List<string>(mem.Keywords) { "herança" },
                     "legacy");
+            }
+
+            if (Genome != null)
+            {
+                newPerson.Genome = Biology.GeneticReproduction.CrossGenomes(Genome, newPerson.Genome);
             }
         }
     }

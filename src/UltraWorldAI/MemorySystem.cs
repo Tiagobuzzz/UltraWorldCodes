@@ -110,11 +110,15 @@ namespace UltraWorldAI
         /// </summary>
         public void UpdateMemoryDecay()
         {
-            foreach (var mem in Memories)
+            for (int i = Memories.Count - 1; i >= 0; i--)
             {
+                var mem = Memories[i];
                 mem.Intensity = Math.Max(0, mem.Intensity - AISettings.MemoryDecayRate);
+                if (mem.Intensity <= AIConfig.ForgottenMemoryThreshold)
+                {
+                    Memories.RemoveAt(i);
+                }
             }
-            Memories.RemoveAll(m => m.Intensity <= AIConfig.ForgottenMemoryThreshold);
         }
 
         /// <summary>
