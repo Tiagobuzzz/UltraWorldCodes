@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace UltraWorldAI.Game;
@@ -11,14 +12,17 @@ public static class Pathfinder
 
     public static List<(int x, int y)> FindPath(GameMap map, int startX, int startY, int goalX, int goalY)
     {
-        var queue = new Queue<(int x, int y)>();
+        var open = new PriorityQueue<(int x, int y), int>();
         var cameFrom = new Dictionary<(int x, int y), (int x, int y)>();
-        queue.Enqueue((startX, startY));
+        var costSoFar = new Dictionary<(int x, int y), int>();
+
+        open.Enqueue((startX, startY), 0);
+        costSoFar[(startX, startY)] = 0;
         cameFrom[(startX, startY)] = (startX, startY);
 
-        while (queue.Count > 0)
+        while (open.Count > 0)
         {
-            var current = queue.Dequeue();
+            var current = open.Dequeue();
             if (current == (goalX, goalY))
                 break;
 
@@ -28,10 +32,17 @@ public static class Pathfinder
                 int ny = current.y + dir.y;
                 if (nx < 0 || ny < 0 || nx >= map.Width || ny >= map.Height)
                     continue;
-                if (cameFrom.ContainsKey((nx, ny)))
+                if (map.IsObstacleAt(nx, ny))
                     continue;
-                cameFrom[(nx, ny)] = current;
-                queue.Enqueue((nx, ny));
+
+                int newCost = costSoFar[current] + 1;
+                if (!costSoFar.TryGetValue((nx, ny), out var prev) || newCost < prev)
+                {
+                    costSoFar[(nx, ny)] = newCost;
+                    int priority = newCost + Heuristic(nx, ny, goalX, goalY);
+                    open.Enqueue((nx, ny), priority);
+                    cameFrom[(nx, ny)] = current;
+                }
             }
         }
 
@@ -46,4 +57,6 @@ public static class Pathfinder
         }
         return path;
     }
+
+    private static int Heuristic(int x, int y, int gx, int gy) => Math.Abs(x - gx) + Math.Abs(y - gy);
 }
