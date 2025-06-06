@@ -2,10 +2,14 @@ using System.Collections.Generic;
 
 namespace UltraWorldAI.Game;
 
+public enum BiomeType { Plains, Forest, Desert, Tundra, Mountain }
 public class Tile
 {
     public List<Person> Occupants { get; } = new();
     public bool IsObstacle { get; set; }
+    public BiomeType Biome { get; set; }
+
+    public Tile(BiomeType biome = BiomeType.Plains) => Biome = biome;
 }
 
 public class GameMap
@@ -29,6 +33,14 @@ public class GameMap
         if (IsInside(x, y))
             _tiles[x, y].IsObstacle = value;
     }
+
+    public void SetBiome(int x, int y, BiomeType biome)
+    {
+        if (IsInside(x, y))
+            _tiles[x, y].Biome = biome;
+    }
+
+    public BiomeType GetBiome(int x, int y) => IsInside(x, y) ? _tiles[x, y].Biome : BiomeType.Plains;
 
     public bool IsObstacleAt(int x, int y) => IsInside(x, y) && _tiles[x, y].IsObstacle;
 
@@ -55,8 +67,17 @@ public class GameMap
             {
                 if (_tiles[x, y].IsObstacle)
                     sb.Append('#');
+                else if (_tiles[x, y].Occupants.Count > 0)
+                    sb.Append('O');
                 else
-                    sb.Append(_tiles[x, y].Occupants.Count > 0 ? 'O' : '.');
+                    sb.Append(_tiles[x, y].Biome switch
+                    {
+                        BiomeType.Forest => 'F',
+                        BiomeType.Desert => 'D',
+                        BiomeType.Tundra => 'T',
+                        BiomeType.Mountain => 'M',
+                        _ => '.'
+                    });
             }
             sb.AppendLine();
         }

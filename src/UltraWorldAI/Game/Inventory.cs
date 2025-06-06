@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace UltraWorldAI.Game;
 
-public class Inventory
+public sealed class Inventory
 {
     private readonly List<Item> _items = new();
     public IReadOnlyList<Item> Items => _items;

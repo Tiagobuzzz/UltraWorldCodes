@@ -1,11 +1,6 @@
 namespace UltraWorldAI.Game;
 
-public class Item
-{
-    public string Name { get; }
-
-    public Item(string name)
-    {
-        Name = name;
-    }
-}
+/// <summary>
+/// Simple immutable item record.
+/// </summary>
+public sealed record Item(string Name);

@@ -1,6 +1,8 @@
 # UltraWorldCodes
 
 [![Build Status](https://github.com/example/UltraWorldCodes/actions/workflows/dotnet.yml/badge.svg)](https://github.com/example/UltraWorldCodes/actions)
+[![Coverage Status](https://img.shields.io/badge/coverage-auto-brightgreen)](docs/code_quality_metrics.md)
+[![Maintainability](https://img.shields.io/badge/maintainability-A-brightgreen)](docs/code_quality_metrics.md)
 
 This repository contains the game code and the AI module. The AI logic is
 split across several files under `src/UltraWorldAI/`, each implementing
@@ -185,7 +187,9 @@ Examples of fulfilled prophecies are listed in [docs/fulfilled_prophecies.md](do
 The effect of doctrines on personality traits is described in [docs/doctrine_impact.md](docs/doctrine_impact.md).
 The module startup order is detailed in [docs/module_startup_order.md](docs/module_startup_order.md).
 High level diagrams can be found in [docs/uml_overview.md](docs/uml_overview.md).
+The overall architecture is summarised in [docs/architecture_overview.md](docs/architecture_overview.md).
 Technology integration is documented in [docs/technology_integration.md](docs/technology_integration.md).
+Examples of mod integration can be found in [docs/mod_integration_examples.md](docs/mod_integration_examples.md).
 The technology inheritance system is described in [docs/tech_inheritance.md](docs/tech_inheritance.md).
 Known simulation issues are listed in [docs/known_simulation_failures.md](docs/known_simulation_failures.md).
 NPC hiring and training guidelines are described in [docs/npc_hiring_training.md](docs/npc_hiring_training.md).
@@ -207,3 +211,13 @@ Contributions are welcome! A full guide is available in [CONTRIBUTING.md](CONTRI
 
 - Execute `run-profiling.sh` para obter relatórios rápidos de CPU e memória.
 - Rode o jogo em build *Release* para medições mais realistas.
+
+## FAQ
+
+**Q: Em quais sistemas operacionais o jogo roda?**
+
+R: O código é multiplataforma e executa em Windows, Linux e macOS usando o .NET 8.
+
+**Q: Preciso chamar `IA.Initialize()` antes do jogo?**
+
+R: Sim. Isso carrega configurações e é necessário antes de criar `Person` ou `GameLoop`.
