@@ -38,6 +38,11 @@ namespace UltraWorldAI.Thoughts
             return pairs == 0 ? 0f : 1f - (totalConflict / pairs);
         }
 
+        public bool IsConsistent(float threshold = 0.8f)
+        {
+            return EvaluateConsistency() >= threshold;
+        }
+
         public List<Idea> GetContradictoryIdeas(float threshold = 0.5f)
         {
             return _engine.BrainConnections

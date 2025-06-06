@@ -22,10 +22,12 @@ namespace UltraWorldAI.Tests
 
             var doc = DoctrineEngine.CreateDoctrine(new DivineBeing { Name = "Sol", Domain = DivineDomain.Luz });
             DoctrineEngine.AddSacredText(doc, SacredTextType.Scroll);
+            DoctrineEngine.AddSacredText(doc, SacredTextType.Hologram);
 
             Assert.True(pop >= 0);
             Assert.Contains("Paz", demo.GetApprovedLaws());
             Assert.Contains(SacredTextType.Scroll, doc.SacredTexts);
+            Assert.Contains(SacredTextType.Hologram, doc.SacredTexts);
         }
     }
 }

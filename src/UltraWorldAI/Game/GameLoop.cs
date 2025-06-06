@@ -9,6 +9,21 @@ public class GameLoop
     private readonly List<(Person person, int x, int y, int? tx, int? ty)> _actors = new();
     private readonly Random _rng = new();
     private readonly bool _display;
+    private GameDifficulty _difficulty = GameDifficulty.Normal;
+
+    public GameDifficulty Difficulty
+    {
+        get => _difficulty;
+        set => _difficulty = value;
+    }
+
+    public int StepRange => _difficulty switch
+    {
+        GameDifficulty.Easy => 1,
+        GameDifficulty.Normal => 1,
+        GameDifficulty.Hard => 2,
+        _ => 1
+    };
 
     public GameLoop(int width, int height, bool display = false)
     {
@@ -45,8 +60,9 @@ public class GameLoop
                 }
                 else
                 {
-                    newX += _rng.Next(-1, 2);
-                    newY += _rng.Next(-1, 2);
+                    int range = StepRange;
+                    newX += _rng.Next(-range, range + 1);
+                    newY += _rng.Next(-range, range + 1);
                 }
 
                 newX = Math.Clamp(newX, 0, _map.Width - 1);
