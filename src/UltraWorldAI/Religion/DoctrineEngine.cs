@@ -3,12 +3,19 @@ using System.Collections.Generic;
 
 namespace UltraWorldAI.Religion
 {
+    public enum SacredTextType
+    {
+        Scroll,
+        Tablet,
+        OralTradition,
+        Digital
+    }
     public class Doctrine
     {
         public string Title { get; set; } = string.Empty;
         public string OriginGod { get; set; } = string.Empty;
         public List<string> SacredRules { get; set; } = new();
-        public List<string> SacredTexts { get; set; } = new();
+        public List<SacredTextType> SacredTexts { get; set; } = new();
         public string TransmissionMethod { get; set; } = string.Empty;
         public bool IsMutable { get; set; }
         public List<string> KnownHeresies { get; } = new();
@@ -79,7 +86,7 @@ namespace UltraWorldAI.Religion
                    $"Heresias conhecidas: {string.Join(" / ", doctrine.KnownHeresies)}";
         }
 
-        public static void AddSacredText(Doctrine doctrine, string textType)
+        public static void AddSacredText(Doctrine doctrine, SacredTextType textType)
         {
             if (!doctrine.SacredTexts.Contains(textType))
                 doctrine.SacredTexts.Add(textType);
