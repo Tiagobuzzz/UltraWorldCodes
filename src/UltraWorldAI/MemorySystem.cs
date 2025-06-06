@@ -41,7 +41,8 @@ namespace UltraWorldAI
         /// <param name="emotionalCharge">Associated emotional valence.</param>
         /// <param name="keywords">Optional keywords for retrieval.</param>
         /// <param name="source">Source of the experience.</param>
-        public virtual void AddMemory(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f, List<string>? keywords = null, string source = "self", string emotion = "")
+        /// <param name="isFalse">Marks the memory as fabricated.</param>
+        public virtual void AddMemory(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f, List<string>? keywords = null, string source = "self", string emotion = "", bool isFalse = false)
         {
             ClearCache();
             if (Memories.Count >= AISettings.MaxMemories)
@@ -56,7 +57,8 @@ namespace UltraWorldAI
                 EmotionalCharge = Math.Clamp(emotionalCharge, -1f, 1f),
                 Keywords = keywords ?? new List<string>(),
                 Source = source,
-                Emotion = emotion
+                Emotion = emotion,
+                IsFalse = isFalse
             });
             AISettings.EventStore?.Record(new EventSourcing.EventRecord("MemoryAdded", summary, DateTime.Now));
             Memories = Memories.OrderByDescending(m => m.Date).ToList();
@@ -99,32 +101,7 @@ namespace UltraWorldAI
         /// <param name="personality">Current personality traits to store.</param>
         public void SaveMemories(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
         {
-            if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
-            {
-                Persistence.MemoryDatabase.Save(path, Memories);
-                return;
-            }
-            if (path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
-            {
-                SaveMemoriesAsync(path, beliefs, personality).GetAwaiter().GetResult();
-                return;
-            }
-
-            var state = new PersistedState
-            {
-                Memories = Memories,
-                Beliefs = beliefs?.Beliefs,
-                Traits = personality?.Traits
-            };
-            try
-            {
-                var json = JsonSerializer.Serialize(state, MemorySystemJsonContext.Default.PersistedState);
-                File.WriteAllText(path, json);
-            }
-            catch (IOException ex)
-            {
-                Logger.LogError($"Failed to save memories to {path}", ex);
-            }
+            SaveMemoriesAsync(path, beliefs, personality).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -266,6 +243,40 @@ namespace UltraWorldAI
                 {
                     personality.SetTrait(kv.Key, kv.Value);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Quickly checks if a persisted state file can be deserialized.
+        /// </summary>
+        public bool ValidateSaveFile(string path)
+        {
+            try
+            {
+                if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
+                {
+                    return File.Exists(path);
+                }
+
+                if (!File.Exists(path)) return false;
+
+                if (path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
+                {
+                    using var fs = File.OpenRead(path);
+                    using var gz = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionMode.Decompress);
+                    var state = JsonSerializer.Deserialize<PersistedState>(gz, MemorySystemJsonContext.Default.PersistedState);
+                    return state != null;
+                }
+                else
+                {
+                    var json = File.ReadAllText(path);
+                    var state = JsonSerializer.Deserialize<PersistedState>(json, MemorySystemJsonContext.Default.PersistedState);
+                    return state != null;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 

@@ -11,7 +11,7 @@ public class PhotographicMemorySystem : MemorySystem
 {
     /// <inheritdoc />
     public override void AddMemory(string summary, float intensity = 0.5f, float emotionalCharge = 0.0f,
-        List<string>? keywords = null, string source = "self", string emotion = "")
+        List<string>? keywords = null, string source = "self", string emotion = "", bool isFalse = false)
     {
         Memories.Add(new Memory
         {
@@ -21,7 +21,8 @@ public class PhotographicMemorySystem : MemorySystem
             EmotionalCharge = Math.Clamp(emotionalCharge, -1f, 1f),
             Keywords = keywords ?? new List<string>(),
             Source = source,
-            Emotion = emotion
+            Emotion = emotion,
+            IsFalse = isFalse
         });
         Memories.Sort((a, b) => b.Date.CompareTo(a.Date));
     }

@@ -26,6 +26,9 @@ public class Memory
     /// <summary>Source of the memory (e.g., self or external).</summary>
     public string Source { get; set; } = string.Empty;
 
+    /// <summary>Indicates if the memory is fabricated rather than factual.</summary>
+    public bool IsFalse { get; set; }
+
     public Memory()
     {
         Keywords = new List<string>();
