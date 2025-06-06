@@ -27,9 +27,18 @@ namespace UltraWorldAI
 
         private void CalculateReputationInfluence(ReputationSystem reputation)
         {
-            ReputationWeight = reputation.Tags.Contains("herói") ? 0.8f :
-                               reputation.Tags.Contains("traidor") ? -0.8f :
-                               reputation.Tags.Count * 0.1f;
+            if (reputation.GetReputation("herói") > 0.5f)
+            {
+                ReputationWeight = 0.8f;
+            }
+            else if (reputation.GetReputation("traidor") < -0.5f)
+            {
+                ReputationWeight = -0.8f;
+            }
+            else
+            {
+                ReputationWeight = reputation.Scores.Values.Sum() * 0.1f;
+            }
         }
 
         private void CalculateRitualDemands(RitualSystem rituals)

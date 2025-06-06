@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UltraWorldAI.Visualization;
 
 namespace UltraWorldAI
 {
@@ -11,6 +12,7 @@ namespace UltraWorldAI
             var curiosity = to.Mind.Emotions.GetEmotion("curiosity");
             to.Mind.Emotions.SetEmotion("curiosity", curiosity + influence);
             to.Mind.IdeaNet.GenerateNewIdea(from.Name, to.Mind.Emotions, to.Mind.Memory, to.Mind.Beliefs);
+            InteractionVisualizer.RecordExchange(from.Name, to.Name, information);
         }
 
         public static void ComplexDialogue(Person a, Person b, List<string> lines)
@@ -25,14 +27,17 @@ namespace UltraWorldAI
         }
 
         public static void BranchingDialogue(Person a, Person b,
-            Dictionary<int, List<string>> branches, System.Func<Person, int, int> selector)
+            Dictionary<int, List<string>> branches, System.Func<Person, int, int> selector,
+            int maxIterations = 20)
         {
             int branch = 0;
-            while (branches.ContainsKey(branch))
+            int loops = 0;
+            while (branches.ContainsKey(branch) && loops < maxIterations)
             {
                 var lines = branches[branch];
                 ComplexDialogue(a, b, lines);
                 branch = selector(a, branch);
+                loops++;
             }
         }
     }
