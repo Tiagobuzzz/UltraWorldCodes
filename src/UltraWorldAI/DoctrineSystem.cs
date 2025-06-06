@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace UltraWorldAI
 {
-    public class Doctrine
+    public class GeneralDoctrine
     {
         public string Name { get; set; } = string.Empty;
         public List<string> Tenets { get; set; } = new();
@@ -13,7 +13,7 @@ namespace UltraWorldAI
 
     public class DoctrineSystem
     {
-        public List<Doctrine> Doctrines { get; } = new();
+        public List<GeneralDoctrine> Doctrines { get; } = new();
         public List<string> CoreTruths { get; } = new();
 
         public void EvolveFromSymbolsAndBeliefs(SymbolicExpressionSystem symbols, BeliefSystem beliefs)
@@ -31,7 +31,7 @@ namespace UltraWorldAI
 
             string truth = $"A verdade é que {string.Join(" e ", values)} são revelações refletidas em {string.Join(", ", meaningfulSymbols)}.";
 
-            var newDoctrine = new Doctrine
+            var newDoctrine = new GeneralDoctrine
             {
                 Name = $"Doutrina de {meaningfulSymbols.FirstOrDefault() ?? "origem"}",
                 Tenets = new List<string>
