@@ -22,6 +22,7 @@ public class Cryptocurrency
 {
     public string Name { get; set; } = string.Empty;
     public double Value { get; set; }
+    public double Volatility { get; set; } = 0.05; // percentage of change per update
 }
 
 public class EconomicCareer
@@ -39,6 +40,15 @@ public static class TradeCareerSystem
     public static List<TradeGuild> Guilds { get; } = new();
     public static List<EconomicCareer> ActiveIAs { get; } = new();
     public static List<Cryptocurrency> Cryptocurrencies { get; } = new();
+
+    public static void UpdateMarket()
+    {
+        foreach (var crypto in Cryptocurrencies)
+        {
+            var change = (Random.Shared.NextDouble() * 2 - 1) * crypto.Volatility;
+            crypto.Value = Math.Max(0.01, crypto.Value * (1 + change));
+        }
+    }
 
     public static void CreateCareer(string iaName, string role)
     {
@@ -73,9 +83,9 @@ public static class TradeCareerSystem
         });
     }
 
-    public static void RegisterCryptocurrency(string name, double startingValue)
+    public static void RegisterCryptocurrency(string name, double startingValue, double volatility = 0.05)
     {
-        Cryptocurrencies.Add(new Cryptocurrency { Name = name, Value = startingValue });
+        Cryptocurrencies.Add(new Cryptocurrency { Name = name, Value = startingValue, Volatility = volatility });
     }
 
     public static void TradeCrypto(EconomicCareer career, string crypto, double amount)

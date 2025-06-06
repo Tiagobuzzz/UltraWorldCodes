@@ -18,6 +18,24 @@ public class GenealogyNode
 {
     public string Name { get; set; } = string.Empty;
     public List<GenealogyNode> Descendants { get; set; } = new();
+
+    public GenealogyNode? Find(string name)
+    {
+        if (Name == name) return this;
+        foreach (var child in Descendants)
+        {
+            var found = child.Find(name);
+            if (found != null) return found;
+        }
+        return null;
+    }
+
+    public void AddDescendant(string ancestorName, string descendantName)
+    {
+        var node = Find(ancestorName);
+        if (node != null)
+            node.Descendants.Add(new GenealogyNode { Name = descendantName });
+    }
 }
 
 public static class RaceRepository
@@ -36,7 +54,8 @@ public static class RaceRepository
                 Weaknesses = new() { "Vulnerabilidade Psicológica" },
                 CognitiveBias = "Expansão",
                 SociopoliticalTendency = "Reinos e Nações",
-                NaturalAffinity = "Diversidade Ambiental"
+                NaturalAffinity = "Diversidade Ambiental",
+                GenealogyRoot = new GenealogyNode { Name = "Ancestral Humano" }
             },
             new()
             {
@@ -46,7 +65,8 @@ public static class RaceRepository
                 Weaknesses = new() { "Estagnação Cultural" },
                 CognitiveBias = "Estética",
                 SociopoliticalTendency = "Conselhos Eternos",
-                NaturalAffinity = "Crescimento Vegetal"
+                NaturalAffinity = "Crescimento Vegetal",
+                GenealogyRoot = new GenealogyNode { Name = "Ancestral Élfico" }
             },
             new()
             {
@@ -56,7 +76,8 @@ public static class RaceRepository
                 Weaknesses = new() { "Baixa Adaptação Climática" },
                 CognitiveBias = "Precisão",
                 SociopoliticalTendency = "Clãs",
-                NaturalAffinity = "Pedra e Metal"
+                NaturalAffinity = "Pedra e Metal",
+                GenealogyRoot = new GenealogyNode { Name = "Ancestral Anão" }
             },
             new()
             {
@@ -66,7 +87,8 @@ public static class RaceRepository
                 Weaknesses = new() { "Densidade de População", "Comida em Excesso" },
                 CognitiveBias = "Sobrevivência Territorial",
                 SociopoliticalTendency = "Alianças Temporais",
-                NaturalAffinity = "Céu e Montanhas"
+                NaturalAffinity = "Céu e Montanhas",
+                GenealogyRoot = new GenealogyNode { Name = "Ancestral Gigante" }
             },
             new()
             {
@@ -76,7 +98,8 @@ public static class RaceRepository
                 Weaknesses = new() { "Baixo Laço Social" },
                 CognitiveBias = "Supremacia Territorial",
                 SociopoliticalTendency = "Impérios Brutalistas",
-                NaturalAffinity = "Calor, Pedra e Subterrâneo"
+                NaturalAffinity = "Calor, Pedra e Subterrâneo",
+                GenealogyRoot = new GenealogyNode { Name = "Ancestral Reptiliano" }
             },
             new()
             {
@@ -86,7 +109,8 @@ public static class RaceRepository
                 Weaknesses = new() { "Fragilidade Física", "Impulsividade Sensorial" },
                 CognitiveBias = "Liberdade Instintiva",
                 SociopoliticalTendency = "Sementes de Coletivos Temporários",
-                NaturalAffinity = "Névoa, Flores e Luar"
+                NaturalAffinity = "Névoa, Flores e Luar",
+                GenealogyRoot = new GenealogyNode { Name = "Ancestral Fae" }
             },
             new()
             {
@@ -96,7 +120,8 @@ public static class RaceRepository
                 Weaknesses = new() { "Preconceito Ancestral", "Risco de Transcendência Instável" },
                 CognitiveBias = "Sobrevivência Emocional",
                 SociopoliticalTendency = "Códigos Internos Orais",
-                NaturalAffinity = "Fendas, Cinzas, Rejeição"
+                NaturalAffinity = "Fendas, Cinzas, Rejeição",
+                GenealogyRoot = new GenealogyNode { Name = "Ancestral Tiefling" }
             },
             new()
             {
@@ -106,7 +131,8 @@ public static class RaceRepository
                 Weaknesses = new() { "Secura Letal", "Tecnologia Instável" },
                 CognitiveBias = "Mistério",
                 SociopoliticalTendency = "Domínios Silenciosos",
-                NaturalAffinity = "Água Densa e Pressão"
+                NaturalAffinity = "Água Densa e Pressão",
+                GenealogyRoot = new GenealogyNode { Name = "Ancestral Atlante" }
             },
             new()
             {
@@ -116,7 +142,8 @@ public static class RaceRepository
                 Weaknesses = new() { "Padrões Fixos de Comportamento" },
                 CognitiveBias = "Eficiência",
                 SociopoliticalTendency = "Arquitetura de Casta",
-                NaturalAffinity = "Subsolo, Mel, Comunicação Química"
+                NaturalAffinity = "Subsolo, Mel, Comunicação Química",
+                GenealogyRoot = new GenealogyNode { Name = "Ancestral Insectoide" }
             }
         };
     }

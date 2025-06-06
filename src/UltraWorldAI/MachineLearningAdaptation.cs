@@ -57,6 +57,8 @@ namespace UltraWorldAI
             Train(feats, 1f);
             var result = Predict(feats);
             var delta = result - 0.5f;
+            if (Math.Abs(delta) < 0.01f)
+                delta = memory.EmotionalCharge * 0.02f;
             person.Mind.Personality.AdjustTrait(trait, delta * 0.1f);
         }
     }

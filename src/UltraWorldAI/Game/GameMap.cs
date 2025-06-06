@@ -30,6 +30,8 @@ public class GameMap
             _tiles[x, y].IsObstacle = value;
     }
 
+    public bool IsObstacleAt(int x, int y) => IsInside(x, y) && _tiles[x, y].IsObstacle;
+
     public void Place(Person person, int x, int y)
     {
         if (IsInside(x, y) && !_tiles[x, y].IsObstacle)

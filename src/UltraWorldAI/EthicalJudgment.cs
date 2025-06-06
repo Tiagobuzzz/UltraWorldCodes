@@ -36,5 +36,13 @@ namespace UltraWorldAI.Thoughts
                 return $"Ação '{actionSymbol}' julgada como IMORAL.";
             return $"Ação '{actionSymbol}' julgada como AMBÍGUA.";
         }
+
+        public float EvaluateMorality(string statement)
+        {
+            var result = JudgeAction(statement, new() { statement });
+            if (result.Contains("ÉTICA")) return 1f;
+            if (result.Contains("IMORAL")) return 0f;
+            return 0.5f;
+        }
     }
 }
