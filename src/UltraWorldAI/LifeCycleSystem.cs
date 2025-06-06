@@ -15,7 +15,7 @@ public static class LifeCycleSystem
             < 60 => LifeStage.Adulto,
             _ => LifeStage.Idoso
         };
-        if (person.Age >= 80 && person.IsAlive)
+        if (person.Age > 80 && person.IsAlive)
             person.Die();
     }
 }
