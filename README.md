@@ -69,6 +69,13 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 - **AirTradeSystem** suporta rotas comerciais aéreas.
 - **ModScriptEngine** possibilita scripts externos de mods.
 - **ClimateForecastAI** prevê padrões climáticos com base em eventos passados.
+- **RevolutionPatternDetector** analisa causas recorrentes de revoluções.
+- **EnergyGrid** gerencia fontes e consumo de energia.
+- **ParanormalEventGenerator** cria eventos científicos paranormais.
+- **WorldCamera** oferece múltiplos modos de visualização do mundo.
+- **OralTraditionRecorder** registra histórias contadas verbalmente.
+- **LostTechnologyRegistry** acompanha tecnologias perdidas e redescobertas.
+- **RealTimeStatsServer** disponibiliza estatísticas ao vivo via HTTP.
 - **xUnit tests** verificam memórias e resolução de contradições.
 
 ## Building
