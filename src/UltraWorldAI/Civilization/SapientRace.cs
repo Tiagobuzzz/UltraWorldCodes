@@ -11,6 +11,13 @@ public class SapientRace
     public string CognitiveBias { get; set; } = string.Empty;
     public string SociopoliticalTendency { get; set; } = string.Empty;
     public string NaturalAffinity { get; set; } = string.Empty;
+    public GenealogyNode GenealogyRoot { get; set; } = new();
+}
+
+public class GenealogyNode
+{
+    public string Name { get; set; } = string.Empty;
+    public List<GenealogyNode> Descendants { get; set; } = new();
 }
 
 public static class RaceRepository

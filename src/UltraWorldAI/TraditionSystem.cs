@@ -22,14 +22,15 @@ namespace UltraWorldAI
             Traditions.Add(tradition);
         }
 
-        public void PerformRitual(string name, Person performer, EmotionSystem emotionalState)
+        public void PerformRitual(string name, Person performer, EmotionSystem emotionalState, string type = "")
         {
             var ritual = new RitualInstance
             {
                 Name = name,
                 Date = DateTime.Now,
                 EmotionTone = emotionalState.GetDominantEmotion(),
-                PerformedBy = performer.Name
+                PerformedBy = performer.Name,
+                Type = type
             };
 
             RitualHistory.Add(ritual);
@@ -61,5 +62,6 @@ namespace UltraWorldAI
         public DateTime Date { get; set; }
         public string EmotionTone { get; set; } = string.Empty;
         public string PerformedBy { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
     }
 }
