@@ -95,7 +95,7 @@ namespace UltraWorldAI
         public string GetLifeNarrative() => LifeNarrative;
     }
 
-    public class InternalScenario
+    public sealed class InternalScenario
     {
         public string Goal { get; set; } = string.Empty;
         public string ImaginedEmotion { get; set; } = string.Empty;

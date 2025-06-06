@@ -14,6 +14,9 @@ public partial class MemorySystem
     {
         var now = DateTime.Now;
         var lower = keyword?.Trim().ToLowerInvariant();
+        var cacheKey = $"{lower}|{count}";
+        if (_keywordCache.TryGetValue(cacheKey, out var cached))
+            return new List<Memory>(cached);
         System.Text.RegularExpressions.Regex? regex = null;
         if (!string.IsNullOrWhiteSpace(lower))
             regex = new System.Text.RegularExpressions.Regex(System.Text.RegularExpressions.Regex.Escape(lower!),
@@ -59,6 +62,8 @@ public partial class MemorySystem
             mem.Intensity = Math.Min(1f, mem.Intensity + 0.05f);
         }
 
+        _keywordCache[cacheKey] = new List<Memory>(sorted);
+
         return sorted;
     }
 
@@ -68,6 +73,9 @@ public partial class MemorySystem
     public List<Memory> RetrieveMemoriesByEmotion(string emotion, int count = 5)
     {
         var lower = emotion.ToLowerInvariant();
+        var cacheKey = $"{lower}|{count}";
+        if (_emotionCache.TryGetValue(cacheKey, out var cached))
+            return new List<Memory>(cached);
         var matches = new List<Memory>();
         foreach (var m in Memories)
         {
@@ -85,6 +93,8 @@ public partial class MemorySystem
             mem.Intensity = Math.Min(1f, mem.Intensity + 0.05f);
         }
 
+        _emotionCache[cacheKey] = new List<Memory>(results);
+
         return results;
     }
 
@@ -97,6 +107,7 @@ public partial class MemorySystem
     /// <summary>Removes memories containing the specified keyword.</summary>
     public void RemoveMemoriesByKeyword(string keyword)
     {
+        ClearCache();
         var lower = keyword.ToLowerInvariant();
         var regex = new System.Text.RegularExpressions.Regex(System.Text.RegularExpressions.Regex.Escape(lower),
             System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.Compiled);

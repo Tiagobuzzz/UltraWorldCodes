@@ -4,6 +4,7 @@ using UltraWorldAI.Interface;
 using UltraWorldAI.World;
 using Xunit;
 
+[Collection("Sequential")]
 public class GameStateApiTests
 {
     [Fact]

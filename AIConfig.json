@@ -4,5 +4,6 @@
   "StressDecayRate": 0.01,
   "PersonalityMin": 0.3,
   "PersonalityMax": 0.7,
-  "ForgottenMemoryThreshold": 0.05
+  "ForgottenMemoryThreshold": 0.05,
+  "MaxEmotionCount": 8
 }
