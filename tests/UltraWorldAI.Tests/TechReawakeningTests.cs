@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UltraWorldAI.Discovery;
 using Xunit;
+[Collection("Sequential")]
 
 public class TechReawakeningTests
 {
