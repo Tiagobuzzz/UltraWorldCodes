@@ -69,6 +69,26 @@ namespace UltraWorldAI
             return string.Join("\n", lines);
         }
 
+        public void FromProceduralScript(string script)
+        {
+            var lines = script.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length >= 4 && parts[0] == "SYMBOL")
+                {
+                    ActiveSymbols.Add(new MentalSymbol
+                    {
+                        Archetype = parts[1].ToLowerInvariant(),
+                        Meaning = parts[3].TrimEnd(';').ToLowerInvariant(),
+                        EmotionLinked = "",
+                        Intensity = 0.5f,
+                        CreatedAt = DateTime.Now
+                    });
+                }
+            }
+        }
+
         private static string PickSymbolForEmotion(string emotion)
         {
             return emotion switch

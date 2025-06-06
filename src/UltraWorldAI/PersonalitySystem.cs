@@ -20,7 +20,8 @@ namespace UltraWorldAI
 
         private static float RandomInitial()
         {
-            return (float)(_rand.NextDouble() * 0.2 + 0.4);
+            var range = AISettings.PersonalityMax - AISettings.PersonalityMin;
+            return AISettings.PersonalityMin + (float)_rand.NextDouble() * range;
         }
 
         public float GetTrait(string traitName)

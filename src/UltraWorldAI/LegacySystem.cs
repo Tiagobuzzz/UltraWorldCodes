@@ -57,6 +57,7 @@ namespace UltraWorldAI
             if (Genome != null)
             {
                 newPerson.Genome = Biology.GeneticReproduction.CrossGenomes(Genome, newPerson.Genome);
+                Biology.GeneticMutation.Mutate(newPerson.Genome, 0.05);
             }
         }
     }

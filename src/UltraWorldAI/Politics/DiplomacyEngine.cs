@@ -72,4 +72,11 @@ public static class DiplomacyEngine
             Logger.Log($"[Diplomacy] Aliança formada entre {a} e {b}", LogLevel.Info);
         }
     }
+
+    public static void EvaluateAllianceOpportunity(Person leaderA, Person leaderB)
+    {
+        int trust = (int)((leaderA.Mind.Reputation.GetReputation(leaderB.Name) +
+                           leaderB.Mind.Reputation.GetReputation(leaderA.Name)) * 50);
+        AutoAlliance(leaderA.Name, leaderB.Name, () => trust);
+    }
 }

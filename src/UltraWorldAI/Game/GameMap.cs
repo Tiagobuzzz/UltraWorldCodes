@@ -5,6 +5,7 @@ namespace UltraWorldAI.Game;
 public class Tile
 {
     public List<Person> Occupants { get; } = new();
+    public bool IsObstacle { get; set; }
 }
 
 public class GameMap
@@ -23,15 +24,21 @@ public class GameMap
             _tiles[x, y] = new Tile();
     }
 
-    public void Place(Person person, int x, int y)
+    public void SetObstacle(int x, int y, bool value)
     {
         if (IsInside(x, y))
+            _tiles[x, y].IsObstacle = value;
+    }
+
+    public void Place(Person person, int x, int y)
+    {
+        if (IsInside(x, y) && !_tiles[x, y].IsObstacle)
             _tiles[x, y].Occupants.Add(person);
     }
 
     public void Move(Person person, int fromX, int fromY, int toX, int toY)
     {
-        if (!IsInside(toX, toY)) return;
+        if (!IsInside(toX, toY) || _tiles[toX, toY].IsObstacle) return;
         _tiles[fromX, fromY].Occupants.Remove(person);
         _tiles[toX, toY].Occupants.Add(person);
         person.MoveTo($"Tile {toX},{toY}", toX, toY);
@@ -44,7 +51,10 @@ public class GameMap
         {
             for (int x = 0; x < Width; x++)
             {
-                sb.Append(_tiles[x, y].Occupants.Count > 0 ? 'O' : '.');
+                if (_tiles[x, y].IsObstacle)
+                    sb.Append('#');
+                else
+                    sb.Append(_tiles[x, y].Occupants.Count > 0 ? 'O' : '.');
             }
             sb.AppendLine();
         }
