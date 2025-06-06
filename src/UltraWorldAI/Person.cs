@@ -24,6 +24,7 @@ namespace UltraWorldAI
             Mind = new Mind(this);
             Location = new SpatialIdentity("Origem", 0, 0);
             Age = 0;
+            Religion.RelicSystem.ApplyRelics(this);
         }
 
         public string ReflectOnSelf()

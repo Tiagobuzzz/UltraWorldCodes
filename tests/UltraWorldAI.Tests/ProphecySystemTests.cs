@@ -31,4 +31,16 @@ public class ProphecySystemTests
 
         Assert.True(prophecy.IsCorrupted);
     }
+
+    [Fact]
+    public void SelfFulfillmentTriggersWhenMemoryMatches()
+    {
+        var prophecy = ProphecySystem.Create("Visao", "Mago", "fala", "Chave", "Portal aberto");
+        var person = new Person("Profeta");
+        person.AddExperience("Portal aberto", 0.8f);
+
+        ProphecySystem.ApplySelfFulfillment(person.Mind);
+
+        Assert.True(prophecy.IsFulfilled);
+    }
 }
