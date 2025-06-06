@@ -69,7 +69,7 @@ namespace UltraWorldAI
         }
     }
 
-    public enum LogLevel { Debug = 0, Info = 1, Warning = 2 }
+    public enum LogLevel { Debug = 0, Info = 1, Warning = 2, Error = 3 }
 
     public static class Logger
     {
@@ -81,7 +81,14 @@ namespace UltraWorldAI
             if (level < Level) return;
             var formatted = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}][{level}] {message}";
             if (ex != null) formatted += $" Exception: {ex.Message}";
+
+            var color = Console.ForegroundColor;
+            if (level == LogLevel.Error) Console.ForegroundColor = ConsoleColor.Red;
+            else if (level == LogLevel.Warning) Console.ForegroundColor = ConsoleColor.Yellow;
+
             Console.WriteLine(formatted);
+            Console.ForegroundColor = color;
+
             if (!string.IsNullOrEmpty(FilePath))
             {
                 File.AppendAllText(FilePath!, formatted + Environment.NewLine);
@@ -95,7 +102,7 @@ namespace UltraWorldAI
             [System.Runtime.CompilerServices.CallerLineNumber] int line = 0)
         {
             var detail = $"{message} (at {Path.GetFileName(file)}:{line} in {member})";
-            Log(detail, LogLevel.Warning, ex);
+            Log(detail, LogLevel.Error, ex);
         }
     }
 }
