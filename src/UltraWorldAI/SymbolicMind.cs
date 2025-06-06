@@ -55,6 +55,20 @@ namespace UltraWorldAI
             ActiveSymbols.RemoveAll(s => s.Intensity < 0.1f);
         }
 
+        /// <summary>
+        /// Converts active symbols to a simple procedural representation.
+        /// </summary>
+        /// <returns>A multi-line string describing each symbol.</returns>
+        public string ToProceduralScript()
+        {
+            var lines = new List<string>();
+            foreach (var symbol in ActiveSymbols)
+            {
+                lines.Add($"SYMBOL {symbol.Archetype.ToUpperInvariant()} MEANS {symbol.Meaning.ToUpperInvariant()};");
+            }
+            return string.Join("\n", lines);
+        }
+
         private static string PickSymbolForEmotion(string emotion)
         {
             return emotion switch
