@@ -1,4 +1,5 @@
 using System;
+using UltraWorldAI;
 
 namespace UltraWorldAI.Discovery;
 
@@ -32,7 +33,6 @@ public static class TechLoreSystem
         "foi esquecida e depois redescoberta"
     };
 
-    private static readonly Random Rng = new();
 
     public static string GenerateLore(ConceptualTech tech)
     {
@@ -42,5 +42,5 @@ public static class TechLoreSystem
                $"Reacao cultural: {RandomPick(Reactions)}";
     }
 
-    private static string RandomPick(string[] options) => options[Rng.Next(options.Length)];
+    private static string RandomPick(string[] options) => options[RandomProvider.Next(0, options.Length)];
 }

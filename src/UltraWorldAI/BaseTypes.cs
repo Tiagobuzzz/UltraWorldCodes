@@ -57,6 +57,8 @@ namespace UltraWorldAI
         public static float ForgottenMemoryThreshold = AIConfig.ForgottenMemoryThreshold;
         public static float PersonalityMin = AIConfig.DefaultPersonalityMin;
         public static float PersonalityMax = AIConfig.DefaultPersonalityMax;
+        public static bool ObserverMode = false;
+        public static EventSourcing.IEventStore? EventStore;
         public static void Load(string path)
         {
             if (!File.Exists(path)) return;
@@ -70,6 +72,8 @@ namespace UltraWorldAI
             if (data.TryGetValue("PersonalityMax", out var pmax)) PersonalityMax = pmax;
             if (data.TryGetValue("ForgottenMemoryThreshold", out var fmt)) ForgottenMemoryThreshold = fmt;
         }
+
+        public static void Reload(string path) => Load(path);
     }
 
     public enum LogLevel { Debug = 0, Info = 1, Warning = 2, Error = 3 }
@@ -78,6 +82,7 @@ namespace UltraWorldAI
     {
         public static LogLevel Level = LogLevel.Info;
         public static string? FilePath;
+        public static long MaxFileSizeBytes = 5 * 1024 * 1024;
         public static Dictionary<LogLevel, ConsoleColor> LevelColors { get; } = new()
         {
             [LogLevel.Debug] = ConsoleColor.Gray,
@@ -109,6 +114,9 @@ namespace UltraWorldAI
                 {
                     File.AppendAllText(FilePath!, formatted + Environment.NewLine);
                     if (ex != null) File.AppendAllText(FilePath!, ex.StackTrace + Environment.NewLine);
+                    var info = new FileInfo(FilePath!);
+                    if (info.Length > MaxFileSizeBytes)
+                        FilePath = Path.ChangeExtension(FilePath, $"{DateTime.Now:yyyyMMddHHmmss}.log");
                 }
                 catch (IOException)
                 {
@@ -135,6 +143,9 @@ namespace UltraWorldAI
                 {
                     await File.AppendAllTextAsync(FilePath!, formatted + Environment.NewLine);
                     if (ex != null) await File.AppendAllTextAsync(FilePath!, ex.StackTrace + Environment.NewLine);
+                    var info = new FileInfo(FilePath!);
+                    if (info.Length > MaxFileSizeBytes)
+                        FilePath = Path.ChangeExtension(FilePath, $"{DateTime.Now:yyyyMMddHHmmss}.log");
                 }
                 catch (IOException)
                 {

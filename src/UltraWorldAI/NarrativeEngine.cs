@@ -1,4 +1,5 @@
 using System;
+using UltraWorldAI;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +8,6 @@ namespace UltraWorldAI
     public class NarrativeEngine
     {
         private readonly Person _person;
-        private readonly Random _random = new Random();
 
         public NarrativeEngine(Person person)
         {
@@ -115,7 +115,7 @@ namespace UltraWorldAI
             projectionWeight /= totalWeight;
             repressionWeight /= totalWeight;
 
-            double roll = _random.NextDouble();
+            double roll = RandomProvider.NextDouble();
             string reflection;
 
             if (roll < justificationWeight)
@@ -186,7 +186,7 @@ namespace UltraWorldAI
                 justificationOptions.Add($"A raiva me impulsionou a agir contra a injustiça, servindo a um propósito positivo, apesar do desconforto.");
             }
 
-            string justification = justificationOptions.Any() ? justificationOptions[_random.Next(justificationOptions.Count)] :
+            string justification = justificationOptions.Any() ? justificationOptions[RandomProvider.Next(justificationOptions.Count)] :
                                         $"Houve uma boa razão para o que aconteceu. Não é o que parece à primeira vista.";
             return $"{baseContradiction} No entanto, {_person.Name} ponderou: \"{justification}\"";
         }
@@ -212,7 +212,7 @@ namespace UltraWorldAI
                 rationalizationOptions.Add($"A raiva que senti era meramente um catalisador energético, uma resposta fisiológica para aumentar meu foco.");
             }
 
-            string rationalization = rationalizationOptions.Any() ? rationalizationOptions[_random.Next(rationalizationOptions.Count)] :
+            string rationalization = rationalizationOptions.Any() ? rationalizationOptions[RandomProvider.Next(rationalizationOptions.Count)] :
                                         $"Se eu analisar bem, minha ação foi perfeitamente lógica e consistente com meus objetivos mais profundos.";
             return $"{baseContradiction} Mas {_person.Name} racionalizou: \"{rationalization}\"";
         }
@@ -239,7 +239,7 @@ namespace UltraWorldAI
 
         private string TryProject(string baseContradiction, string selfAspect, string conflictingAction)
         {
-            return $"{baseContradiction} {_person.Name} pensou: \"Na verdade, a culpa não foi minha. Foi a situação externa que me obrigou a agir, ou foi a falha de {(_random.NextDouble() > 0.5 ? "outra pessoa" : "o ambiente")} que me levou a isso.\"";
+            return $"{baseContradiction} {_person.Name} pensou: \"Na verdade, a culpa não foi minha. Foi a situação externa que me obrigou a agir, ou foi a falha de {(RandomProvider.NextDouble() > 0.5 ? "outra pessoa" : "o ambiente")} que me levou a isso.\"";
         }
 
         private string TryRepress(string baseContradiction, string selfAspect, string conflictingAction)
