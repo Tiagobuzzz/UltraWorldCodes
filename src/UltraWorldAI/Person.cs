@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UltraWorldAI.Territory;
+using UltraWorldAI.Game;
 
 namespace UltraWorldAI
 {
@@ -9,6 +10,7 @@ namespace UltraWorldAI
         public string Name { get; set; }
         public string Bloodline { get; set; } = string.Empty;
         public Mind Mind { get; private set; }
+        public Inventory Inventory { get; } = new();
         public LifeStage CurrentLifeStage { get; set; } = LifeStage.Adulto;
         public SpatialIdentity Location { get; private set; }
 
