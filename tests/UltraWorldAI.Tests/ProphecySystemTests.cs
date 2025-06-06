@@ -1,4 +1,5 @@
 using UltraWorldAI.Religion;
+using UltraWorldAI;
 using Xunit;
 
 public class ProphecySystemTests

@@ -8,6 +8,7 @@ namespace UltraWorldAI
     {
         public List<Tradition> Traditions { get; } = new();
         public List<RitualInstance> RitualHistory { get; } = new();
+        public Dictionary<LifeStage, string> LifeStageRituals { get; } = new();
 
         public void CreateTradition(string inspiration, string purpose, string originMemory)
         {
@@ -45,6 +46,19 @@ namespace UltraWorldAI
                 Traditions.Last().Rituals.Add(ritual);
         }
 
+        public void AddLifeStageRitual(LifeStage stage, string name)
+        {
+            LifeStageRituals[stage] = name;
+        }
+
+        public void PerformLifeStageRitual(Person person)
+        {
+            if (LifeStageRituals.TryGetValue(person.CurrentLifeStage, out var ritual))
+            {
+                PerformRitual(ritual, person, person.Mind.Emotions, "transicao");
+            }
+        }
+
         public List<string> GetTraditionNames() => Traditions.Select(t => t.Name).ToList();
     }
 
@@ -65,3 +79,4 @@ namespace UltraWorldAI
         public string Type { get; set; } = string.Empty;
     }
 }
+

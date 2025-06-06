@@ -12,6 +12,7 @@ namespace UltraWorldAI
         Sangue,
         Fertilidade,
         Tempo,
+        Luz,
         Loucura,
         Reflexo
     }
