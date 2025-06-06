@@ -45,5 +45,14 @@ namespace UltraWorldAI
             avg /= population.Count;
             return avg > 0.8f ? Politics.RevoltSystem.TriggerRevolt(gov, rebelLeader) : null;
         }
+
+        public static float GetAverageStress(System.Collections.Generic.List<Person> population)
+        {
+            if (population.Count == 0) return 0f;
+            float total = 0f;
+            foreach (var p in population)
+                total += p.Mind.Stress.CurrentStressLevel;
+            return total / population.Count;
+        }
     }
 }

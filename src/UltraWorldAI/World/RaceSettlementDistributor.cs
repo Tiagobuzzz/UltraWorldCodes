@@ -12,6 +12,8 @@ public class Settlement
     public string Race { get; set; } = string.Empty;
     public string CultureSummary { get; set; } = string.Empty;
     public int Population { get; set; }
+    public int HousingUnits { get; set; }
+    public string ArchitectureStyle { get; set; } = "Comum";
 }
 
 public static class RaceSettlementDistributor
@@ -48,7 +50,9 @@ public static class RaceSettlementDistributor
                 Region = region.Name,
                 Race = race.Name,
                 CultureSummary = culture?.SocialStructure ?? "Desconhecida",
-                Population = rand.Next(200, 1000)
+                Population = rand.Next(200, 1000),
+                HousingUnits = rand.Next(50, 300),
+                ArchitectureStyle = rand.NextDouble() < 0.5 ? "Orgânica" : "Geométrica"
             });
 
             TerritoryClaimSystem.ClaimRegion(region.Name, race.Name, "Assentamento inicial");
@@ -59,6 +63,6 @@ public static class RaceSettlementDistributor
     {
         if (Settlements.Count == 0) return "Nenhum assentamento criado.";
         return string.Join("\n\n", Settlements.Select(s =>
-            $"\U0001F3D8️ {s.Name}\nRegião: {s.Region} | Raça: {s.Race}\nCultura: {s.CultureSummary}\nPopulação: {s.Population}"));
+            $"\U0001F3D8️ {s.Name}\nRegião: {s.Region} | Raça: {s.Race}\nCultura: {s.CultureSummary}\nPopulação: {s.Population} | Habitações: {s.HousingUnits} | Arquitetura: {s.ArchitectureStyle}"));
     }
 }

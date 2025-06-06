@@ -8,6 +8,7 @@ namespace UltraWorldAI
     public class Culture
     {
         public string Name { get; set; } = string.Empty;
+        public string OriginStory { get; set; } = string.Empty;
         public List<string> CoreValues { get; set; } = new();
         public List<string> Taboos { get; set; } = new();
         public List<Tradition> Traditions { get; set; } = new();
@@ -39,6 +40,7 @@ namespace UltraWorldAI
             var culture = new Culture
             {
                 Name = $"Cultura de {ideaTitle}",
+                OriginStory = GenerateOriginStory(ideaTitle),
                 CoreValues = keywords.Take(3).ToList(),
                 AestheticStyle = "mutável",
                 CalendarType = CalendarType.Lunar,
@@ -109,6 +111,21 @@ namespace UltraWorldAI
 
                 TraditionEngine.MutateTraditions(culture);
             }
+        }
+
+        private static string GenerateOriginStory(string seed)
+        {
+            var rand = new Random(seed.GetHashCode());
+            var myth = new[]
+            {
+                "formada a partir de um pacto ancestral",
+                "nascida de um êxodo espiritual",
+                "fundada após uma grande visão coletiva",
+                "originada em uma jornada através de terras místicas",
+                "erguida sobre ruínas esquecidas"
+            };
+
+            return $"Esta cultura foi {myth[rand.Next(myth.Length)]} inspirada pela ideia '{seed}'.";
         }
     }
 }
