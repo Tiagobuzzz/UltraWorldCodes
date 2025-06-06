@@ -25,4 +25,16 @@ public class SymbolicMindTests
         Assert.Contains(person.Mind.DynamicBeliefs.Beliefs,
             b => b.Statement.Contains("abismo"));
     }
+
+    [Fact]
+    public void ProceduralScriptExportsSymbols()
+    {
+        var person = new Person("Procedural");
+        person.Mind.Emotions.SetEmotion("fear", 0.8f);
+        person.Mind.Symbols.GenerateFromEmotion(person.Mind.Emotions);
+
+        string script = person.Mind.Symbols.ToProceduralScript();
+
+        Assert.Contains("SYMBOL ABISMO MEANS DESCONHECIDO;", script);
+    }
 }
