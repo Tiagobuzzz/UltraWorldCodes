@@ -101,8 +101,15 @@ namespace UltraWorldAI
                 Beliefs = beliefs?.Beliefs,
                 Traits = personality?.Traits
             };
-            var json = JsonSerializer.Serialize(state, _options);
-            File.WriteAllText(path, json);
+            try
+            {
+                var json = JsonSerializer.Serialize(state, _options);
+                File.WriteAllText(path, json);
+            }
+            catch (IOException ex)
+            {
+                Logger.LogError($"Failed to save memories to {path}", ex);
+            }
         }
 
         /// <summary>
@@ -122,8 +129,15 @@ namespace UltraWorldAI
                 Beliefs = beliefs?.Beliefs,
                 Traits = personality?.Traits
             };
-            await using var fs = File.Create(path);
-            await JsonSerializer.SerializeAsync(fs, state, _options);
+            try
+            {
+                await using var fs = File.Create(path);
+                await JsonSerializer.SerializeAsync(fs, state, _options);
+            }
+            catch (IOException ex)
+            {
+                Logger.LogError($"Failed to save memories to {path}", ex);
+            }
         }
 
         /// <summary>
@@ -139,8 +153,16 @@ namespace UltraWorldAI
             }
 
             if (!File.Exists(path)) return;
-            var json = File.ReadAllText(path);
-            var state = JsonSerializer.Deserialize<PersistedState>(json, _options);
+            PersistedState? state = null;
+            try
+            {
+                var json = File.ReadAllText(path);
+                state = JsonSerializer.Deserialize<PersistedState>(json, _options);
+            }
+            catch (IOException ex)
+            {
+                Logger.LogError($"Failed to load memories from {path}", ex);
+            }
             if (state == null) return;
             if (state.Memories != null) Memories = state.Memories;
             if (state.Beliefs != null && beliefs != null)
@@ -172,8 +194,16 @@ namespace UltraWorldAI
             }
 
             if (!File.Exists(path)) return;
-            var json = await File.ReadAllTextAsync(path);
-            var state = JsonSerializer.Deserialize<PersistedState>(json, _options);
+            PersistedState? state = null;
+            try
+            {
+                var json = await File.ReadAllTextAsync(path);
+                state = JsonSerializer.Deserialize<PersistedState>(json, _options);
+            }
+            catch (IOException ex)
+            {
+                Logger.LogError($"Failed to load memories from {path}", ex);
+            }
             if (state == null) return;
             if (state.Memories != null) Memories = state.Memories;
             if (state.Beliefs != null && beliefs != null)

@@ -3,13 +3,7 @@ using System.Collections.Generic;
 
 namespace UltraWorldAI.Economy;
 
-public class Loan
-{
-    public string Debtor { get; set; } = string.Empty;
-    public string Creditor { get; set; } = string.Empty;
-    public double Amount { get; set; }
-    public int TurnsLeft { get; set; }
-}
+public record Loan(string Debtor, string Creditor, double Amount, int TurnsLeft);
 
 public static class BankingCollapseSystem
 {
@@ -28,13 +22,7 @@ public static class BankingCollapseSystem
             return;
         }
 
-        Loans.Add(new Loan
-        {
-            Debtor = debtor,
-            Creditor = bank,
-            Amount = amount,
-            TurnsLeft = duration
-        });
+        Loans.Add(new Loan(debtor, bank, amount, duration));
 
         BankWealth[bank] -= amount;
     }
