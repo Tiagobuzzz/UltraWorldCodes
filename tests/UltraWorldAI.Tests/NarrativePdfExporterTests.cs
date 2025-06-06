@@ -8,8 +8,15 @@ public class NarrativePdfExporterTests
     public void ExportCreatesPdfFile()
     {
         var path = Path.GetTempFileName();
-        NarrativePdfExporter.Export("Test narrative", path);
-        var content = File.ReadAllText(path);
-        Assert.Contains("%PDF-1.4", content);
+        try
+        {
+            NarrativePdfExporter.Export("Test narrative", path);
+            var content = File.ReadAllText(path);
+            Assert.Contains("%PDF-1.4", content);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
     }
 }

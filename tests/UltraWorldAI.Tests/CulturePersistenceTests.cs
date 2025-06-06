@@ -14,11 +14,18 @@ public class CulturePersistenceTests
         system.AddCollectiveMemory(culture.Name, "memoria", 0.4f);
 
         var path = Path.GetTempFileName();
-        CulturePersistence.Save(path, system.Cultures);
-        var loaded = CulturePersistence.Load(path);
+        try
+        {
+            CulturePersistence.Save(path, system.Cultures);
+            var loaded = CulturePersistence.Load(path);
 
-        Assert.Single(loaded);
-        Assert.Equal(culture.Name, loaded[0].Name);
-        Assert.Single(loaded[0].CollectiveMemory.Memories);
+            Assert.Single(loaded);
+            Assert.Equal(culture.Name, loaded[0].Name);
+            Assert.Single(loaded[0].CollectiveMemory.Memories);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
     }
 }
