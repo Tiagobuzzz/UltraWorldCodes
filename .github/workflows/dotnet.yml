@@ -36,3 +36,10 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test tests/UltraWorldAI.Tests/UltraWorldAI.Tests.csproj --no-build --verbosity normal
+    - name: Pack
+      run: dotnet pack src/UltraWorldAI/UltraWorldAI.csproj --no-build -c Release -o ./artifacts
+    - name: Upload NuGet package
+      uses: actions/upload-artifact@v4
+      with:
+        name: NuGet
+        path: ./artifacts/*.nupkg

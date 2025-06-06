@@ -22,4 +22,14 @@ MapFaithEconomyIntegration.CreateTradeRoute("Capital", "Outpost", "Iron", 100);
 ResourceManagementAI.BalanceWealth();
 ```
 
+## Introspective Reflection
+
+```csharp
+IA.Initialize();
+var thinker = new Person("Thinker");
+thinker.AddExperience("pondered existence", 0.6f, 0.2f);
+thinker.Mind.Introspection.ReflectDeeply();
+Console.WriteLine(thinker.ReflectOnSelf());
+```
+
 
