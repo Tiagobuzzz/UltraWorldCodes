@@ -8,7 +8,7 @@ namespace UltraWorldAI.Interface;
 /// <summary>
 /// Simple HTTP connector for external AI services.
 /// </summary>
-public class ExternalAIConnector
+public class ExternalAIConnector : IExternalAIService
 {
     private readonly HttpClient _client = new();
 

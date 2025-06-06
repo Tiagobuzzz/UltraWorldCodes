@@ -8,6 +8,9 @@ namespace UltraWorldAI
     {
         public List<InternalScenario> ImaginedScenarios { get; private set; }
         public string LifeNarrative { get; private set; }
+        public bool DebugMode { get; set; }
+        public Interface.IExternalAIService? ExternalService { get; set; }
+        public string ExternalEndpoint { get; set; } = string.Empty;
 
         private static readonly Random _random = new Random();
 
@@ -23,6 +26,9 @@ namespace UltraWorldAI
 
             var primaryGoal = goals.ActiveGoals.OrderByDescending(g => g.Urgency).FirstOrDefault();
             if (primaryGoal == null) return;
+
+            if (DebugMode)
+                Logger.Log($"Simulating goal '{primaryGoal.Description}'", LogLevel.Debug);
 
             var imaginedOutcome = GenerateOutcome(primaryGoal, emotions);
             ImaginedScenarios.Add(imaginedOutcome);
@@ -41,20 +47,33 @@ namespace UltraWorldAI
                 Confidence = _random.NextDouble() * 0.8 + 0.2
             };
 
+            if (ExternalService != null && !string.IsNullOrEmpty(ExternalEndpoint))
+            {
+                var enhanced = ExternalService.QueryAsync(ExternalEndpoint, outcome.Outcome)
+                    .GetAwaiter().GetResult();
+                if (!string.IsNullOrEmpty(enhanced))
+                    outcome.Outcome = enhanced;
+            }
+
+            if (DebugMode)
+                Logger.Log($"Generated scenario: {outcome.Outcome}", LogLevel.Debug);
+
             return outcome;
         }
 
         private string SimulateConsequence(string goal, string emotion)
         {
-            if (emotion == "fear" && goal.Contains("confrontar"))
-                return "Você se machuca e gera conflito social.";
-            if (emotion == "love" && goal.Contains("cuidar"))
-                return "Você fortalece vínculos e ganha confiança.";
-            if (emotion == "anger")
-                return "Você toma decisões impulsivas e causa problemas.";
-            if (goal.Contains("explorar"))
-                return "Você encontra algo inesperado.";
-            return "Você age, mas o resultado é incerto.";
+            return (emotion, goal) switch
+            {
+                ("fear", var g) when g.Contains("confrontar")
+                    => "Você se machuca e gera conflito social.",
+                ("love", var g) when g.Contains("cuidar")
+                    => "Você fortalece vínculos e ganha confiança.",
+                ("anger", _) => "Você toma decisões impulsivas e causa problemas.",
+                (_, var g) when g.Contains("explorar")
+                    => "Você encontra algo inesperado.",
+                _ => "Você age, mas o resultado é incerto."
+            };
         }
 
         private void UpdateLifeNarrative(InternalScenario scenario)

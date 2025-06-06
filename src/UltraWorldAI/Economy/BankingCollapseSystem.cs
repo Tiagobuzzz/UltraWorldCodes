@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace UltraWorldAI.Economy;
 
-public record Loan(string Debtor, string Creditor, double Amount, int TurnsLeft);
+public record Loan(string Debtor, string Creditor, double Amount, int TurnsLeft)
+{
+    public int TurnsLeft { get; set; } = TurnsLeft;
+}
 
 public static class BankingCollapseSystem
 {

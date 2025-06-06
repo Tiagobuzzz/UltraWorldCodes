@@ -94,6 +94,11 @@ namespace UltraWorldAI
                 Persistence.MemoryDatabase.Save(path, Memories);
                 return;
             }
+            if (path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
+            {
+                SaveMemoriesAsync(path, beliefs, personality).GetAwaiter().GetResult();
+                return;
+            }
 
             var state = new PersistedState
             {
@@ -129,6 +134,22 @@ namespace UltraWorldAI
                 Beliefs = beliefs?.Beliefs,
                 Traits = personality?.Traits
             };
+
+            if (path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
+            {
+                try
+                {
+                    await using var fs = File.Create(path);
+                    await using var gz = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionLevel.Optimal);
+                    await JsonSerializer.SerializeAsync(gz, state, _options);
+                    return;
+                }
+                catch (IOException ex)
+                {
+                    Logger.LogError($"Failed to save memories to {path}", ex);
+                    return;
+                }
+            }
             try
             {
                 await using var fs = File.Create(path);
@@ -149,6 +170,11 @@ namespace UltraWorldAI
             {
                 if (File.Exists(path))
                     Memories = Persistence.MemoryDatabase.Load(path);
+                return;
+            }
+            if (path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
+            {
+                LoadMemoriesAsync(path, beliefs, personality).GetAwaiter().GetResult();
                 return;
             }
 
@@ -197,8 +223,17 @@ namespace UltraWorldAI
             PersistedState? state = null;
             try
             {
-                var json = await File.ReadAllTextAsync(path);
-                state = JsonSerializer.Deserialize<PersistedState>(json, _options);
+                if (path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
+                {
+                    await using var fs = File.OpenRead(path);
+                    await using var gz = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionMode.Decompress);
+                    state = await JsonSerializer.DeserializeAsync<PersistedState>(gz, _options);
+                }
+                else
+                {
+                    var json = await File.ReadAllTextAsync(path);
+                    state = JsonSerializer.Deserialize<PersistedState>(json, _options);
+                }
             }
             catch (IOException ex)
             {
