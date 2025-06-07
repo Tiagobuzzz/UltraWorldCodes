@@ -12,7 +12,7 @@ public partial class MemorySystem
     /// </summary>
     public List<Memory> RetrieveMemories(string keyword, int count = 5)
     {
-        var now = DateTime.Now;
+        var now = DateTime.UtcNow;
         var lower = keyword?.Trim().ToLowerInvariant();
         var cacheKey = $"{lower}|{count}";
         if (_keywordCache.TryGetValue(cacheKey, out var cached))
@@ -23,8 +23,11 @@ public partial class MemorySystem
                 System.Text.RegularExpressions.RegexOptions.IgnoreCase |
                 System.Text.RegularExpressions.RegexOptions.Compiled);
         var results = new List<(Memory mem, float weight)>();
+        IEnumerable<Memory> searchList = Memories;
+        if (!string.IsNullOrWhiteSpace(lower) && _keywordIndex.TryGetValue(lower!, out var indexed))
+            searchList = indexed;
 
-        foreach (var m in Memories)
+        foreach (var m in searchList)
         {
             bool matches = regex == null;
             if (!matches)
@@ -120,5 +123,6 @@ public partial class MemorySystem
             }
             return regex.IsMatch(m.Summary);
         });
+        RebuildKeywordIndex();
     }
 }
