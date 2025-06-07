@@ -11,6 +11,7 @@ public class EnchantedArtwork
     public string Medium = string.Empty;
     public string Effect = string.Empty;
     public bool RequiresRitual;
+    public string? PropheticVision;
 }
 
 public static class MagicalArtEffectSystem
@@ -39,5 +40,21 @@ public static class MagicalArtEffectSystem
             WorldImpactSystem.ApplyImpact(title, region, "cultura");
             Console.WriteLine($"\uD83E\uDD84 {title} afetou {region} com {art.Effect}");
         }
+    }
+
+    public static void EmbedProphecy(string title, string vision)
+    {
+        var art = Artworks.Find(a => a.Title == title);
+        if (art != null)
+        {
+            art.PropheticVision = vision;
+            Console.WriteLine($"\uD83D\uDD2E Profecia adicionada a {title}: {vision}");
+        }
+    }
+
+    public static string? RevealProphecy(string title)
+    {
+        var art = Artworks.Find(a => a.Title == title);
+        return art?.PropheticVision;
     }
 }
