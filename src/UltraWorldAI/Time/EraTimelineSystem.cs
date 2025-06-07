@@ -40,4 +40,9 @@ public static class EraTimelineSystem
         foreach (var e in Eras)
             Console.WriteLine($"\n\ud83d\udcdc {e.Culture} entrou na Era: {e.Name} (Início: {e.StartYear}) | Gatilho: {e.Trigger}");
     }
+
+    public static void AdvanceEpoch(string name)
+    {
+        StartEra("global", name, "evento divino");
+    }
 }

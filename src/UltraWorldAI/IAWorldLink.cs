@@ -32,6 +32,21 @@ namespace UltraWorldAI
             Events.Add(e);
         }
 
+        public static void LogEvent(string description)
+        {
+            RegisterEvent(new HistoricalEvent
+            {
+                EventName = description,
+                Symbol = description,
+                AffectedCivilizations = new() { "geral" },
+                CulturalImpact = "registro",
+                MemoryState = EventMemoryState.Present,
+                Timestamp = DateTime.Now,
+                OriginEmotion = string.Empty,
+                RecordForm = "texto"
+            });
+        }
+
         public static List<HistoricalEvent> GetEventsForCivilization(string civ)
         {
             return Events.Where(ev => ev.AffectedCivilizations.Contains(civ)).ToList();
