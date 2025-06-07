@@ -123,6 +123,8 @@ Sample culture data for quick experiments is available in
 - **OralTraditionRecorder** registra histórias contadas verbalmente.
 - **LostTechnologyRegistry** acompanha tecnologias perdidas e redescobertas.
 - **RealTimeStatsServer** disponibiliza estatísticas ao vivo via HTTP.
+- **UltraWorldObscura** reúne locais proibidos, ressonâncias mentais,
+  estruturas vivas e corredores não euclidianos.
 - **Muitos NPCs** podem aumentar bastante o uso de memória e CPU; meça com os benchmarks antes de ampliar a escala.
 - Minimum hardware requirements are listed in [docs/hardware_requirements.md](docs/hardware_requirements.md).
 - **xUnit tests** verificam memórias e resolução de contradições.
