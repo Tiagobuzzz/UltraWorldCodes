@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UltraWorldAI.Module15;
 
-public class LiteraryWork
+public class ExpressiveWork
 {
     public string Author = string.Empty;
     public string Genre = string.Empty;
@@ -13,11 +13,11 @@ public class LiteraryWork
 
 public static class LiteraryExpressionSystem
 {
-    public static List<LiteraryWork> Works { get; } = new();
+    public static List<ExpressiveWork> Works { get; } = new();
 
     public static void CreateWork(string author, string genre, string theme, string style)
     {
-        Works.Add(new LiteraryWork
+        Works.Add(new ExpressiveWork
         {
             Author = author,
             Genre = genre,
