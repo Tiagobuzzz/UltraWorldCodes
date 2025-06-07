@@ -11,7 +11,7 @@ namespace UltraWorldAI
         public string OriginStory { get; set; } = string.Empty;
         public List<string> CoreValues { get; set; } = new();
         public List<string> Taboos { get; set; } = new();
-        public List<Tradition> Traditions { get; set; } = new();
+        public List<CulturalTradition> Traditions { get; set; } = new();
         public string AestheticStyle { get; set; } = string.Empty;
         public CalendarType CalendarType { get; set; } = CalendarType.Lunar;
         public List<string> AssociatedIdeas { get; set; } = new();

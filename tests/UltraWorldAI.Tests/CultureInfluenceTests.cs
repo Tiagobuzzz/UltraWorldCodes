@@ -11,7 +11,7 @@ public class CultureInfluenceTests
         {
             CoreValues = new List<string> { "Respeito" },
             Taboos = new List<string> { "Mentir" },
-            Traditions = new List<Tradition>
+            Traditions = new List<CulturalTradition>
             {
                 new()
                 {

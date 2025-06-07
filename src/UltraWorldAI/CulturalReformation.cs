@@ -20,7 +20,7 @@ public static class CulturalReformation
                 culture.CoreValues.Add(idea.Title);
                 if (culture.Traditions.All(t => t.Name != $"Celebracao da Ideia: {idea.Title}"))
                 {
-                    var tradition = new Tradition
+                    var tradition = new CulturalTradition
                     {
                         Name = $"Celebracao da Ideia: {idea.Title}",
                         Purpose = "celebrar inovacao",
@@ -47,7 +47,7 @@ public static class CulturalReformation
 
         if (culture.CoreValues.Count > 7 && culture.Traditions.All(t => t.Name != "Festa da Nova Consciencia"))
         {
-            var fest = new Tradition
+            var fest = new CulturalTradition
             {
                 Name = "Festa da Nova Consciencia",
                 Purpose = "marcar reforma cultural",

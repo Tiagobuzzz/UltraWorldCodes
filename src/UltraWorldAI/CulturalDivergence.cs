@@ -30,7 +30,7 @@ public static class CulturalDivergence
                 "Negacao da origem",
                 "Repetir o passado"
             },
-            Traditions = new List<Tradition>
+            Traditions = new List<CulturalTradition>
             {
                 TraditionEngine.CreateBasicTradition("Corte do Vinculo Ancestral")
             },

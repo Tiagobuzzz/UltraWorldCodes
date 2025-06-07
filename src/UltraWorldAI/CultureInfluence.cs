@@ -41,7 +41,7 @@ namespace UltraWorldAI
 
             if (strongIdeas.Count > 3 && culture.Traditions.All(t => t.Name != "Ritual da Palavra Viva"))
             {
-                culture.Traditions.Add(new Tradition
+                culture.Traditions.Add(new CulturalTradition
                 {
                     Name = "Ritual da Palavra Viva",
                     Purpose = "celebrar ideias",

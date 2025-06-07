@@ -6,13 +6,13 @@ namespace UltraWorldAI
 {
     public class TraditionSystem
     {
-        public List<Tradition> Traditions { get; } = new();
+        public List<CulturalTradition> Traditions { get; } = new();
         public List<RitualInstance> RitualHistory { get; } = new();
         public Dictionary<LifeStage, string> LifeStageRituals { get; } = new();
 
         public void CreateTradition(string inspiration, string purpose, string originMemory)
         {
-            var tradition = new Tradition
+            var tradition = new CulturalTradition
             {
                 Name = $"Tradicao de {inspiration}",
                 Purpose = purpose,
@@ -62,7 +62,7 @@ namespace UltraWorldAI
         public List<string> GetTraditionNames() => Traditions.Select(t => t.Name).ToList();
     }
 
-    public class Tradition
+    public class CulturalTradition
     {
         public string Name { get; set; } = string.Empty;
         public string Purpose { get; set; } = string.Empty;

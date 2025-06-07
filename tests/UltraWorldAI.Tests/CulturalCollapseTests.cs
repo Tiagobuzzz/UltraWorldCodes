@@ -11,7 +11,7 @@ public class CulturalCollapseTests
         var culture = new Culture
         {
             Taboos = new List<string> { "Honra" },
-            Traditions = new List<Tradition> { new() { Name = "T", Rituals = new List<RitualInstance>() } }
+            Traditions = new List<CulturalTradition> { new() { Name = "T", Rituals = new List<RitualInstance>() } }
         };
 
         Assert.True(CulturalCollapse.CheckCollapse(culture));
@@ -19,7 +19,7 @@ public class CulturalCollapseTests
         var stable = new Culture
         {
             CoreValues = new List<string> { "Honra" },
-            Traditions = new List<Tradition> { new() { Name = "R", Rituals = new List<RitualInstance> { new() { Name = "Cerimonia", Date = DateTime.Now, EmotionTone = "alegre", PerformedBy = "tester" } } } }
+            Traditions = new List<CulturalTradition> { new() { Name = "R", Rituals = new List<RitualInstance> { new() { Name = "Cerimonia", Date = DateTime.Now, EmotionTone = "alegre", PerformedBy = "tester" } } } }
         };
 
         Assert.False(CulturalCollapse.CheckCollapse(stable));
@@ -32,7 +32,7 @@ public class CulturalCollapseTests
         {
             Name = "Memoria",
             CoreValues = new List<string> { "Valor" },
-            Traditions = new List<Tradition> { new() { Name = "R", Rituals = new List<RitualInstance> { new() { Name = "Cerimonia", Date = DateTime.Now, EmotionTone = "intenso", PerformedBy = "x" } } } },
+            Traditions = new List<CulturalTradition> { new() { Name = "R", Rituals = new List<RitualInstance> { new() { Name = "Cerimonia", Date = DateTime.Now, EmotionTone = "intenso", PerformedBy = "x" } } } },
             Taboos = new List<string> { "Valor" },
             AssociatedIdeas = new List<string>()
         };
