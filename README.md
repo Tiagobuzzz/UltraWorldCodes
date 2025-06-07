@@ -187,6 +187,7 @@ Additional usage examples can be found in [docs/advanced_examples.md](docs/advan
 Usage scenarios for each subsystem are summarized in [docs/subsystem_usage_scenarios.md](docs/subsystem_usage_scenarios.md).
 Example assets are available under [assets/examples](assets/examples).
 Video walkthroughs are listed in [docs/video_tutorials.md](docs/video_tutorials.md).
+UI mockups can be viewed in [docs/ui_mockups.md](docs/ui_mockups.md).
 Guidelines for scaling worlds to very large maps are documented in [docs/scaling_large_maps.md](docs/scaling_large_maps.md).
 Examples of fulfilled prophecies are listed in [docs/fulfilled_prophecies.md](docs/fulfilled_prophecies.md).
 The effect of doctrines on personality traits is described in [docs/doctrine_impact.md](docs/doctrine_impact.md).
