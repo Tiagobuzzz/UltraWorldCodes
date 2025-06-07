@@ -6,9 +6,9 @@ namespace UltraWorldAI
 {
     public static class TraditionEngine
     {
-        public static Tradition CreateBasicTradition(string inspiration)
+        public static CulturalTradition CreateBasicTradition(string inspiration)
         {
-            return new Tradition
+            return new CulturalTradition
             {
                 Name = $"Tradicao {inspiration}",
                 Purpose = "coesao",
@@ -26,7 +26,7 @@ namespace UltraWorldAI
             };
         }
 
-        public static void AddTradition(Culture culture, Tradition tradition)
+        public static void AddTradition(Culture culture, CulturalTradition tradition)
         {
             if (culture.Traditions.All(t => t.Name != tradition.Name))
                 culture.Traditions.Add(tradition);
