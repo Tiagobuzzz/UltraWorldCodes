@@ -25,6 +25,7 @@ namespace UltraWorldAI
 
         private readonly Dictionary<string, List<Memory>> _keywordCache = new();
         private readonly Dictionary<string, List<Memory>> _emotionCache = new();
+        private readonly Dictionary<string, HashSet<Memory>> _keywordIndex = new(StringComparer.OrdinalIgnoreCase);
 
         private void ClearCache()
         {
@@ -49,25 +50,36 @@ namespace UltraWorldAI
             {
                 ForgetLeastImportantMemory();
             }
-            Memories.Add(new Memory
+            var mem = new Memory
             {
                 Summary = summary,
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 Intensity = Math.Clamp(intensity, 0f, 1f),
                 EmotionalCharge = Math.Clamp(emotionalCharge, -1f, 1f),
                 Keywords = keywords ?? new List<string>(),
                 Source = source,
                 Emotion = emotion,
                 IsFalse = isFalse
-            });
-            AISettings.EventStore?.Record(new EventSourcing.EventRecord("MemoryAdded", summary, DateTime.Now));
+            };
+            Memories.Add(mem);
+            foreach (var kw in mem.Keywords)
+            {
+                var lower = kw.ToLowerInvariant();
+                if (!_keywordIndex.TryGetValue(lower, out var set))
+                {
+                    set = new HashSet<Memory>();
+                    _keywordIndex[lower] = set;
+                }
+                set.Add(mem);
+            }
+            AISettings.EventStore?.Record(new EventSourcing.EventRecord("MemoryAdded", summary, DateTime.UtcNow));
             Memories = Memories.OrderByDescending(m => m.Date).ToList();
         }
 
         private void ForgetLeastImportantMemory()
         {
             ClearCache();
-            Memories.RemoveAll(m => m.Intensity < AISettings.ForgottenMemoryThreshold || (DateTime.Now - m.Date).TotalDays > 365);
+            Memories.RemoveAll(m => m.Intensity < AISettings.ForgottenMemoryThreshold || (DateTime.UtcNow - m.Date).TotalDays > 365);
             if (Memories.Count >= AISettings.MaxMemories)
             {
                 var leastImportant = Memories.OrderBy(m => m.Intensity).ThenBy(m => m.Date).FirstOrDefault();
@@ -76,6 +88,7 @@ namespace UltraWorldAI
                     Memories.Remove(leastImportant);
                 }
             }
+            RebuildKeywordIndex();
         }
 
         /// <summary>
@@ -90,7 +103,9 @@ namespace UltraWorldAI
             {
                 mem.Intensity = Math.Max(0, mem.Intensity - AISettings.MemoryDecayRate);
             }
-            Memories.RemoveAll(m => m.Intensity <= threshold);
+            var removed = Memories.RemoveAll(m => m.Intensity <= threshold);
+            if (removed > 0)
+                RebuildKeywordIndex();
         }
 
         /// <summary>
@@ -100,6 +115,7 @@ namespace UltraWorldAI
         {
             ClearCache();
             Memories.Clear();
+            _keywordIndex.Clear();
         }
 
         /// <summary>
@@ -188,6 +204,7 @@ namespace UltraWorldAI
             }
             if (state == null) return;
             if (state.Memories != null) Memories = state.Memories;
+            RebuildKeywordIndex();
             if (state.Beliefs != null && beliefs != null)
             {
                 foreach (var kv in state.Beliefs)
@@ -239,6 +256,7 @@ namespace UltraWorldAI
             }
             if (state == null) return;
             if (state.Memories != null) Memories = state.Memories;
+            RebuildKeywordIndex();
             if (state.Beliefs != null && beliefs != null)
             {
                 foreach (var kv in state.Beliefs)
@@ -286,6 +304,24 @@ namespace UltraWorldAI
             catch
             {
                 return false;
+            }
+        }
+
+        private void RebuildKeywordIndex()
+        {
+            _keywordIndex.Clear();
+            foreach (var mem in Memories)
+            {
+                foreach (var kw in mem.Keywords)
+                {
+                    var lower = kw.ToLowerInvariant();
+                    if (!_keywordIndex.TryGetValue(lower, out var set))
+                    {
+                        set = new HashSet<Memory>();
+                        _keywordIndex[lower] = set;
+                    }
+                    set.Add(mem);
+                }
             }
         }
 
