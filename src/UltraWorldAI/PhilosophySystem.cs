@@ -26,6 +26,12 @@ namespace UltraWorldAI
             CheckConsistency(brain);
         }
 
+        public void SpreadDoctrine(string doctrine)
+        {
+            if (!Doctrines.Contains(doctrine))
+                Doctrines.Add(doctrine);
+        }
+
         private void CheckConsistency(Mind brain)
         {
             var currentGoal = brain.Goals.ActiveGoals.FirstOrDefault();

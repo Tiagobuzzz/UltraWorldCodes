@@ -17,6 +17,7 @@ namespace UltraWorldAI
         public List<string> AssociatedIdeas { get; set; } = new();
         public Calendar CulturalCalendar { get; set; } = new(CalendarType.Lunar);
         public List<Festival> Festivals { get; set; } = new();
+        public List<string> SacredForms { get; set; } = new();
         /// <summary>
         /// Memories shared collectively by members of the culture.
         /// </summary>
@@ -85,6 +86,26 @@ namespace UltraWorldAI
         {
             var culture = Cultures.FirstOrDefault(c => c.Name == cultureName);
             culture?.CollectiveMemory.AddMemory(summary, intensity, emotionalCharge, keywords, "collective");
+        }
+
+        public void PropagateBelief(string statement, string cultureName)
+        {
+            var culture = Cultures.FirstOrDefault(c => c.Name == cultureName);
+            if (culture == null) return;
+
+            if (!culture.CoreValues.Contains(statement))
+                culture.CoreValues.Add(statement);
+
+            AddCollectiveMemory(cultureName, statement, 0.4f, 0.2f, new() { "crença" });
+        }
+
+        public void DeclareSacredForm(string form)
+        {
+            foreach (var culture in Cultures)
+            {
+                if (!culture.SacredForms.Contains(form))
+                    culture.SacredForms.Add(form);
+            }
         }
 
         private void EvolveCultures(Mind mind)
