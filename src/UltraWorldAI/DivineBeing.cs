@@ -34,6 +34,7 @@ namespace UltraWorldAI
         public string Appearance { get; set; } = string.Empty;
         public string SacredSymbol { get; set; } = string.Empty;
         public string Agenda { get; set; } = string.Empty;
+        public string Mood { get; set; } = "Neutro";
         public Dictionary<string, float> Traits { get; } = new();
         public List<string> Demands { get; } = new();
         public List<string> Miracles { get; } = new();

@@ -25,4 +25,12 @@ public static class InheritedStyleSystem
 
         Console.WriteLine($"\uD83E\uDDE6 Estilo herdado: {culture} | S\u00edmbolo: {symbol} | Influ\u00eancia: {string.Join(", ", traits)}");
     }
+    public static void Inherit(string parent, string child)
+    {
+        var style = Styles.Find(s => s.Culture == parent);
+        if (style != null)
+        {
+            AddStyle(child, style.AestheticSymbol, new List<string>(style.InfluencedTraits));
+        }
+    }
 }
