@@ -7,6 +7,7 @@ namespace UltraWorldAI
     {
         private readonly Person _person;
         public List<string> SelfImage { get; private set; } = new List<string>();
+        public List<string> ForbiddenKnowledge { get; } = new();
 
         public MetacognitionSystem(Person person)
         {
@@ -31,6 +32,15 @@ namespace UltraWorldAI
             if (SelfImage.Remove(aspect))
             {
                 Logger.Log($"[Metacognition] {_person.Name}'s self-image no longer includes: {aspect}");
+            }
+        }
+
+        public void RegisterForbiddenKnowledge(string techName)
+        {
+            if (!ForbiddenKnowledge.Contains(techName))
+            {
+                ForbiddenKnowledge.Add(techName);
+                AddToSelfImage($"questiona-{techName}");
             }
         }
     }

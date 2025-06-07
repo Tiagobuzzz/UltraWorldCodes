@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UltraWorldAI;
 
 namespace UltraWorldAI.Discovery;
 
@@ -26,6 +27,12 @@ public static class KnowledgePersecution
             Date = DateTime.Now,
             IsRemembered = new Random().NextDouble() > 0.5
         });
+    }
+
+    public static void ForbidTechWithMetacognition(string techName, string by, string reason, MetacognitionSystem meta)
+    {
+        ForbidTech(techName, by, reason);
+        meta.RegisterForbiddenKnowledge(techName);
     }
 
     public static string DescribeAll()
