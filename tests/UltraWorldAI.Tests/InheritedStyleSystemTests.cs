@@ -11,4 +11,13 @@ public class InheritedStyleSystemTests
         InheritedStyleSystem.AddStyle("Tribo", "Simbolo", new List<string>{"Roupas"});
         Assert.Contains(InheritedStyleSystem.Styles, s => s.Culture == "Tribo" && s.AestheticSymbol == "Simbolo" && s.InfluencedTraits.Contains("Roupas"));
     }
+
+    [Fact]
+    public void InheritCopiesParentStyle()
+    {
+        InheritedStyleSystem.Styles.Clear();
+        InheritedStyleSystem.AddStyle("Pai", "Totem", new List<string>{"Música"});
+        InheritedStyleSystem.Inherit("Pai", "Filho");
+        Assert.Contains(InheritedStyleSystem.Styles, s => s.Culture == "Filho" && s.AestheticSymbol == "Totem");
+    }
 }

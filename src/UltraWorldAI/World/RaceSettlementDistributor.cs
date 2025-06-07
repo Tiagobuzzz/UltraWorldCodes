@@ -14,6 +14,7 @@ public class Settlement
     public int Population { get; set; }
     public int HousingUnits { get; set; }
     public string ArchitectureStyle { get; set; } = "Comum";
+    public string Mood { get; set; } = "Neutro";
 }
 
 public static class RaceSettlementDistributor

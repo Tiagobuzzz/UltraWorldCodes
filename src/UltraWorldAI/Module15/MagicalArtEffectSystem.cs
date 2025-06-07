@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UltraWorldAI.World;
 
 namespace UltraWorldAI.Module15;
 
@@ -28,5 +29,15 @@ public static class MagicalArtEffectSystem
         });
 
         Console.WriteLine($"\uD83E\uDD84 Arte m\u00e1gica: {title} | Efeito: {effect} | Ritual? {ritual}");
+    }
+
+    public static void ApplyEffect(string title, string region)
+    {
+        var art = Artworks.Find(a => a.Title == title);
+        if (art != null)
+        {
+            WorldImpactSystem.ApplyImpact(title, region, "cultura");
+            Console.WriteLine($"\uD83E\uDD84 {title} afetou {region} com {art.Effect}");
+        }
     }
 }

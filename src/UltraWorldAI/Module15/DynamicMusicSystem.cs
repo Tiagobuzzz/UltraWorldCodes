@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UltraWorldAI.World;
+using UltraWorldAI;
 
 namespace UltraWorldAI.Module15;
 
@@ -36,5 +38,17 @@ public static class DynamicMusicSystem
         return Songs.Where(s => s.EmotionalState == emotion)
             .OrderByDescending(s => s.HarmonyComplexity + s.LyricalIntensity)
             .FirstOrDefault();
+    }
+
+    public static void ApplyToCity(Song song, World.Settlement settlement)
+    {
+        settlement.Mood = song.EmotionalState;
+        Console.WriteLine($"\uD83C\uDFBC {song.Title} afetou o humor de {settlement.Name} para {song.EmotionalState}");
+    }
+
+    public static void ApplyToGod(Song song, DivineBeing god)
+    {
+        god.Mood = song.EmotionalState;
+        Console.WriteLine($"\uD83C\uDFBC {song.Title} tocado para {god.Name} agora está com humor {song.EmotionalState}");
     }
 }
