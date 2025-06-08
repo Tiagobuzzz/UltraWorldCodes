@@ -16,6 +16,10 @@ interlinked systems that model memory, beliefs, personality, emotions and more.
 
 For help and community discussions join our [support channel](https://example.com/discord).
 
+## Unity Integration
+
+See [docs/unity_integration.md](docs/unity_integration.md) for instructions on building a DLL and importing it into a Unity project.
+
 ## Versioning
 
 This project follows [Semantic Versioning](https://semver.org/). Public releases
