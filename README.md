@@ -3,6 +3,7 @@
 [![Build Status](https://github.com/example/UltraWorldCodes/actions/workflows/dotnet.yml/badge.svg)](https://github.com/example/UltraWorldCodes/actions)
 [![Coverage Status](https://img.shields.io/badge/coverage-auto-brightgreen)](docs/code_quality_metrics.md)
 [![Maintainability](https://img.shields.io/badge/maintainability-A-brightgreen)](docs/code_quality_metrics.md)
+[![License: Proprietary](https://img.shields.io/badge/license-Proprietary-lightgrey)](LICENSE)
 
 This repository contains the game code and the AI module. The AI logic is
 split across several files under `src/UltraWorldAI/`, each implementing
@@ -218,6 +219,10 @@ Contributions are welcome! A full guide is available in [CONTRIBUTING.md](CONTRI
 - Add or update unit tests whenever you introduce new functionality.
 - Document any public APIs you create or modify in the `docs` folder.
 - Prefer the built-in `Logger` and use its asynchronous methods when logging to disk.
+
+## License
+
+UltraWorldCodes is distributed under a proprietary license. See [LICENSE](LICENSE) for full terms. Collaboration on the code is permitted only with prior written authorization from the owner.
 
 ## Performance Hints
 
