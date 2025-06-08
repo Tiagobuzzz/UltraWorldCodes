@@ -49,6 +49,7 @@ namespace UltraWorldAI
         public Thoughts.EthicalJudgment Ethics { get; private set; }
         public Thoughts.LifeNarrative LifeNarrative { get; private set; }
         public Thoughts.HistoricalIdentity History { get; private set; }
+        public ComplexitySystem Complexity { get; private set; }
 
         public FrameworkSystem Framework { get; private set; }
 
@@ -100,6 +101,7 @@ namespace UltraWorldAI
             HabitatMemory = new Territory.HabitatMemory();
             Framework = new FrameworkSystem(person);
             LanguageLearner = new Language.NeuralLanguageLearner();
+            Complexity = new ComplexitySystem();
         }
 
         /// <summary>
@@ -113,6 +115,7 @@ namespace UltraWorldAI
             HandleIdeas();
             HandleDefenses();
             UpdateCultureSystems();
+            Complexity.Update(this);
         }
 
         private void UpdateDecaySystems()
