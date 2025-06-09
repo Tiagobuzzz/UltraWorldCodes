@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
+using UnityEngine;
 
 namespace UltraWorldAI.Civilization;
 
@@ -9,13 +9,12 @@ namespace UltraWorldAI.Civilization;
 /// </summary>
 public static class CulturePersistence
 {
-    private static readonly JsonSerializerOptions _options = new() { WriteIndented = false };
 
     public static void Save(string path, List<Culture> cultures)
     {
         try
         {
-            var json = JsonSerializer.Serialize(cultures, _options);
+            var json = JsonUtility.ToJson(cultures);
             File.WriteAllText(path, json);
         }
         catch (IOException ex)
@@ -30,7 +29,7 @@ public static class CulturePersistence
         try
         {
             var json = File.ReadAllText(path);
-            return JsonSerializer.Deserialize<List<Culture>>(json, _options) ?? new();
+            return JsonUtility.FromJson<List<Culture>>(json) ?? new();
         }
         catch (IOException ex)
         {

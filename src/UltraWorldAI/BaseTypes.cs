@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Text.Json;
-using Microsoft.Extensions.Logging;
+using UnityEngine;
 
 namespace UltraWorldAI
 {
@@ -79,7 +78,7 @@ namespace UltraWorldAI
             ApplyDefaults();
             if (!File.Exists(path)) return;
             var json = File.ReadAllText(path);
-            var data = JsonSerializer.Deserialize<Dictionary<string, float>>(json);
+            var data = JsonUtility.FromJson<Dictionary<string, float>>(json);
             if (data == null) return;
             if (data.TryGetValue("MaxMemories", out var mm)) MaxMemories = (int)mm;
             if (data.TryGetValue("MemoryDecayRate", out var mdr)) MemoryDecayRate = mdr;
@@ -109,9 +108,10 @@ namespace UltraWorldAI
             [LogLevel.Error] = ConsoleColor.Red
         };
 
-        public static Microsoft.Extensions.Logging.ILogger? StructuredLogger { get; private set; }
+        // Simplified logging for Unity: use Debug.Log/Console.WriteLine
+        public static object? StructuredLogger { get; private set; }
 
-        public static void SetLogger(Microsoft.Extensions.Logging.ILogger logger)
+        public static void SetLogger(object logger)
         {
             StructuredLogger = logger;
         }
@@ -132,21 +132,7 @@ namespace UltraWorldAI
 
             if (StructuredLogger != null)
             {
-                switch (level)
-                {
-                    case LogLevel.Debug:
-                        StructuredLogger.LogDebug(formatted);
-                        break;
-                    case LogLevel.Info:
-                        StructuredLogger.LogInformation(formatted);
-                        break;
-                    case LogLevel.Warning:
-                        StructuredLogger.LogWarning(formatted);
-                        break;
-                    case LogLevel.Error:
-                        StructuredLogger.LogError(ex, formatted);
-                        break;
-                }
+                Debug.Log(formatted);
             }
             else
             {
@@ -188,21 +174,7 @@ namespace UltraWorldAI
 
             if (StructuredLogger != null)
             {
-                switch (level)
-                {
-                    case LogLevel.Debug:
-                        StructuredLogger.LogDebug(formatted);
-                        break;
-                    case LogLevel.Info:
-                        StructuredLogger.LogInformation(formatted);
-                        break;
-                    case LogLevel.Warning:
-                        StructuredLogger.LogWarning(formatted);
-                        break;
-                    case LogLevel.Error:
-                        StructuredLogger.LogError(ex, formatted);
-                        break;
-                }
+                Debug.Log(formatted);
             }
             else
             {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
+using UnityEngine;
 
 namespace UltraWorldAI.Localization;
 
@@ -14,7 +14,7 @@ public static class LocalizationManager
     {
         if (!File.Exists(path)) return;
         var text = File.ReadAllText(path);
-        var data = JsonSerializer.Deserialize<Dictionary<string, string>>(text) ?? new();
+        var data = JsonUtility.FromJson<Dictionary<string, string>>(text) ?? new();
         _cache[lang] = data;
     }
 

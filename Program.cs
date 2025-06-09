@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging;
+using System;
 using UltraWorldAI;
 using UltraWorldAI.Game;
 
@@ -22,9 +22,7 @@ public class Program
             else if (arg.StartsWith("--steps=")) int.TryParse(arg.Substring(8), out steps);
         }
 
-        using var loggerFactory = LoggerFactory.Create(builder => builder.AddSimpleConsole());
-        var logger = loggerFactory.CreateLogger<Program>();
-        Logger.SetLogger(logger);
+        // Use simple console logging instead of Microsoft.Extensions.Logging
         IA.Initialize(configPath);
         AISettings.ObserverMode = observer;
         var loop = new GameLoop(width, height, display, observer);
@@ -38,9 +36,9 @@ public class Program
         await foreach (var state in loop.RunAsync(steps))
         {
             if (display)
-                logger.LogInformation(state);
+                Console.WriteLine(state);
         }
-        logger.LogInformation(alice.ReflectOnSelf());
-        logger.LogInformation(bob.ReflectOnSelf());
+        Console.WriteLine(alice.ReflectOnSelf());
+        Console.WriteLine(bob.ReflectOnSelf());
     }
 }

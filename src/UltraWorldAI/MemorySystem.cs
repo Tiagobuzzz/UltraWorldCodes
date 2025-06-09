@@ -3,7 +3,8 @@ using UltraWorldAI.EventSourcing;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
+using System.Text;
+using UnityEngine;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -148,13 +149,15 @@ namespace UltraWorldAI
                 Traits = personality?.Traits
             };
 
+            var json = UnityEngine.JsonUtility.ToJson(state);
             if (path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
             {
                 try
                 {
                     await using var fs = File.Create(path);
                     await using var gz = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionLevel.Optimal);
-                    await JsonSerializer.SerializeAsync(gz, state, MemorySystemJsonContext.Default.PersistedState, cancellationToken);
+                    var bytes = Encoding.UTF8.GetBytes(json);
+                    await gz.WriteAsync(bytes, cancellationToken);
                     return;
                 }
                 catch (IOException ex)
@@ -165,8 +168,7 @@ namespace UltraWorldAI
             }
             try
             {
-                await using var fs = File.Create(path);
-                await JsonSerializer.SerializeAsync(fs, state, MemorySystemJsonContext.Default.PersistedState, cancellationToken);
+                await File.WriteAllTextAsync(path, json, cancellationToken);
             }
             catch (IOException ex)
             {
@@ -196,7 +198,7 @@ namespace UltraWorldAI
             try
             {
                 var json = File.ReadAllText(path);
-                state = JsonSerializer.Deserialize(json, MemorySystemJsonContext.Default.PersistedState);
+                state = UnityEngine.JsonUtility.FromJson<PersistedState>(json);
             }
             catch (IOException ex)
             {
@@ -242,12 +244,14 @@ namespace UltraWorldAI
                 {
                     await using var fs = File.OpenRead(path);
                     await using var gz = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionMode.Decompress);
-                    state = await JsonSerializer.DeserializeAsync(gz, MemorySystemJsonContext.Default.PersistedState, cancellationToken);
+                    using var ms = new MemoryStream();
+                    await gz.CopyToAsync(ms, cancellationToken);
+                    state = UnityEngine.JsonUtility.FromJson<PersistedState>(System.Text.Encoding.UTF8.GetString(ms.ToArray()));
                 }
                 else
                 {
                     var json = await File.ReadAllTextAsync(path, cancellationToken);
-                    state = JsonSerializer.Deserialize(json, MemorySystemJsonContext.Default.PersistedState);
+                    state = UnityEngine.JsonUtility.FromJson<PersistedState>(json);
                 }
             }
             catch (IOException ex)
@@ -291,13 +295,15 @@ namespace UltraWorldAI
                 {
                     using var fs = File.OpenRead(path);
                     using var gz = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionMode.Decompress);
-                    var state = JsonSerializer.Deserialize<PersistedState>(gz, MemorySystemJsonContext.Default.PersistedState);
+                    using var ms = new MemoryStream();
+                    gz.CopyTo(ms);
+                    var state = UnityEngine.JsonUtility.FromJson<PersistedState>(System.Text.Encoding.UTF8.GetString(ms.ToArray()));
                     return state != null;
                 }
                 else
                 {
                     var json = File.ReadAllText(path);
-                    var state = JsonSerializer.Deserialize<PersistedState>(json, MemorySystemJsonContext.Default.PersistedState);
+                    var state = UnityEngine.JsonUtility.FromJson<PersistedState>(json);
                     return state != null;
                 }
             }

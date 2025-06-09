@@ -7,9 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <!-- Removed Microsoft.Data.Sqlite, Microsoft.Extensions.Logging and System.Text.Json -->
     <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
   </ItemGroup>
 </Project>
