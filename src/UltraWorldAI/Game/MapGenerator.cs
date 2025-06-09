@@ -7,10 +7,10 @@ public sealed class MapGenerator : IMapGenerator
     public GameMap Generate(int width, int height, int seed = 0)
     {
         if (seed != 0)
-            Random.Shared.Next(seed);
+            RandomSingleton.Shared.Next(seed);
         var map = new GameMap(width, height);
         var rand = new Random(seed);
-        var biomes = Enum.GetValues<BiomeType>();
+        var biomes = (BiomeType[])Enum.GetValues(typeof(BiomeType));
         for (int x = 0; x < width; x++)
         for (int y = 0; y < height; y++)
         {

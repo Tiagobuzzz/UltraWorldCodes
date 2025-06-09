@@ -52,7 +52,7 @@ public static class CulturalTechMagicSystem
 
     private static string GenerateTechName(string type)
     {
-        string[] baseWords = ["Khal", "Rûn", "Vael", "Drom", "Seph", "Myrr", "Thal"];
+        string[] baseWords = new[] { "Khal", "Rûn", "Vael", "Drom", "Seph", "Myrr", "Thal" };
         string suffix = type switch
         {
             "Arma" => "blade",
@@ -62,6 +62,6 @@ public static class CulturalTechMagicSystem
             _ => "glyph"
         };
 
-        return baseWords[Random.Shared.Next(baseWords.Length)] + "-" + suffix;
+        return baseWords[RandomSingleton.Shared.Next(baseWords.Length)] + "-" + suffix;
     }
 }

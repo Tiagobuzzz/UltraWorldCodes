@@ -98,7 +98,7 @@ public static class MapFaithEconomyIntegration
         {
             RegisterNode(
                 settlement.Name,
-                Random.Shared.Next(500, 1200),
+                RandomSingleton.Shared.Next(500, 1200),
                 market: false,
                 temple: false,
                 faith: "Desconhecida");

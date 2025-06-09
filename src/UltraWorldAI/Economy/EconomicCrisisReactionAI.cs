@@ -22,7 +22,7 @@ public static class EconomicCrisisReactionAI
         {
             Name = name,
             Capital = capital,
-            RiskTolerance = Random.Shared.NextDouble(),
+            RiskTolerance = RandomSingleton.Shared.NextDouble(),
             IsFraudulent = false
         });
     }
@@ -35,7 +35,7 @@ public static class EconomicCrisisReactionAI
             {
                 ia.Capital *= 1.2;
                 SettlementHistoryTracker.Register(settlement, "Especulação", $"{ia.Name} lucrou durante a crise.");
-                if (Random.Shared.NextDouble() < 0.3)
+                if (RandomSingleton.Shared.NextDouble() < 0.3)
                 {
                     ia.IsFraudulent = true;
                     SettlementHistoryTracker.Register(settlement, "Fraude", $"{ia.Name} iniciou um esquema fraudulento.");

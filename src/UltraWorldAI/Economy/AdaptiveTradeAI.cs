@@ -46,6 +46,6 @@ public static class AdaptiveTradeAI
         var profile = Profiles.Find(p => p.IAName == name);
         if (profile == null || profile.SuccessfulGoods.Count == 0) return "Aleatório";
 
-        return profile.SuccessfulGoods[Random.Shared.Next(profile.SuccessfulGoods.Count)];
+        return profile.SuccessfulGoods[RandomSingleton.Shared.Next(profile.SuccessfulGoods.Count)];
     }
 }

@@ -17,7 +17,7 @@ public static class RevolutionSystem
 
     public static void StartRevolution(string kingdom, string leader, string cause)
     {
-        var success = Random.Shared.NextDouble() > 0.5;
+        var success = RandomSingleton.Shared.NextDouble() > 0.5;
 
         Revolts.Add(new Revolution
         {

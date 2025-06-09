@@ -19,7 +19,7 @@ public static class MetaTrustAI
 
     public static void EvaluateMetaTrust(SapientBeing ia, Settlement target)
     {
-        var rand = Random.Shared;
+        var rand = RandomSingleton.Shared;
         var rel = SettlementHistoryTracker.GetRelation(ia.CurrentRegion, target.Name);
 
         bool isTrusted = rel.Contains("aliança", StringComparison.OrdinalIgnoreCase) && rand.NextDouble() < 0.7;

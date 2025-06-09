@@ -23,7 +23,7 @@ public class ExternalAIConnector : IExternalAIService
         {
             using HttpResponseMessage response = await _client.PostAsync(endpoint, content, cancellationToken);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync(cancellationToken);
+            return await response.Content.ReadAsStringAsync();
         }
         catch (HttpRequestException ex)
         {

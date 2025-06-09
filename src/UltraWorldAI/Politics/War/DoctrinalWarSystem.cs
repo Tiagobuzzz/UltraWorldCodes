@@ -63,7 +63,7 @@ public static class DoctrinalWarSystem
 
     public static MagicalEspionage AttemptSpell(string targetArmy)
     {
-        var rand = Random.Shared;
+        var rand = RandomSingleton.Shared;
         string spell = rand.NextDouble() switch
         {
             < 0.3 => "Revelação",

@@ -14,10 +14,10 @@ public static class InternationalEspionageSystem
 
     public static EspionageReport Run(Settlement origin, Settlement target, double skill)
     {
-        string op = Types[Random.Shared.Next(Types.Length)];
+        string op = Types[RandomSingleton.Shared.Next(Types.Length)];
         double baseRisk = 0.2 + Math.Clamp((target.Population - origin.Population) / 1000.0, -0.1, 0.5);
         double risk = Math.Clamp(baseRisk * (1 - skill), 0, 1);
-        bool success = Random.Shared.NextDouble() > risk;
+        bool success = RandomSingleton.Shared.NextDouble() > risk;
         SettlementHistoryTracker.Register(origin.Name, "Espionagem Internacional",
             success ? $"{op} bem-sucedida" : $"{op} fracassou");
         return new EspionageReport(origin.Name, target.Name, op, risk, success);

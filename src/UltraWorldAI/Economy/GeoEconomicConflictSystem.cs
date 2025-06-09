@@ -38,7 +38,7 @@ public static class GeoEconomicConflictSystem
 
     public static void AttemptCorruption(string target, string actor)
     {
-        var chance = Random.Shared.NextDouble();
+        var chance = RandomSingleton.Shared.NextDouble();
         if (chance < 0.4)
             SettlementHistoryTracker.Register(target, "Corrupção", $"{actor} subornou líderes.");
         else

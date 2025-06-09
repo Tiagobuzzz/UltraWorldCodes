@@ -17,7 +17,7 @@ public static class PowerIntrigueSystem
 
     public static void ExecutePlot(string instigator, string kingdom, string method)
     {
-        var success = Random.Shared.NextDouble() > 0.4;
+        var success = RandomSingleton.Shared.NextDouble() > 0.4;
         Plots.Add(new PowerPlot
         {
             Instigator = instigator,
