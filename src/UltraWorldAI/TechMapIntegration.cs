@@ -33,7 +33,7 @@ public static class TechMapIntegration
         var techs = TechOnMap.Where(t => t.Location == targetLocation).ToList();
         foreach (var tech in techs)
         {
-            if (Random.Shared.NextDouble() < 0.4)
+            if (RandomSingleton.Shared.NextDouble() < 0.4)
             {
                 tech.Location = attacker;
                 tech.IsPublic = false;
@@ -47,7 +47,7 @@ public static class TechMapIntegration
         var techs = TechOnMap.Where(t => t.Location == targetLocation && t.IsPublic).ToList();
         foreach (var tech in techs)
         {
-            if (Random.Shared.NextDouble() < 0.5)
+            if (RandomSingleton.Shared.NextDouble() < 0.5)
             {
                 var imitation = new CulturalTechnology
                 {
@@ -69,7 +69,7 @@ public static class TechMapIntegration
         var techs = TechOnMap.Where(t => t.Location == targetLocation).ToList();
         foreach (var tech in techs)
         {
-            if (Random.Shared.NextDouble() < 0.3)
+            if (RandomSingleton.Shared.NextDouble() < 0.3)
             {
                 TechOnMap.Remove(tech);
                 SettlementHistoryTracker.Register(targetLocation, "Tecnologia Destruída", $"{tech.Tech.TechName} foi destruída!");

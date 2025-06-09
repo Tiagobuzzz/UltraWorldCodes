@@ -23,7 +23,7 @@ public static class SuccessionConflictSystem
 
         if (legitimacy < 0.5f)
         {
-            if (Random.Shared.NextDouble() < 0.5)
+            if (RandomSingleton.Shared.NextDouble() < 0.5)
             {
                 return RevoltSystem.TriggerRevolt(gov, successor);
             }

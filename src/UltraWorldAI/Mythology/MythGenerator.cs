@@ -15,9 +15,9 @@ public static class MythGenerator
 
     public static string GenerateLegend()
     {
-        var hero = Heroes[Random.Shared.Next(Heroes.Length)];
-        var creature = Creatures[Random.Shared.Next(Creatures.Length)];
-        var quest = Quests[Random.Shared.Next(Quests.Length)];
+        var hero = Heroes[RandomSingleton.Shared.Next(Heroes.Length)];
+        var creature = Creatures[RandomSingleton.Shared.Next(Creatures.Length)];
+        var quest = Quests[RandomSingleton.Shared.Next(Quests.Length)];
         return $"\uD83D\uDCDC Lenda de {hero}, que enfrentou um {creature} e {quest}.";
     }
 }

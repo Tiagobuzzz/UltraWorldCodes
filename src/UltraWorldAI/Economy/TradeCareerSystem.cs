@@ -46,7 +46,7 @@ public static class TradeCareerSystem
     {
         foreach (var crypto in Cryptocurrencies)
         {
-            var change = (Random.Shared.NextDouble() * 2 - 1) * crypto.Volatility;
+            var change = (RandomSingleton.Shared.NextDouble() * 2 - 1) * crypto.Volatility;
             crypto.Value = Math.Max(0.01, crypto.Value * (1 + change));
             BlockchainLedger.AddBlock("Update " + crypto.Name + " " + crypto.Value.ToString("F2"));
         }
@@ -54,7 +54,7 @@ public static class TradeCareerSystem
 
     public static void CreateCareer(string iaName, string role)
     {
-        var capital = Random.Shared.Next(100, 1000);
+        var capital = RandomSingleton.Shared.Next(100, 1000);
         ActiveIAs.Add(new EconomicCareer
         {
             Name = iaName,
@@ -70,7 +70,7 @@ public static class TradeCareerSystem
             Origin = origin,
             Destination = destination,
             Good = good,
-            Volume = Random.Shared.Next(50, 200)
+            Volume = RandomSingleton.Shared.Next(50, 200)
         };
         Routes.Add(route);
     }
@@ -104,7 +104,7 @@ public static class TradeCareerSystem
     {
         foreach (var c in Cryptocurrencies)
         {
-            var change = Random.Shared.NextDouble() * 0.1 - 0.05;
+            var change = RandomSingleton.Shared.NextDouble() * 0.1 - 0.05;
             c.Value = Math.Max(0.01, c.Value * (1 + change));
         }
     }

@@ -37,7 +37,7 @@ public static class BankingCollapseSystem
             loan.TurnsLeft--;
             if (loan.TurnsLeft <= 0)
             {
-                bool defaulted = Random.Shared.NextDouble() < 0.3;
+                bool defaulted = RandomSingleton.Shared.NextDouble() < 0.3;
                 if (defaulted)
                 {
                     BankWealth[loan.Creditor] -= loan.Amount;

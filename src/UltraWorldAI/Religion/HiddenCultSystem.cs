@@ -43,7 +43,7 @@ public static class HiddenCultSystem
             if (cult.Discovered)
                 continue;
 
-            cult.InfluenceLevel += Random.Shared.Next(1, 6);
+            cult.InfluenceLevel += RandomSingleton.Shared.Next(1, 6);
 
             if (cult.InfluenceLevel >= 70)
             {
@@ -52,7 +52,7 @@ public static class HiddenCultSystem
                 CultureBeliefSystem.ForceChangeBelief(cult.TargetSettlement, cult.BeliefSystem);
                 cult.Discovered = true;
             }
-            else if (Random.Shared.NextDouble() < 0.05)
+            else if (RandomSingleton.Shared.NextDouble() < 0.05)
             {
                 cult.Discovered = true;
                 SettlementHistoryTracker.Register(cult.TargetSettlement, "Culto Descoberto",

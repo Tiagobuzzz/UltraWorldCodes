@@ -26,7 +26,7 @@ public static class LivingEconomySystem
 
     public static void InitMarket(string settlement, string culture)
     {
-        string[] goods = ["Comida", "Ferro", "Tecidos", "Cristais", "Arte", "Runas"];
+        string[] goods = new[] { "Comida", "Ferro", "Tecidos", "Cristais", "Arte", "Runas" };
         var market = new Market
         {
             Settlement = settlement,
@@ -38,8 +38,8 @@ public static class LivingEconomySystem
             market.Goods[g] = new Good
             {
                 Name = g,
-                BaseValue = Random.Shared.Next(10, 100),
-                Quantity = Random.Shared.Next(50, 500)
+                BaseValue = RandomSingleton.Shared.Next(10, 100),
+                Quantity = RandomSingleton.Shared.Next(50, 500)
             };
         }
 
@@ -61,11 +61,11 @@ public static class LivingEconomySystem
         {
             foreach (var good in market.Goods.Values)
             {
-                good.Quantity += Random.Shared.Next(-50, 60);
+                good.Quantity += RandomSingleton.Shared.Next(-50, 60);
                 if (good.Quantity < 5) good.Quantity = 5;
             }
 
-            if (Random.Shared.NextDouble() < 0.1)
+            if (RandomSingleton.Shared.NextDouble() < 0.1)
             {
                 market.InflationFactor += 0.1;
                 SettlementHistoryTracker.Register(market.Settlement, "Inflação", "Preços subiram por instabilidade interna.");
@@ -77,8 +77,8 @@ public static class LivingEconomySystem
 
     private static string GenerateCurrencyName(string culture)
     {
-        string[] roots = ["Zel", "Orin", "Tal", "Myth", "Ren", "Vak"];
-        string[] suffix = ["coin", "dar", "ron", "tal", "ael"];
-        return roots[Random.Shared.Next(roots.Length)] + suffix[Random.Shared.Next(suffix.Length)];
+        string[] roots = new[] { "Zel", "Orin", "Tal", "Myth", "Ren", "Vak" };
+        string[] suffix = new[] { "coin", "dar", "ron", "tal", "ael" };
+        return roots[RandomSingleton.Shared.Next(roots.Length)] + suffix[RandomSingleton.Shared.Next(suffix.Length)];
     }
 }

@@ -52,6 +52,14 @@ public static class BlockchainLedger
         var raw = $"{block.Index}{block.Timestamp:o}{block.Data}{block.PreviousHash}";
         using var sha = SHA256.Create();
         var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(raw));
-        return Convert.ToHexString(bytes);
+        return ToHexString(bytes);
+    }
+
+    private static string ToHexString(byte[] bytes)
+    {
+        var sb = new StringBuilder(bytes.Length * 2);
+        foreach (var b in bytes)
+            sb.Append(b.ToString("X2"));
+        return sb.ToString();
     }
 }

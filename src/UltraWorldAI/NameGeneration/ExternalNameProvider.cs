@@ -11,7 +11,7 @@ public class ExternalNameProvider : INameProvider
     {
         try
         {
-            var resp = await _client.GetStringAsync("https://namey.muffinlabs.com/name.json?count=1", cancellationToken);
+            var resp = await _client.GetStringAsync("https://namey.muffinlabs.com/name.json?count=1");
             if (resp.StartsWith("["))
                 resp = resp.Trim('[', ']', '"');
             return resp;

@@ -18,7 +18,7 @@ public static class FaunaEvolutionSystem
     public static void Evolve(string name)
     {
         if (!_population.ContainsKey(name)) return;
-        int change = Random.Shared.Next(-2, 5);
+        int change = RandomSingleton.Shared.Next(-2, 5);
         _population[name] = Math.Max(0, _population[name] + change);
     }
 

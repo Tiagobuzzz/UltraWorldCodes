@@ -31,7 +31,7 @@ public static class SuccessionSystem
     private static string ChooseByDivineSign(List<Person> candidates)
     {
         if (candidates.Count == 0) return "Silêncio Divino";
-        var index = Random.Shared.Next(candidates.Count);
+        var index = RandomSingleton.Shared.Next(candidates.Count);
         return $"{candidates[index].Name} (escolhido em sonho)";
     }
 
@@ -42,7 +42,7 @@ public static class SuccessionSystem
 
     private static string SimulateVote(List<Person> candidates)
     {
-        return candidates.Count > 0 ? candidates[Random.Shared.Next(candidates.Count)].Name : "Voto nulo";
+        return candidates.Count > 0 ? candidates[RandomSingleton.Shared.Next(candidates.Count)].Name : "Voto nulo";
     }
 
     public static void ApplySuccessor(PowerStructure gov, string newLeader)

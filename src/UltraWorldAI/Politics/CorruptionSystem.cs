@@ -27,7 +27,7 @@ public static class CorruptionSystem
         {
             if (c.Investigated) continue;
             c.Investigated = true;
-            c.Proven = Random.Shared.NextDouble() < 0.3;
+            c.Proven = RandomSingleton.Shared.NextDouble() < 0.3;
         }
     }
 }
