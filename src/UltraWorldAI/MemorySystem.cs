@@ -136,11 +136,6 @@ namespace UltraWorldAI
         public async Task SaveMemoriesAsync(string path, BeliefSystem? beliefs = null,
             PersonalitySystem? personality = null, CancellationToken cancellationToken = default)
         {
-            if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
-            {
-                Persistence.MemoryDatabase.Save(path, Memories);
-                return;
-            }
 
             var state = new PersistedState
             {
@@ -181,12 +176,6 @@ namespace UltraWorldAI
         /// </summary>
         public void LoadMemories(string path, BeliefSystem? beliefs = null, PersonalitySystem? personality = null)
         {
-            if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
-            {
-                if (File.Exists(path))
-                    Memories = Persistence.MemoryDatabase.Load(path);
-                return;
-            }
             if (path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
             {
                 LoadMemoriesAsync(path, beliefs, personality).GetAwaiter().GetResult();
@@ -229,12 +218,6 @@ namespace UltraWorldAI
         public async Task LoadMemoriesAsync(string path, BeliefSystem? beliefs = null,
             PersonalitySystem? personality = null, CancellationToken cancellationToken = default)
         {
-            if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
-            {
-                if (File.Exists(path))
-                    Memories = Persistence.MemoryDatabase.Load(path);
-                return;
-            }
 
             if (!File.Exists(path)) return;
             PersistedState? state = null;
@@ -284,10 +267,6 @@ namespace UltraWorldAI
         {
             try
             {
-                if (path.EndsWith(".db", StringComparison.OrdinalIgnoreCase))
-                {
-                    return File.Exists(path);
-                }
 
                 if (!File.Exists(path)) return false;
 
