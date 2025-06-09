@@ -132,7 +132,7 @@ namespace UltraWorldAI
 
             if (StructuredLogger != null)
             {
-                Debug.Log(formatted);
+                AIDebug.Log(formatted);
             }
             else
             {
@@ -174,7 +174,7 @@ namespace UltraWorldAI
 
             if (StructuredLogger != null)
             {
-                Debug.Log(formatted);
+                AIDebug.Log(formatted);
             }
             else
             {
