@@ -21,6 +21,10 @@ For help and community discussions join our [support channel](https://example.co
 
 See [docs/unity_integration.md](docs/unity_integration.md) for instructions on building a DLL and importing it into a Unity project.
 
+## Unreal Engine Integration
+
+Projects that rely on C# plugins for Unreal Engine can follow the steps in [docs/unreal_integration.md](docs/unreal_integration.md) to use the library with Unreal.
+
 ## Versioning
 
 This project follows [Semantic Versioning](https://semver.org/). Public releases
