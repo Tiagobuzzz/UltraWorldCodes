@@ -1,6 +1,6 @@
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
+using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,7 +18,7 @@ public class ExternalAIConnector : IExternalAIService
     /// </summary>
     public async Task<string> QueryAsync(string endpoint, string prompt, CancellationToken cancellationToken = default)
     {
-        StringContent content = new(JsonSerializer.Serialize(new { prompt }), Encoding.UTF8, "application/json");
+        StringContent content = new(JsonUtility.ToJson(new { prompt }), Encoding.UTF8, "application/json");
         try
         {
             using HttpResponseMessage response = await _client.PostAsync(endpoint, content, cancellationToken);

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
+using UnityEngine;
 
 namespace UltraWorldAI.Interface;
 
@@ -35,5 +35,5 @@ public class VisualNarrativeEditor
         _scenes.Insert(newIndex, scene);
     }
 
-    public string ExportJson() => JsonSerializer.Serialize(_scenes);
+    public string ExportJson() => JsonUtility.ToJson(_scenes);
 }

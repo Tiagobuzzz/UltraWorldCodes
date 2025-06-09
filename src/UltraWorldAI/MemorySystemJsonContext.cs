@@ -1,8 +1,8 @@
-using System.Text.Json.Serialization;
-
-namespace UltraWorldAI;
-
-[JsonSerializable(typeof(MemorySystem.PersistedState))]
-internal partial class MemorySystemJsonContext : JsonSerializerContext
+namespace UltraWorldAI
 {
+    internal class MemorySystemJsonContext
+    {
+        public static MemorySystemJsonContext Default { get; } = new();
+        public System.Type PersistedState => typeof(MemorySystem.PersistedState);
+    }
 }

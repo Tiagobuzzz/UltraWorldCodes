@@ -65,7 +65,7 @@ public static class ConfigUI
 
     public static void Save(string path)
     {
-        var json = System.Text.Json.JsonSerializer.Serialize(new System.Collections.Generic.Dictionary<string, float>
+        var json = UnityEngine.JsonUtility.ToJson(new System.Collections.Generic.Dictionary<string, float>
         {
             ["MaxMemories"] = AISettings.MaxMemories,
             ["MemoryDecayRate"] = AISettings.MemoryDecayRate,
@@ -74,7 +74,7 @@ public static class ConfigUI
             ["PersonalityMax"] = AISettings.PersonalityMax,
             ["ForgottenMemoryThreshold"] = AISettings.ForgottenMemoryThreshold,
             ["MaxEmotionCount"] = AISettings.MaxEmotionCount
-        }, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+        });
         try
         {
             System.IO.File.WriteAllText(path, json);

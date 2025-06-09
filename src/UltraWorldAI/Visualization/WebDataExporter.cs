@@ -1,5 +1,5 @@
 using System.Linq;
-using System.Text.Json;
+using UnityEngine;
 
 namespace UltraWorldAI.Visualization;
 
@@ -15,6 +15,6 @@ public static class WebDataExporter
                 .Select(m => new { m.Date, m.Summary, m.Intensity })
                 .ToList()
         };
-        return JsonSerializer.Serialize(data);
+        return JsonUtility.ToJson(data);
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 using System.Text;
-using System.Text.Json;
+using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
 using UltraWorldAI.World;
@@ -44,7 +44,7 @@ public class RealTimeStatsServer : IDisposable
             }
             if (ctx.Request.HttpMethod == "GET" && ctx.Request.Url?.AbsolutePath == "/stats")
             {
-                var data = JsonSerializer.Serialize(MapFaithEconomyIntegration.Nodes);
+                var data = JsonUtility.ToJson(MapFaithEconomyIntegration.Nodes);
                 var buffer = Encoding.UTF8.GetBytes(data);
                 ctx.Response.OutputStream.Write(buffer, 0, buffer.Length);
                 ctx.Response.Close();

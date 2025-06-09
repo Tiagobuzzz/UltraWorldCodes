@@ -1,4 +1,4 @@
-using System.Text.Json;
+using UnityEngine;
 
 namespace UltraWorldAI.Visualization;
 
@@ -10,6 +10,6 @@ public static class ExternalAppExporter
     public static string ExportSettlementData(World.Settlement settlement)
     {
         var info = new { settlement.Name, settlement.Region, settlement.Population };
-        return JsonSerializer.Serialize(info);
+        return JsonUtility.ToJson(info);
     }
 }

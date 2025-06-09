@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Text.Json;
+using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -56,14 +56,14 @@ public class NarrativeWebPlatform : IDisposable
             {
                 using var reader = new StreamReader(ctx.Request.InputStream, ctx.Request.ContentEncoding);
                 var json = await reader.ReadToEndAsync();
-                var entry = JsonSerializer.Deserialize<NarrativeEntry>(json);
+                var entry = JsonUtility.FromJson<NarrativeEntry>(json);
                 if (entry != null) _entries.Add(entry);
                 ctx.Response.StatusCode = 200;
                 ctx.Response.Close();
             }
             else if (ctx.Request.HttpMethod == "GET" && ctx.Request.Url?.AbsolutePath == "/narratives")
             {
-                var data = JsonSerializer.Serialize(_entries);
+                var data = JsonUtility.ToJson(_entries);
                 var buffer = Encoding.UTF8.GetBytes(data);
                 ctx.Response.OutputStream.Write(buffer, 0, buffer.Length);
                 ctx.Response.Close();
