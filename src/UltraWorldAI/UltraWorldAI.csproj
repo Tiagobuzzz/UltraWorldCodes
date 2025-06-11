@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <!-- Removed Microsoft.Data.Sqlite, Microsoft.Extensions.Logging and System.Text.Json -->
-    <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="9.0.6" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="../UnityEngine/*.cs" />
